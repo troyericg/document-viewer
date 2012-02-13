@@ -57,13 +57,18 @@
     border:3px solid rgb(95, 175, 235);
     border:3px solid rgba(107, 194, 248, 0.5);
   }
-  .DV-accessRedact .DV-annotationRegion, .DV-accessRedact.DV-annotationRegion {
+  .DV-accessRedact .DV-annotationRegion, 
+  .DV-accessRedact.DV-annotationRegion {
     background: #800;
     border: 0;
     border-radius: 0; -moz-border-radius: 0; -webkit-border-radius: 0;
     filter: none;
     -ms-filter: none;
   }
+    .DV-blackRedactions .DV-accessRedact .DV-annotationRegion, 
+    .DV-blackRedactions .DV-accessRedact.DV-annotationRegion {
+      background: #000;
+    }
   .DV-coverVisible .DV-accessPrivate .DV-annotationRegion {
     background: rgb(107, 194, 248);
     background: rgba(107, 194, 248, 0.1);
@@ -145,6 +150,9 @@
   .DV-activeAnnotation.DV-annotation.DV-accessRedact {
     background: #800;
   }
+    .DV-blackRedactions .DV-activeAnnotation.DV-annotation.DV-accessRedact {
+      background: #000;
+    }
 
   /* ---------------------------------------------------- annotations - decoration */
   .DV-annotationGoto{
