@@ -22,7 +22,7 @@ _.extend(DV.Schema.helpers, {
 
     var pdfURL = doc.resources.pdf;
     pdfURL = pdfURL && this.viewer.options.pdf !== false ? '<a target="_blank" href="' + pdfURL + '">Original Document (PDF) &raquo;</a>' : '';
-    
+
     var contributorList = '' + this.viewer.schema.document.contributor +', '+ this.viewer.schema.document.contributor_organization;
 
     var showAnnotations = this.showAnnotations();
@@ -38,10 +38,17 @@ _.extend(DV.Schema.helpers, {
       story_url: storyURL,
       print_notes_url: printNotesURL,
       descriptionContainer: JST.descriptionContainer({ description: description}),
-      autoZoom: this.viewer.options.zoom == 'auto'
+      autoZoom: this.viewer.options.zoom == 'auto',
+      mini: false
     };
 
-    if (this.viewer.options.width && this.viewer.options.height) {
+    var width  = this.viewer.options.width;
+    var height = this.viewer.options.height;
+    if (width && height) {
+      if (width < 500) {
+        this.viewer.options.mini = true;
+        viewerOptions.mini = true;
+      }
       DV.jQuery(this.viewer.options.container).css({
         position: 'relative',
         width: this.viewer.options.width,

@@ -25,6 +25,9 @@ DV.model.Pages = function(viewer) {
   // Embed reduces padding.
   this.REDUCED_PADDING = 44;
 
+  // Mini padding, when < 500 px wide.
+  this.MINI_PADDING    = 18;
+
   this.zoomLevel  = this.viewer.models.document.zoomLevel;
   this.baseWidth  = this.BASE_WIDTH;
   this.baseHeight = this.BASE_HEIGHT;
@@ -50,6 +53,17 @@ DV.model.Pages.prototype = {
     var string = num.toString();
     while (string.length < count) string = '0' + string;
     return string;
+  },
+
+  // Return the appropriate padding for the size of the viewer.
+  getPadding: function() {
+    if (this.viewer.options.mini) {
+      return this.MINI_PADDING;
+    } else if (this.viewer.options.zoom == 'auto') {
+      return this.REDUCED_PADDING;
+    } else {
+      return this.DEFAULT_PADDING;
+    }
   },
 
   // The zoom factor is the ratio of the image width to the baseline width.

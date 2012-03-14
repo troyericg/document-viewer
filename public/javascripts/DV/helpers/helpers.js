@@ -473,10 +473,7 @@ DV.Schema.helpers = {
       var windowWidth = this.elements.window.outerWidth(true);
       var zoom;
       if (this.viewer.options.zoom == 'auto') {
-        zoom = Math.min(
-          700,
-          windowWidth - (this.viewer.models.pages.REDUCED_PADDING * 2)
-        );
+        zoom = Math.min(700, windowWidth - (this.viewer.models.pages.getPadding() * 2));
       } else {
         zoom = this.viewer.options.zoom;
       }

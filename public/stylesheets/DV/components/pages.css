@@ -15,6 +15,9 @@
   position:absolute;
   z-index:10001;
 }
+  .DV-mini .DV-pageMeta {
+    display: none;
+  }
 
 .DV-pageNumber  {
   display:inline;
