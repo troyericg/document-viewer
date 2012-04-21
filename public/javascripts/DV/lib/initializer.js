@@ -7,4 +7,5 @@ window.DV   = window.DV   || {};
 DV.jQuery   = jQuery.noConflict(true);
 DV.viewers  = DV.viewers  || {};
 DV.model    = DV.model    || {};
+DV.backbone = DV.backbone || {model: {}, view: {}};
 
