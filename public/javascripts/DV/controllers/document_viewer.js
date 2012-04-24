@@ -8,6 +8,7 @@ DV.DocumentViewer = function(options) {
 
   // Build the data models
   this.models     = this.schema.models;
+  this.backbone   = this.schema.backbone;
   this.events     = _.extend({}, DV.Schema.events);
   this.helpers    = _.extend({}, DV.Schema.helpers);
   this.states     = _.extend({}, DV.Schema.states);
@@ -129,8 +130,16 @@ DV.load = function(documentRep, options) {
   // Once we have the JSON representation in-hand, finish loading the viewer.
   var continueLoad = DV.loadJSON = function(json) {
     var viewer = DV.viewers[json.id];
+
+    // New Backbone model bootup code
+    // N.B. does not use Backbone.sync for the time being
+    viewer.backbone.models.document = new DV.backbone.model.Document(json, {'viewer':viewer});
+
+    // Original bootup code
     viewer.schema.importCanonicalDocument(json);
     viewer.loadModels();
+
+    // load completion callbacks
     DV.jQuery(function() {
       viewer.open('InitialLoad');
       if (options.afterLoad) options.afterLoad(viewer);

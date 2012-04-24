@@ -1,5 +1,6 @@
 DV.Schema = function() {
   this.models       = {};
+  this.backbone     = { models:{}, views:{} };
   this.views        = {};
   this.states       = {};
   this.helpers      = {};
