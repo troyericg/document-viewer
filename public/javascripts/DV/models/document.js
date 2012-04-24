@@ -1,3 +1,15 @@
+// Document Model/Controller
+// -------------------------
+
+// Each viewer contains a single Document object.
+// The Document object manages state information
+// about a viewer's document, but also doubles
+// as a controller interface for viewer behavior.
+
+// Constructor
+// Initializes state information about viewer's
+// position within Document and metadata about
+// the Document itself.
 DV.model.Document = function(viewer){
   this.viewer                    = viewer;
 
@@ -12,6 +24,7 @@ DV.model.Document = function(viewer){
   this.additionalPaddingOnPage   = 0;
   this.ZOOM_RANGES               = [500, 700, 800, 900, 1000];
 
+  // Document metadata
   var data                       = this.viewer.schema.data;
 
   this.state                     = data.state;
@@ -31,6 +44,7 @@ DV.model.Document = function(viewer){
   if (this.zoomLevel > maxZoom) this.zoomLevel = maxZoom;
 };
 
+// Class methods for Documents
 DV.model.Document.prototype = {
 
   setPageIndex : function(index) {
@@ -65,6 +79,9 @@ DV.model.Document.prototype = {
     }
   },
 
+  // Calculate pixel height of Document and every page's
+  // offset position from document's top by summing each 
+  // page's height plus the height of any page annotations
   computeOffsets: function() {
     var annotationModel  = this.viewer.models.annotations;
     var totalDocHeight   = 0;
@@ -73,7 +90,12 @@ DV.model.Document.prototype = {
     var diff             = 0;
     var scrollPos        = this.viewer.elements.window[0].scrollTop;
 
+    // Iterate over each page
     for(var i = 0; i < len; i++) {
+      // fetch computed offset relative to top of document 
+      // of current page due to Page Annotation heights altering
+      // offsets.
+      // See DV.model.Annotations.updateAnnotationsOffsets
       if(annotationModel.offsetsAdjustments[i]){
         adjustedOffset   = annotationModel.offsetsAdjustments[i];
       }
