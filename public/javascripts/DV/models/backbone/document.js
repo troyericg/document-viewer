@@ -1,7 +1,6 @@
 DV.backbone.model.Document    = Backbone.Model.extend({
   className  : 'document',
   initialize : function(attributes, options) {
-    console.log(attributes);
     this.viewer                    = options.viewer;
 
     this.currentPageIndex          = 0;
