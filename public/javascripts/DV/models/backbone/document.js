@@ -1,8 +1,13 @@
 DV.backbone.model.Document    = Backbone.Model.extend({
   className  : 'document',
+
   initialize : function(attributes, options) {
     this.viewer                    = options.viewer;
 
+    this.notes                     = new DV.backbone.model.NoteSet();
+    if (this.get('annotations')) this.notes.reset(this.get('annotations'), {'viewer':this.viewer, document:this});
+
+    // Original Initialization below
     this.currentPageIndex          = 0;
     this.offsets                   = [];
     this.baseHeightsPortion        = [];
@@ -33,6 +38,7 @@ DV.backbone.model.Document    = Backbone.Model.extend({
     var maxZoom = _.last(this.ZOOM_RANGES);
     if (this.zoomLevel > maxZoom) this.zoomLevel = maxZoom;
   },
+
   setPageIndex : function(index) {
     this.currentPageIndex = index;
     this.viewer.elements.currentPage.text(this.currentPage());
@@ -40,18 +46,23 @@ DV.backbone.model.Document    = Backbone.Model.extend({
     _.each(this.onPageChangeCallbacks, function(c) { c(); });
     return index;
   },
+
   currentPage : function() { return this.currentPageIndex + 1; },
+
   currentIndex : function() { return this.currentPageIndex; },
+
   nextPage : function() {
     var nextIndex = this.currentIndex() + 1;
     if (nextIndex >= this.totalPages) return this.currentIndex();
     return this.setPageIndex(nextIndex);
   },
+
   previousPage : function() {
     var previousIndex = this.currentIndex() - 1;
     if (previousIndex < 0) return this.currentIndex();
     return this.setPageIndex(previousIndex);
   },
+
   zoom: function(zoomLevel,force){
     if(this.zoomLevel != zoomLevel || force === true){
       this.zoomLevel   = zoomLevel;
@@ -108,10 +119,15 @@ DV.backbone.model.Document    = Backbone.Model.extend({
       this.totalDocumentHeight = totalDocHeight;
     }
   },
+
   getOffset: function(_index){ return this.offsets[_index]; },
+
   resetRemovedPages: function() { this.viewer.models.removedPages = {}; },
+
   addPageToRemovedPages: function(page) { this.viewer.models.removedPages[page] = true; },
+
   removePageFromRemovedPages: function(page) { this.viewer.models.removedPages[page] = false; },
+
   redrawPages: function() {
     _.each(this.viewer.pageSet.pages, function(page) {
       page.drawRemoveOverlay();
@@ -120,6 +136,7 @@ DV.backbone.model.Document    = Backbone.Model.extend({
       this.viewer.thumbnails.render();
     }
   },
+
   redrawReorderedPages: function() {
     if (this.viewer.thumbnails) {
       this.viewer.thumbnails.render();
