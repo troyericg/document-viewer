@@ -196,9 +196,40 @@ DV.backbone.model.Note = Backbone.Model.extend({
     if (identifier.id) return this.byId[identifier.id];
     if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id');
     return this.byId[identifier];
+  },
+
+  // functions extracted from DocumentCloud
+  document : function() {
+    return this._document; // = this._document || DV.backbone.model.Document.get(this.get('document_id'));
+  },
+
+  coordinates : function() {
+    if (this._coordinates) return this._coordinates;
+    var loc = this.get('location');
+    if (!loc) return null;
+    var css = _.map(loc.image.split(','), function(num){ return parseInt(num, 10); });
+    return this._coordinates = {
+      top:    css[0],
+      left:   css[3],
+      right:  css[1],
+      height: css[2] - css[0],
+      width:  css[1] - css[3]
+    };
   }
+  
 });
 
 DV.backbone.model.NoteSet = Backbone.Collection.extend({
-  model : DV.backbone.model.Note
+  model : DV.backbone.model.Note,
+  url   : '/notes',
+
+  comparator : function(note) {
+    var coords = note.coordinates();
+    return note.get('page') * 10000 + (coords ? coords.top : 0);
+  },
+
+  unrestricted : function() {
+    return this.filter(function(note){ return note.get('access') != 'private'; });
+  }
+  
 });
