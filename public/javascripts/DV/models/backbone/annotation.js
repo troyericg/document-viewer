@@ -1,5 +1,33 @@
 DV.backbone.model.Note = Backbone.Model.extend({
   className  : 'note',
+  defaults : {
+    title: 'Untitled Note',
+    access: 'public',
+    text: '',
+    y1: 0, x2: 0, y2: 0, x1: 0
+  },
+
+  initialize : function(attributes, options) {
+    // retooled initalization from DV.Schema.prototype.loadAnnotation
+    var fetched_id = this.get('id');
+    if (fetched_id) { 
+      this.set('server_id', fetched_id);
+    } else {
+      this.set('id', _.uniqueId());
+    }
+    this.set('text', this.get('content'));
+    if (this.type() === 'region') {
+      var loc = DV.jQuery.map(this.get('location').image.split(','), function(n, i) { return parseInt(n, 10); });
+      this.set({y1: loc[0], x2: loc[1], y2: loc[2], x1: loc[3]});
+    }
+    //var page = this.data.annotationsByPage[this.pageIndex()] = this.data.annotationsByPage[this.pageIndex()] || [];
+    //var insertionIndex = _.sortedIndex(page, anno, function(a){ return a.y1; });
+    //page.splice(insertionIndex, 0, anno);
+  },
+  
+  type: function() { return this.get('location') && this.get('location').image ? 'region' : 'page'; },
+  page: function() { return this.get('page'); },
+  pageIndex: function() { return this.page - 1; },
 
   // Render an annotation model to HTML, calculating all of the dimenstions
   // and offsets, and running a template function.
