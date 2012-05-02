@@ -4,8 +4,9 @@ DV.backbone.model.Document    = Backbone.Model.extend({
   initialize : function(attributes, options) {
     this.viewer                    = options.viewer;
 
-    this.notes                     = new DV.backbone.model.NoteSet();
-    if (this.get('annotations')) this.notes.reset(this.get('annotations'), {'viewer':this.viewer, document:this});
+    //this.pages                     = new DV.backbone.model.PageSet();
+    this.notes                     = new DV.backbone.model.NoteSet([],{viewer:this.viewer, document:this});
+    if (this.get('annotations')) this.notes.reset(this.get('annotations'));
 
     // Original Initialization below
     this.currentPageIndex          = 0;
