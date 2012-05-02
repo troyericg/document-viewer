@@ -1,19 +1,6 @@
 DV.backbone.model.Note = Backbone.Model.extend({
   className  : 'note',
 
-  initialize : function(attributes, options) {
-    // original initialization
-    this.LEFT_MARGIN              = 25;
-    this.PAGE_NOTE_FUDGE          = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
-    this.viewer                   = options.viewer;
-    this.offsetsAdjustments       = [];
-    this.offsetAdjustmentSum      = 0;
-    this.saveCallbacks            = [];
-    this.deleteCallbacks          = [];
-    this.byId                     = this.viewer.schema.data.annotationsById;
-    this.byPage                   = this.viewer.schema.data.annotationsByPage;
-    this.bySortOrder              = this.sortAnnotations();
-  },
   // Render an annotation model to HTML, calculating all of the dimenstions
   // and offsets, and running a template function.
   render : function(annotation){
@@ -70,6 +57,68 @@ DV.backbone.model.Note = Backbone.Model.extend({
     return JST[template](adata);
   },
 
+  // Refresh the annotation's title and content from the model, in both
+  // The document and list views.
+  refreshAnnotation : function(anno) {
+    var viewer = this.viewer;
+    anno.html = this.render(anno);
+    DV.jQuery.$('#DV-annotation-' + anno.id).replaceWith(anno.html);
+  },
+
+  // Removes a given annotation from the Annotations model (and DOM).
+  removeAnnotation : function(anno) {
+    delete this.byId[anno.id];
+    var i = anno.page - 1;
+    this.byPage[i] = _.without(this.byPage[i], anno);
+    this.sortAnnotations();
+    DV.jQuery('#DV-annotation-' + anno.id + ', #DV-listAnnotation-' + anno.id).remove();
+    this.viewer.api.redraw(true);
+    if (_.isEmpty(this.byId)) this.viewer.open('ViewDocument');
+  },
+
+  // When an annotation is successfully saved, fire any registered
+  // save callbacks.
+  fireSaveCallbacks : function(anno) { _.each(this.saveCallbacks, function(c){ c(anno); }); },
+
+  // When an annotation is successfully removed, fire any registered
+  // delete callbacks.
+  fireDeleteCallbacks : function(anno) { _.each(this.deleteCallbacks, function(c){ c(anno); }); },
+
+  coordinates : function() {
+    if (this._coordinates) return this._coordinates;
+    var loc = this.get('location');
+    if (!loc) return null;
+    var css = _.map(loc.image.split(','), function(num){ return parseInt(num, 10); });
+    return this._coordinates = {
+      top:    css[0],
+      left:   css[3],
+      right:  css[1],
+      height: css[2] - css[0],
+      width:  css[1] - css[3]
+    };
+  }
+  
+});
+
+DV.backbone.model.NoteSet = Backbone.Collection.extend({
+  model : DV.backbone.model.Note,
+  url   : '/notes',
+
+  // Stolen from existing Annotations collection class
+  initialize : function(models, options) {
+    // original initialization
+    this.LEFT_MARGIN              = 25;
+    this.PAGE_NOTE_FUDGE          = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
+    this.viewer                   = options.viewer;
+    this.offsetsAdjustments       = [];
+    this.offsetAdjustmentSum      = 0;
+    this.saveCallbacks            = [];
+    this.deleteCallbacks          = [];
+    this.byId                     = this.viewer.schema.data.annotationsById;
+    this.byPage                   = this.viewer.schema.data.annotationsByPage;
+    this.bySortOrder              = this.sortAnnotations();
+  },
+  
   // Re-sort the list of annotations when its contents change. Annotations
   // are ordered by page primarily, and then their y position on the page.
   sortAnnotations : function() {
@@ -111,25 +160,6 @@ DV.backbone.model.Note = Backbone.Model.extend({
     _.defer(_.bind(this.updateAnnotationOffsets, this));
   },
 
-  // Refresh the annotation's title and content from the model, in both
-  // The document and list views.
-  refreshAnnotation : function(anno) {
-    var viewer = this.viewer;
-    anno.html = this.render(anno);
-    DV.jQuery.$('#DV-annotation-' + anno.id).replaceWith(anno.html);
-  },
-
-  // Removes a given annotation from the Annotations model (and DOM).
-  removeAnnotation : function(anno) {
-    delete this.byId[anno.id];
-    var i = anno.page - 1;
-    this.byPage[i] = _.without(this.byPage[i], anno);
-    this.sortAnnotations();
-    DV.jQuery('#DV-annotation-' + anno.id + ', #DV-listAnnotation-' + anno.id).remove();
-    this.viewer.api.redraw(true);
-    if (_.isEmpty(this.byId)) this.viewer.open('ViewDocument');
-  },
-
   // Offsets all document pages based on interleaved page annotations.
   updateAnnotationOffsets : function(){
     this.offsetsAdjustments   = [];
@@ -168,14 +198,6 @@ DV.backbone.model.Note = Backbone.Model.extend({
     annotationsContainer.removeClass('DV-getHeights');
   },
 
-  // When an annotation is successfully saved, fire any registered
-  // save callbacks.
-  fireSaveCallbacks : function(anno) { _.each(this.saveCallbacks, function(c){ c(anno); }); },
-
-  // When an annotation is successfully removed, fire any registered
-  // delete callbacks.
-  fireDeleteCallbacks : function(anno) { _.each(this.deleteCallbacks, function(c){ c(anno); }); },
-
   // Returns the list of annotations on a given page.
   getAnnotations : function(_index){ return this.byPage[_index]; },
 
@@ -203,26 +225,7 @@ DV.backbone.model.Note = Backbone.Model.extend({
     return this._document; // = this._document || DV.backbone.model.Document.get(this.get('document_id'));
   },
 
-  coordinates : function() {
-    if (this._coordinates) return this._coordinates;
-    var loc = this.get('location');
-    if (!loc) return null;
-    var css = _.map(loc.image.split(','), function(num){ return parseInt(num, 10); });
-    return this._coordinates = {
-      top:    css[0],
-      left:   css[3],
-      right:  css[1],
-      height: css[2] - css[0],
-      width:  css[1] - css[3]
-    };
-  }
-  
-});
-
-DV.backbone.model.NoteSet = Backbone.Collection.extend({
-  model : DV.backbone.model.Note,
-  url   : '/notes',
-
+  // Stolen from DocumentCloud workspace
   comparator : function(note) {
     var coords = note.coordinates();
     return note.get('page') * 10000 + (coords ? coords.top : 0);
