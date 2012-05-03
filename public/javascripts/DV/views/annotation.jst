@@ -91,31 +91,11 @@
         </div>
       </div>
     </div>
-    <div class="DV-comments">
-      <div class="DV-commentsHeader">Reader Comment</div>
-      <ul class="DV-commentsList">
-        <li class="DV-comment">
-          <div class="DV-commentMeta">
-            <img src="file:///Users/ted/Pictures/thumbnails/frog.jpg"/>
-            <p class="DV-commenter">Monsieur Grenouile du Pelouse</p>
-          </div>
-          <div class="DV-commentBody">This is a short comment.</div>
-        </li>
-        <li class="DV-comment">
-          <div class="DV-commentMeta">
-            <img src="file:///Users/ted/Pictures/thumbnails/final_fantasy.jpg"/>
-            <p class="DV-commenter">Final Fantasy</p>
-          </div>
-          <div class="DV-commentBody">This is a short comment.</div>
-        </li>
-        <li class="DV-comment">
-          <div class="DV-commentMeta">
-            <img src="file:///Users/ted/Pictures/thumbnails/darwin.jpg"/>
-            <p class="DV-commenter">Charles Darwin</p>
-          </div>
-          <div class="DV-commentBody">This is a longer comment. It was written by someone who took enough time to think about the contents of the annotation that they thought of something insightful to say.</div>
-        </li>
-      </ul>
-    </div>
+    <% if (commentsList) { %>
+      <div class="DV-comments">
+        <div class="DV-commentsHeader">Reader Comment</div>
+        <%= commentsList %>
+      </div>
+    <% } %>
   </div>
 </div>

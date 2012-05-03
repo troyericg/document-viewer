@@ -615,7 +615,6 @@
     border-top: 4px solid #ddd;
     clear:left;
   }
-  .DV-comments .DV-comment .DV-commentMeta { float:left; padding-right: 4px; width: 200px; }
-  .DV-comments .DV-comment .DV-commentMeta img { float:left; padding-right: 4px; padding-bottom: 4px; }
-  .DV-comments .DV-comment .DV-commentMeta .DV-commenter { vertical-align: top; }
-  .DV-comments .DV-comment .DV-commentBody { padding-bottom:4px; }
+  .DV-commentsList .DV-comment .DV-commentMeta { float:left; padding-right: 4px; width: 200px; }
+  .DV-commentsList .DV-comment .DV-commentMeta img { float:left; padding-right: 4px; padding-bottom: 4px; }
+  .DV-commentsList .DV-comment .DV-commentMeta .DV-commenter { vertical-align: top; }
