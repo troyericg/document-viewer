@@ -1,7 +1,7 @@
 <li class="DV-comment">
   <div class="DV-commentMeta">
-    <img src="<%= avatarUrl %>"/>
-    <p class="DV-commenter"><%= commenter %></p>
+    <img src="<%= comment.get('avatarUrl') %>"/>
+    <p class="DV-commenter"><%= comment.get('commenter') %></p>
   </div>
-  <div class="DV-commentBody"><%= text %></div>
+  <div class="DV-commentBody"><%= comment.get('text') %></div>
 </li>

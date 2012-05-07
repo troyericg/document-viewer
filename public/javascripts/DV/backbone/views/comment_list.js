@@ -1,15 +1,19 @@
 DV.backbone.view.CommentList = Backbone.View.extend({
   id: 'DV-commentsList',
-  tagName: 'ul',
+  className: 'DV-comments',
+  events: {'click .DV-add_comment': 'addComment'},
+
   constructor: function(options) {
-    this.comments = options.comments;
+    this.collection = options.collection;
   },
-  render: function(){
-    var output = '<ul class="DV-commentsList">';
-    _.each( this.comments, function(comment){ 
-      output += JST['comment_item']({avatarUrl: comment.avatarUrl, commenter: comment.commenter, text: comment.text});
-    });
-    //DV.jQuery(this.$el).append(output);
-    this.$el = output + '</ul>';
+
+  render: function() {
+    DV.jQuery(this.el).append( JST['comment_list']({
+      commentItems: this.collection.reduce(function(html, comment){ return html += JST['comment_item']({comment:comment}); }, '')
+    }));
+  },
+
+  addComment: function() {
+    console.log("clicked");
   }
 });
