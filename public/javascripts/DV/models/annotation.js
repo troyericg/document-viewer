@@ -100,6 +100,17 @@ DV.model.Annotations.prototype = {
     });
 
     this.viewer.$('div.DV-allAnnotations').html(html);
+    
+    var that = this;
+    _.each(this.bySortOrder, function(anno){
+      if (anno.type !== 'page' && anno.comments) {
+        var commentListView = new DV.backbone.view.CommentList({collection: anno.comments});
+        var noteContainer = that.viewer.$('div.DV-allAnnotations .DV-annotation[data-id='+anno.id+'] .DV-annotationContent').append('<div class="DV-comments"></div>');
+        console.log(noteContainer.find(".DV-comments"));
+        commentListView.setElement(noteContainer.find(".DV-comments"));
+        commentListView.render();
+      };
+    });
 
     this.renderAnnotationsByIndex.rendered  = true;
     this.renderAnnotationsByIndex.zoomLevel = this.zoomLevel;
