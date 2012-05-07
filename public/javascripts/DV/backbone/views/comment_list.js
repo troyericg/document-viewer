@@ -8,12 +8,16 @@ DV.backbone.view.CommentList = Backbone.View.extend({
   },
 
   render: function() {
-    DV.jQuery(this.el).append( JST['comment_list']({
+    DV.jQuery(this.el).html( JST['comment_list']({
       commentItems: this.collection.reduce(function(html, comment){ return html += JST['comment_item']({comment:comment}); }, '')
     }));
   },
 
   addComment: function() {
-    console.log("clicked");
+    var commentText = DV.jQuery(this.el).find('.DV-comment_input').val();
+    DV.jQuery(this.el).find('.DV-comment_input').val('');
+    console.log("clicked and value was: "+commentText);
+    this.collection.create( { commenter: DV.account.name, avatarUrl: DV.account.avatarUrl, text: commentText } );
+    this.render();
   }
 });

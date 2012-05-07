@@ -118,7 +118,7 @@ DV.Page.prototype.draw = function(argHash) {
           el.attr('src', el.attr('data-src'));
         });
 
-        if (anno.comments) {
+        if (anno.type !== 'page' && anno.comments) {
           var commentListView = new DV.backbone.view.CommentList({collection: anno.comments});
           html.find(".DV-annotationContent").append('<div class="DV-comments"></div>');
           commentListView.setElement(html.find(".DV-annotationContent .DV-comments"));
