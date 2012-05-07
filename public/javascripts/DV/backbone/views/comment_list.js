@@ -5,6 +5,7 @@ DV.backbone.view.CommentList = Backbone.View.extend({
 
   constructor: function(options) {
     this.collection = options.collection;
+    this.collection.bind('add', this.render, this);
   },
 
   render: function() {
@@ -16,8 +17,6 @@ DV.backbone.view.CommentList = Backbone.View.extend({
   addComment: function() {
     var commentText = DV.jQuery(this.el).find('.DV-comment_input').val();
     DV.jQuery(this.el).find('.DV-comment_input').val('');
-    console.log("clicked and value was: "+commentText);
     this.collection.create( { commenter: DV.account.name, avatarUrl: DV.account.avatarUrl, text: commentText } );
-    this.render();
   }
 });
