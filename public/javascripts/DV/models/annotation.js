@@ -56,10 +56,6 @@ DV.model.Annotations.prototype = {
     adata.excerptDSHeight         = adata.excerptHeight - 6;
     adata.DSOffset                = 3;
 
-    commentList                   = new DV.backbone.view.CommentList({comments: annotation.comments});
-    commentList.render();
-    adata.commentsList            = commentList.$el;
-
     if (adata.access == 'public')         adata.accessClass = 'DV-accessPublic';
     else if (adata.access =='exclusive')  adata.accessClass = 'DV-accessExclusive';
     else if (adata.access =='private')    adata.accessClass = 'DV-accessPrivate';
