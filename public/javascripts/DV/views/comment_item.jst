@@ -1,7 +1,7 @@
 <li class="DV-comment">
-  <div class="DV-commentMeta">
-    <img src="<%= comment.get('avatarUrl') %>"/>
-    <p class="DV-commenter"><%= comment.get('commenter') %></p>
+  <div class="DV-comment_meta">
+    <%= comment.get('commenter') %> commented <a href=""><%= DV.DateUtils.timeSince(comment.get('created_at')) %></a>
   </div>
-  <div class="DV-commentBody"><%= comment.get('text') %></div>
+  <div class="DV-avatar"><img src="<%= comment.get('avatarUrl') %>"/></div>
+  <div class="DV-comment_body"><%= comment.get('text') %></div>
 </li>

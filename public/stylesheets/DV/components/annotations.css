@@ -599,14 +599,14 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
-  .DV-annotation .DV-comments .DV-commentsHeader {
+  .DV-annotation .DV-comments .DV-comments_header {
     font-weight:bold;
     margin-top:10px;
   }
   .DV-annotation .DV-comments {
     padding:4px;
   }
-  .DV-comments .DV-commentsList {
+  .DV-comments .DV-comment_list {
     list-style:none;
     padding:0px; margin:0px;
   }
@@ -615,8 +615,14 @@
     border-top: 4px solid #ddd;
     clear:left;
   }
-  .DV-commentsList .DV-comment .DV-commentMeta { float:left; padding-right: 4px; width: 200px; }
-  .DV-commentsList .DV-comment .DV-commentMeta img { float:left; padding-right: 4px; padding-bottom: 4px; height:48px; width:48px; }
-  .DV-commentsList .DV-comment .DV-commentMeta .DV-commenter { vertical-align: top; }
+  .DV-comments .DV-comment_meta { margin-bottom: 4px; }
+  .DV-avatar { display:inline-block; vertical-align:top; width: 10% }
+  .DV-comment_body { display:inline-block; width: 89% }
+  .DV-all_comments {
+    padding:4px;
+    border-top: 4px solid #ddd;
+    clear:left;
+    cursor: pointer;
+  }
   .DV-comments textarea { width:99%; }
   .DV-commenting .DV-button { float:right; }
