@@ -118,8 +118,8 @@ DV.Page.prototype.draw = function(argHash) {
           el.attr('src', el.attr('data-src'));
         });
 
-        if (anno.type !== 'page' && anno.comments) {
-          var commentListView = new DV.backbone.view.CommentList({collection: anno.comments});
+        if (anno.comments) { //(anno.type !== 'page' && anno.comments) {
+          var commentListView = new DV.backbone.view.CommentList({collection: anno.comments, viewer: this.viewer, note: anno});
           html.find(".DV-annotationContent").append('<div class="DV-comments"></div>');
           commentListView.setElement(html.find(".DV-annotationContent .DV-comments"));
           commentListView.render();
