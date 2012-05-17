@@ -16,7 +16,7 @@ DV.backbone.view.CommentList = Backbone.View.extend({
 
   render: function() {
     DV.jQuery(this.el).html( JST['comment_list']({
-      commentItems: this.collection.reduce(function(html, comment){ return html += JST['comment_item']({comment:comment}); })
+      commentItems: this.collection.reduce(function(html, comment){ return html += JST['comment_item']({comment:comment}); }, '')
     }));
   },
 
