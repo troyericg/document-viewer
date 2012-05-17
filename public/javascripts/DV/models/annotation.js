@@ -103,9 +103,14 @@ DV.model.Annotations.prototype = {
     
     _.each(this.bySortOrder, function(anno){
       if (anno.comments) {
-        var commentListView = new DV.backbone.view.CommentList({collection: anno.comments, viewer: this.viewer, note: anno});
-        var noteContainer = this.viewer.$('div.DV-allAnnotations .DV-annotation[data-id='+anno.id+'] .DV-annotationContent').append('<div class="DV-comments"></div>');
-        commentListView.setElement(noteContainer.find(".DV-comments"));
+        var noteEl = this.viewer.$('div.DV-allAnnotations .DV-annotation[data-id='+anno.id+'] .DV-annotationContent')
+        noteEl.append('<div class="DV-comments"></div>');
+        var commentListView = new DV.backbone.view.CommentList({
+          collection: anno.comments, 
+          viewer: this.viewer, 
+          note: anno, 
+          el: noteEl.find(".DV-comments")
+        });
         commentListView.render();
       };
     }, this);

@@ -6,11 +6,9 @@ DV.backbone.view.CommentList = Backbone.View.extend({
     'click .DV-all_comments': 'openAnnotationList'
   },
 
-  constructor: function(options) {
+  initialize: function(options) {
     this.viewer     = options.viewer;
     this.note       = options.note;
-    console.log(this.note.id);
-    this.collection = options.collection;
     this.collection.bind('add', this.render, this);
   },
 
@@ -21,15 +19,13 @@ DV.backbone.view.CommentList = Backbone.View.extend({
   },
 
   addComment: function() {
-    var commentText = DV.jQuery(this.el).find('.DV-comment_input').val();
-    DV.jQuery(this.el).find('.DV-comment_input').val('');
+    var commentText = this.$el.find('.DV-comment_input').val();
+    this.$el.find('.DV-comment_input').val('');
     this.collection.create( { commenter: DV.account.name, avatarUrl: DV.account.avatarUrl, text: commentText } );
   },
   
   openAnnotationList: function() {
     this.viewer.activeAnnotationId = this.note.id;
-    console.log("Opening Annotation list to: " + this.note.id)
-    console.log("Viewer activeAnnotationId: "+this.viewer.activeAnnotationId);
     this.viewer.open('ViewAnnotation');
   }
 });
