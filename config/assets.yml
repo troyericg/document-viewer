@@ -1,18 +1,22 @@
 embed_images: datauri
 template_function: _.template
-# compress_assets: off
+compress_assets: off
 
 javascripts:
   viewer:
     - public/javascripts/DV/vendor/jquery-1.5.1.js
     - public/javascripts/DV/vendor/jquery-ui-1.8.1.custom.min.js
     - public/javascripts/DV/vendor/underscore.js
+    - public/javascripts/DV/vendor/backbone-0.9.2.js
     - public/javascripts/DV/vendor/jquery.acceptInput.js
     - public/javascripts/DV/vendor/jquery.placeholder.js
     - public/javascripts/DV/lib/initializer.js
     - public/javascripts/DV/lib/*.js
     - public/javascripts/DV/schema/*.js
     - public/javascripts/DV/elements/*.js
+    - public/javascripts/DV/backbone/backbone_initializer.js
+    - public/javascripts/DV/backbone/models/*.js
+    - public/javascripts/DV/backbone/views/*.js
     - public/javascripts/DV/models/*.js
     - public/javascripts/DV/events/events.js
     - public/javascripts/DV/events/View*.js
