@@ -1,12 +1,5 @@
 DV.backbone.model.Comment    = Backbone.Model.extend({
-  sync: function(method, model, options) {
-    options.dataType = "jsonp";
-    return Backbone.sync(method, model, options);
-  },
-  className: 'comment',
-  initialize: function(attributes, options){
-    this.author = new DV.backbone.model.Account(this.get('author') || {});
-  }
+  initialize: function(attributes, options){ this.author = new DV.backbone.model.Account(this.get('author') || {}); }
 });
 
 DV.backbone.model.CommentSet = Backbone.Collection.extend({
