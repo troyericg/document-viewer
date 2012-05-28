@@ -599,7 +599,7 @@
   font-family: Arial, Helvetica, sans-serif;
   font-size: 12px;
 }
-  .DV-annotation .DV-comments .DV-comments_header {
+  .DV-annotation .DV-comments .DV-comment_header {
     font-weight:bold;
     margin-top:10px;
   }
@@ -624,5 +624,5 @@
     clear:left;
     cursor: pointer;
   }
-  .DV-comments textarea { width:99%; }
+  .DV-comments textarea { width:99%; height: 4ex; }
   .DV-commenting .DV-button { float:right; }
