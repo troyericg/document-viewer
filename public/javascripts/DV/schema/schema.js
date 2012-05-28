@@ -52,7 +52,8 @@ DV.Schema.prototype.loadAnnotation = function(anno) {
   }else if(anno.type === 'page'){
     anno.y1 = 0; anno.x2 = 0; anno.y2 = 0; anno.x1 = 0;
   }
-  anno.comments = new DV.backbone.model.CommentSet(anno.comments, {note_id: anno.id, document_id: this.document.id });
+  var commentOptions = { note_id: anno.id, document_id: this.document.id.replace(/^(\d+).+/, "$1") };
+  anno.comments = new DV.backbone.model.CommentSet(anno.comments, commentOptions);
   this.data.annotationsById[anno.id] = anno;
   var page = this.data.annotationsByPage[idx] = this.data.annotationsByPage[idx] || [];
   var insertionIndex = _.sortedIndex(page, anno, function(a){ return a.y1; });
