@@ -10,5 +10,5 @@ DV.backbone.model.CommentSet = Backbone.Collection.extend({
     this.note_id     = options.note_id;
   },
   // Return the top n comments
-  top: function(n) { return this.models.slice(0,n); }
+  top: function(n) { return _(this.models.slice(0,n)); }
 });

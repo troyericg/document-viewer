@@ -121,12 +121,13 @@ DV.Page.prototype.draw = function(argHash) {
         if (anno.comments) {
           html.find(".DV-annotationContent").append('<div class="DV-comments"></div>');
           var commentListView = new DV.backbone.view.CommentList({
-            collection: anno.comments, 
-            viewer: this.viewer, 
-            note: anno, 
+            collection: anno.comments,
+            count: 3,
+            viewer: this.viewer,
+            note: anno,
             el: html.find(".DV-annotationContent .DV-comments")
           });
-          //commentListView.render();
+          commentListView.render();
         }
 
         var newAnno = new DV.Annotation({
