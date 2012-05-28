@@ -21,7 +21,7 @@ DV.backbone.view.CommentList = Backbone.View.extend({
   addComment: function() {
     var commentText = this.$el.find('.DV-comment_input').val();
     this.$el.find('.DV-comment_input').val('');
-    this.collection.create( { commenter: DV.account.name, avatarUrl: DV.account.avatarUrl, text: commentText } );
+    this.collection.create( { commenter: DV.account.name, avatar_url: DV.account.avatar_url, text: commentText } );
   },
   
   openAnnotationList: function() {
