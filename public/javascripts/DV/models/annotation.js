@@ -102,7 +102,7 @@ DV.model.Annotations.prototype = {
     this.viewer.$('div.DV-allAnnotations').html(html);
     
     _.each(this.bySortOrder, function(anno){
-      if (anno.comments) {
+      if (this.viewer.schema.document.allows_comments && anno.comments) {
         var noteEl = this.viewer.$('div.DV-allAnnotations .DV-annotation[data-id='+anno.id+'] .DV-annotationContent')
         noteEl.append('<div class="DV-comments"></div>');
         var commentListView = new DV.backbone.view.CommentList({
@@ -112,7 +112,7 @@ DV.model.Annotations.prototype = {
           el: noteEl.find(".DV-comments")
         });
         commentListView.render();
-      };
+      }
     }, this);
 
     this.renderAnnotationsByIndex.rendered  = true;

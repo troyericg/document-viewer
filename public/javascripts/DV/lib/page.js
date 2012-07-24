@@ -118,7 +118,7 @@ DV.Page.prototype.draw = function(argHash) {
           el.attr('src', el.attr('data-src'));
         });
 
-        if (anno.comments) {
+        if (this.viewer.schema.document.allows_comments && anno.comments) {
           html.find(".DV-annotationContent").append('<div class="DV-comments"></div>');
           var commentListView = new DV.backbone.view.CommentList({
             collection: anno.comments,
