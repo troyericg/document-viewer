@@ -1,6 +1,6 @@
 <li class="DV-comment">
   <div class="DV-comment_meta">
-    <%= comment.author.fullName() %> commented <a href=""><%= DV.DateUtils.timeSince(comment.get('created_at')) %></a>
+    <%= comment.author.fullName() %> commented <span class="DV-comment_permalink"><%= DV.DateUtils.timeSince(comment.get('created_at')) %></span>
   </div>
   <div class="DV-avatar"><img src="<%= comment.author.gravatarUrl(48) %>"/></div>
   <div class="DV-comment_body"><%= comment.get('text') %></div>
