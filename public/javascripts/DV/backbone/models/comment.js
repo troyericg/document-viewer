@@ -8,6 +8,7 @@ DV.backbone.model.CommentSet = Backbone.Collection.extend({
   initialize: function(models, options){
     this.document_id = options.document_id;
     this.note_id     = options.note_id;
+    this.access      = options.access;
   },
   // Return the top n comments
   top: function(n) { return _(this.models.slice(0,n)); }

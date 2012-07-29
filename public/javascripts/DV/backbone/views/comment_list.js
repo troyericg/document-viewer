@@ -17,7 +17,7 @@ DV.backbone.view.CommentView = Backbone.View.extend({
 DV.backbone.view.CommentList = Backbone.View.extend({
   id: 'DV-commentsList',
   className: 'DV-comments',
-  events: { 
+  events: {
     'click .DV-add_comment': 'addComment',
     'click .DV-all_comments': 'openAnnotationList'
   },
@@ -27,14 +27,13 @@ DV.backbone.view.CommentList = Backbone.View.extend({
     this.note       = options.note;
     this.count      = options.count;
     this.collection.bind('add', this.render, this);
+  },
 
+  render: function() {
     var collection = this.count ? this.collection.top(this.count) : this.collection;
     this.commentViews = collection.map(function(comment){
       return new DV.backbone.view.CommentView({ model: comment, note: this.note, viewer: this.viewer });
     });
-  },
-
-  render: function() {
     var commentHTML = this.commentViews.reduce(function(html, view){ return (html += view.render()); }, '');
     DV.jQuery(this.el).html( JST['comment_list']({ comments: commentHTML, commentCount: this.collection.length }));
   },
@@ -42,7 +41,12 @@ DV.backbone.view.CommentList = Backbone.View.extend({
   addComment: function() {
     var commentText = this.$el.find('.DV-comment_input').val();
     this.$el.find('.DV-comment_input').val('');
-    this.collection.create( { commenter: DV.account.name, avatar_url: DV.account.avatar_url, text: commentText } );
+    this.collection.create({ 
+      account: DV.account.name, 
+      avatar_url: DV.account.avatar_url, 
+      text: commentText, 
+      access: this.collection.access
+    });
     this.openAnnotationList();
   },
   
