@@ -1,7 +1,7 @@
 DV.backbone.model.Document    = Backbone.Model.extend({
   className  : 'document',
 
-  initialize : function(attributes, options) {
+  initialize : function(attr, options) {
     this.viewer                    = options.viewer;
 
     //this.pages                     = new DV.backbone.model.PageSet();
@@ -20,20 +20,17 @@ DV.backbone.model.Document    = Backbone.Model.extend({
     this.additionalPaddingOnPage   = 0;
     this.ZOOM_RANGES               = [500, 700, 800, 900, 1000];
 
-    // Document metadata
-    var data                       = this.viewer.schema.data;
-
-    this.state                     = data.state;
-    this.baseImageURL              = data.baseImageURL;
-    this.canonicalURL              = data.canonicalURL;
-    this.additionalPaddingOnPage   = data.additionalPaddingOnPage;
-    this.pageWidthPadding          = data.pageWidthPadding;
-    this.totalPages                = data.totalPages;
+    this.state                     = attr.state;
+    this.baseImageURL              = attr.baseImageURL;
+    this.canonicalURL              = attr.canonicalURL;
+    this.additionalPaddingOnPage   = attr.additionalPaddingOnPage;
+    this.pageWidthPadding          = attr.pageWidthPadding;
+    this.totalPages                = attr.totalPages;
 
     this.onPageChangeCallbacks = [];
 
-    var zoom = this.zoomLevel = this.viewer.options.zoom || data.zoomLevel;
-    if (zoom == 'auto') this.zoomLevel = data.zoomLevel;
+    var zoom = this.zoomLevel = this.viewer.options.zoom || attr.zoomLevel;
+    if (zoom == 'auto') this.zoomLevel = attr.zoomLevel;
 
     // The zoom level cannot go over the maximum image width.
     var maxZoom = _.last(this.ZOOM_RANGES);
@@ -146,5 +143,8 @@ DV.backbone.model.Document    = Backbone.Model.extend({
 });
 
 DV.backbone.model.DocumentSet = Backbone.Collection.extend({
-  model: DV.backbone.model.Document
+  model: DV.backbone.model.Document,
+  initialize: function(models, options) {
+    this.url = options.url;
+  }
 });
