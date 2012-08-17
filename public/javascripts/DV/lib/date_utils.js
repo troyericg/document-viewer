@@ -116,14 +116,23 @@ DV.DateUtils = {
     var minute = 1000 * 60;
     var hour   = minute * 60;
     var day    = hour * 24;
-    var time;
+    var time, answer;
 
-    if (!_.isFinite(duration))  { time = ""; } 
-    else if ( duration < 1 )    { time = "less than a minute ago"; } 
-    else if ( duration < hour ) { time = "" + Math.round(duration / minute) + " minutes ago"; }
-    else if ( duration < day )  { time = "" + Math.round(duration / hour) + " days ago"; }
-    else                        { time = "" + Math.round(duration / day) + " days ago"; }
-    return time;
+    if (!_.isFinite(duration))  { 
+      answer = ""; 
+    } else if ( duration < 1 * minute ) { 
+      answer = "less than a minute ago"; 
+    } else if ( duration < 1 * hour ) { 
+      time = Math.round(duration / minute);
+      answer = "" + time + " minute"+ (time < 2 ? '' : 's') +" ago"; 
+    } else if ( duration < 1 * day )  { 
+      time = Math.round(duration / hour);
+      answer = "" + time + " hour"+ (time < 2 ? '' : 's') +" ago";
+    } else {
+      time = Math.round(duration / day);
+      answer = "" + time + " day"+ (time < 2 ? '' : 's') +" ago";
+    }
+    return answer;
   }
 
 };
