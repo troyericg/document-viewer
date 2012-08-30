@@ -50,7 +50,6 @@ _.extend(DV.Schema.helpers, {
 
   },
   highlightSearchResponses: function(){
-
     var viewer    = this.viewer;
     var response  = viewer.searchResponse;
 
@@ -74,11 +73,12 @@ _.extend(DV.Schema.helpers, {
 
     // Replaces spaces in query with `\s+` to match newlines in textContent,
     // escape regex char contents (like "()"), and only match on word boundaries.
-    var query             = '\\b' + response.query.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&").replace(/\s+/g, '\\s+') + '\\b';
+    var boundary          = '(\\b|\\B)';
+    var query             = boundary + '('+response.query.replace(/[-[\]{}()*+?.,\\^$|#]/g, "\\$&").replace(/\s+/g, '\\s+')+')' + boundary;
     var textContent       = this.viewer.$('.DV-textContents');
     var currentPageText   = textContent.text();
     var pattern           = new RegExp(query,"ig");
-    var replacement       = currentPageText.replace(pattern,'<span class="DV-searchMatch">$&</span>');
+    var replacement       = currentPageText.replace(pattern,'$1<span class="DV-searchMatch">$2</span>$3');
 
     textContent.html(replacement);
 
