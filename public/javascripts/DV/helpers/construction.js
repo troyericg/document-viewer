@@ -23,7 +23,8 @@ _.extend(DV.Schema.helpers, {
     var pdfURL = doc.resources.pdf;
     pdfURL = pdfURL && this.viewer.options.pdf !== false ? '<a target="_blank" href="' + pdfURL + '">Original Document (PDF) &raquo;</a>' : '';
 
-    var contributorList = '' + this.viewer.schema.document.contributor +', '+ this.viewer.schema.document.contributor_organization;
+    var contribs = doc.contributor && doc.contributor_organization &&
+                   ('' + doc.contributor + ', '+ doc.contributor_organization);
 
     var showAnnotations = this.showAnnotations();
     var printNotesURL = (showAnnotations) && doc.resources.print_annotations;
@@ -34,7 +35,7 @@ _.extend(DV.Schema.helpers, {
       header: headerHTML,
       footer: footerHTML,
       pdf_url: pdfURL,
-      contributors: contributorList,
+      contributors: contribs,
       story_url: storyURL,
       print_notes_url: printNotesURL,
       descriptionContainer: JST.descriptionContainer({ description: description}),
