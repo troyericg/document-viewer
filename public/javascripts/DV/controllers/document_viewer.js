@@ -2,15 +2,15 @@ DV.DocumentViewer = function(options) {
   this.options        = options;
   this.window         = window;
   this.$              = this.jQuery;
-  this.schema         = new DV.Schema();
-  this.api            = new DV.Api(this);
-  this.history        = new DV.History(this);
+  this.schema         = new DV.Schema();              // derp. should be done away with. Data should be held in models.
+  this.api            = new DV.Api(this);             // unclear whether this should retain its own namespace in this manner.
+  this.history        = new DV.History(this);         // replace with Backbone.History
 
   // Build the data models
-  this.models     = this.schema.models;
-  this.events     = _.extend({}, DV.Schema.events);
-  this.helpers    = _.extend({}, DV.Schema.helpers);
-  this.states     = _.extend({}, DV.Schema.states);
+  this.models     = this.schema.models;               // These aren't models proper, but some messy mix of controller/view functionality.
+  this.events     = _.extend({}, DV.Schema.events);   // 
+  this.helpers    = _.extend({}, DV.Schema.helpers);  // 
+  this.states     = _.extend({}, DV.Schema.states);   // Where most of the magic happens. See DocumentViewer.prototype.open
 
   // state values
   this.isFocus            = true;
@@ -37,18 +37,20 @@ DV.DocumentViewer = function(options) {
     models      : this.models,
     // this allows us to bind events to call the method corresponding to the current state
     compile     : function(){
-      var a           = this.viewer;
+      var viewer      = this.viewer;
       var methodName  = arguments[0];
       return function(){
-        if(!a.events[a.state][methodName]){
-          a.events[methodName].apply(a.events,arguments);
+        if(!viewer.events[viewer.state][methodName]){
+          viewer.events[methodName].apply(viewer.events,arguments);
         }else{
-          a.events[a.state][methodName].apply(a.events,arguments);
+          viewer.events[viewer.state][methodName].apply(viewer.events,arguments);
         }
       };
     }
   });
 
+  // Extend helpers with viewer references to provide 
+  // access to viewer internals in the helper namespace.
   this.helpers  = _.extend(this.helpers, {
     viewer      : this,
     states      : this.states,
@@ -57,6 +59,7 @@ DV.DocumentViewer = function(options) {
     models      : this.models
   });
 
+  // Viewer references for everyone!
   this.states   = _.extend(this.states, {
     viewer      : this,
     helpers     : this.helpers,

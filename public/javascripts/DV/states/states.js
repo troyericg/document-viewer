@@ -7,7 +7,7 @@ DV.Schema.states = {
     // Insert the Document Viewer HTML into the DOM.
     this.helpers.renderViewer();
 
-    // Assign element references.
+    // Cache DOM node references.  See lib/elements.js and elements/elements.js for the actual list of elements.
     this.events.elements = this.helpers.elements = this.elements = new DV.Elements(this);
 
     // Render included components, and hide unused portions of the UI.
@@ -28,10 +28,15 @@ DV.Schema.states = {
 
     this.helpers.positionViewer();
     this.models.document.computeOffsets();
+    
+    // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
     this.helpers.addObserver('drawPages');
     this.helpers.registerHashChangeEvents();
     this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
+
+    // Start observer timer loop.
     this.helpers.startCheckTimer();
+    // If configured to do so, open the viewer to a non-default state.
     this.helpers.handleInitialState();
     _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
   },
