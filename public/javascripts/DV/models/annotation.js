@@ -72,9 +72,9 @@ DV.model.Annotations.prototype = {
   // Re-sort the list of annotations when its contents change. Annotations
   // are ordered by page primarily, and then their y position on the page.
   sortAnnotations : function() {
-    return this.bySortOrder = _.sortBy(_.values(this.byId), function(anno) {
+    return (this.bySortOrder = _.sortBy(_.values(this.byId), function(anno) {
       return anno.page * 10000 + anno.y1;
-    });
+    }));
   },
 
   // Renders each annotation into it's HTML format.
@@ -206,3 +206,17 @@ DV.model.Annotations.prototype = {
   }
 
 };
+
+DV.model.Note = DV.Backbone.Model.extend({});
+
+DV.model.NoteSet = DV.Backbone.Collection.extend({
+  byId: function(){
+    
+  },
+  byPage: function(){
+    
+  },
+  bySortOrder: function(){
+    
+  }
+});

@@ -1,3 +1,5 @@
+DV.model.ViewerState = DV.Backbone.Model.extend({});
+
 DV.Schema.states = {
 
   InitialLoad: function(){

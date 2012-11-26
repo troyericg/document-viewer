@@ -180,7 +180,8 @@ DV.DocumentViewer = DV.Backbone.View.extend({
   
   initialize: function(options) {
     this.options  = options;
-    
+    this.state    = new DV.model.ViewerState();
+    this.api      = new DV.Api(this);
   },
   // transition between viewer states.
   open: function(state) {  },
@@ -215,8 +216,16 @@ DV.load = function(documentRep, options) {
   DV.viewers[id]     = viewer;
   // Once we have the JSON representation in-hand, finish loading the viewer.
   var continueLoad = DV.loadJSON = function(json) {
+    
+    // Since we're retaining the existing loading mechanism
+    // we'll load the models manually.
+    var doc = new DV.model.Document(json);
+    DV.documents.add(doc);
+
+    // And set viewer's model to the document
     var viewer = DV.viewers[json.id];
-    DV.documents.add(json);
+    viewer.model = doc;
+    
     //viewer.schema.importCanonicalDocument(json);
     //viewer.loadModels();
     DV.jQuery(function() {
