@@ -179,16 +179,32 @@ DV.DocumentViewer = DV.Backbone.View.extend({
   // Instance Properties
   
   initialize: function(options) {
+    this.confirmStateChange = null;
+    
     this.options  = options;
-    this.state    = new DV.model.ViewerState();
+    this.state    = new DV.model.ViewerState({viewer: this});
+
+    // Legacy components to be refactored
+    // this.events   = _.extend({}, DV.Schema.events);
+    this.helpers  = _.extend({}, DV.Schema.helpers);
     this.api      = new DV.Api(this);
+    
+    // Extend helpers with viewer references to provide 
+    // access to viewer internals in the helper namespace.
+    this.helpers  = _.extend(this.helpers, {
+      viewer      : this,
+      states      : this.states,
+      //elements    : this.elements,
+      //events      : this.events,
+    });
   },
   // transition between viewer states.
-  open: function(state) {  },
-  slapIE: function(){ this.$el.css({zoom: 0.99}).css({zoom: 1}); },
-  notifyChangedState: function(){
-    
+  open: function(state) {
+    if (this.state.name == state) return;
+    var continuation = _.bind( function() { this.state.transitionTo(state); return true; }, this );
+    this.confirmStateChange ? this.confirmStateChange(continuation) : continuation();
   },
+  slapIE: function(){ this.$el.css({zoom: 0.99}).css({zoom: 1}); },
   recordHit: function(hitUrl){ // pulled wholesale
     var loc = window.location;
     var url = loc.protocol + '//' + loc.host + loc.pathname;

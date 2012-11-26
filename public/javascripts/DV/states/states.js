@@ -1,4 +1,35 @@
-DV.model.ViewerState = DV.Backbone.Model.extend({});
+// Viewer State machine
+// encapsulates the current state of the viewer
+// and manages which states the viewer can transition into
+// as well as notifications 
+DV.model.ViewerState = DV.Backbone.Model.extend({
+
+  initialize: function(attributes, options){ 
+    this.viewer = this.get('viewer');
+    // TODO:
+    // iterate over the state names to create a list 
+    // of event namespaces to attach callbacks to when
+    // a transition is made.
+  },
+  
+  transitionTo: function(name) {
+    // call state function
+    this.states[name].apply(this.viewer, arguments);
+    // Trigger event announcing transition into state.
+    // ??? do something.
+  },
+
+  states: {
+    InitialLoad: function() {
+      console.log("InitialLoad");
+    },
+    ViewAnnotation: function(){ console.log("View Annotation"); },
+    ViewDocument: function() {},
+    ViewSearch: function() {},
+    ViewText: function() {},
+    ViewThumbnails: function() {}
+  }
+});
 
 DV.Schema.states = {
 
