@@ -137,3 +137,9 @@ DV.model.Document.prototype = {
   }
 
 };
+
+DV.model.Document = DV.Backbone.Model.extend({
+  
+});
+
+DV.model.DocumentSet = DV.Backbone.Collection.extend({});

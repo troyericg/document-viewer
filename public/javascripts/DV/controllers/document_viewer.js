@@ -173,3 +173,83 @@ DV.load = function(documentRep, options) {
 // script to specify the onLoad behavior.
 if (DV.onload) _.defer(DV.onload);
 
+// New Viewer
+
+DV.DocumentViewer = DV.Backbone.View.extend({
+  // Instance Properties
+  
+  initialize: function(options) {
+    this.options  = options;
+    
+  },
+  // transition between viewer states.
+  open: function(state) {  },
+  slapIE: function(){ this.$el.css({zoom: 0.99}).css({zoom: 1}); },
+  notifyChangedState: function(){
+    
+  },
+  recordHit: function(hitUrl){ // pulled wholesale
+    var loc = window.location;
+    var url = loc.protocol + '//' + loc.host + loc.pathname;
+    if (url.match(/^file:/)) return false;
+    url = url.replace(/[\/]+$/, '');
+    var id   = parseInt(this.api.getId(), 10);
+    var key  = encodeURIComponent('document:' + id + ':' + url);
+    DV.jQuery(document.body).append('<img alt="" width="1" height="1" src="' + hitUrl + '?key=' + key + '" />');
+  }
+});
+
+// The origin function, kicking off the entire documentViewer render.
+DV.load = function(documentRep, options) {
+  options = options || {};
+  var id  = documentRep.id || documentRep.match(/([^\/]+)(\.js|\.json)$/)[1];
+  if ('showSidebar' in options) options.sidebar = options.showSidebar;
+  var defaults = {
+    container : document.body,
+    zoom      : 'auto',
+    sidebar   : true
+  };
+  options            = _.extend({}, defaults, options);
+  options.fixedSize  = !!(options.width || options.height);
+  var viewer         = new DV.DocumentViewer(options);
+  DV.viewers[id]     = viewer;
+  // Once we have the JSON representation in-hand, finish loading the viewer.
+  var continueLoad = DV.loadJSON = function(json) {
+    var viewer = DV.viewers[json.id];
+    DV.documents.add(json);
+    //viewer.schema.importCanonicalDocument(json);
+    //viewer.loadModels();
+    DV.jQuery(function() {
+      viewer.open('InitialLoad');
+      if (options.afterLoad) options.afterLoad(viewer);
+      if (DV.afterLoad) DV.afterLoad(viewer);
+      if (DV.recordHit) viewer.recordHit(DV.recordHit);
+    });
+  };
+
+  // If we've been passed the JSON directly, we can go ahead,
+  // otherwise make a JSONP request to fetch it.
+  var jsonLoad = function() {
+    if (_.isString(documentRep)) {
+      if (documentRep.match(/\.js$/)) {
+        DV.jQuery.getScript(documentRep);
+      } else {
+        var crossDomain = viewer.helpers.isCrossDomain(documentRep);
+        if (crossDomain) documentRep = documentRep + '?callback=?';
+        DV.jQuery.getJSON(documentRep, continueLoad);
+      }
+    } else {
+      continueLoad(documentRep);
+    }
+  };
+
+  // If we're being asked the fetch the templates, load them remotely before
+  // continuing.
+  if (options.templates) {
+    DV.jQuery.getScript(options.templates, jsonLoad);
+  } else {
+    jsonLoad();
+  }
+
+  return viewer;
+};
