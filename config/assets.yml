@@ -14,6 +14,7 @@ javascripts:
     - public/javascripts/DV/schema/*.js
     - public/javascripts/DV/elements/*.js
     - public/javascripts/DV/models/*.js
+    - public/javascripts/DV/views/*.js
     - public/javascripts/DV/events/events.js
     - public/javascripts/DV/events/View*.js
     - public/javascripts/DV/events/*.js
@@ -23,7 +24,7 @@ javascripts:
     - public/javascripts/DV/controllers/*.js
 
   templates:
-    - public/javascripts/DV/views/*.jst
+    - public/javascripts/DV/templates/*.jst
 
 stylesheets:
   viewer:
