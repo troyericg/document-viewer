@@ -391,6 +391,8 @@ DV.Schema.helpers = {
       return { page: currentPage, zoom: docModel.zoomLevel, view: this.viewer.state };
     },
 
+    // Unclear why this is in helpers/helpers.js and not in helpers/construction.js
+    // generates markup.
     constructPages: function(){
       var pages = [];
       var totalPagesToCreate = (this.viewer.schema.data.totalPages < 3) ? this.viewer.schema.data.totalPages : 3;
