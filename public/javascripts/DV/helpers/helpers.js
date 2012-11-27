@@ -303,11 +303,11 @@ DV.Schema.helpers = {
     gotoPage: function(e){
       e.preventDefault();
       var aid           = this.viewer.$(e.target).parents('.DV-annotation').attr('rel').replace('aid-','');
-      var annotation    = this.models.annotations.getAnnotation(aid);
+      var annotation    = this.viewer.models.annotations.getAnnotation(aid);
       var viewer        = this.viewer;
 
       if(viewer.state !== 'ViewDocument'){
-        this.models.document.setPageIndex(annotation.index);
+        this.viewer.models.document.setPageIndex(annotation.index);
         viewer.open('ViewDocument');
         // this.viewer.history.save('document/p'+(parseInt(annotation.index,10)+1));
       }
@@ -316,7 +316,7 @@ DV.Schema.helpers = {
     openFullScreen : function() {
       var doc = this.viewer.schema.document;
       var url = doc.canonicalURL.replace(/#\S+$/,"");
-      var currentPage = this.models.document.currentPage();
+      var currentPage = this.viewer.models.document.currentPage();
 
       // construct url fragment based on current viewer state
       switch (this.viewer.state) {
@@ -366,9 +366,9 @@ DV.Schema.helpers = {
 
     jump: function(pageIndex, modifier, forceRedraw){
       modifier = (modifier) ? parseInt(modifier, 10) : 0;
-      var position = this.models.document.getOffset(parseInt(pageIndex, 10)) + modifier;
+      var position = this.viewer.models.document.getOffset(parseInt(pageIndex, 10)) + modifier;
       this.elements.window[0].scrollTop = position;
-      this.models.document.setPageIndex(pageIndex);
+      this.viewer.models.document.setPageIndex(pageIndex);
       if (forceRedraw) this.viewer.pageSet.redraw(true);
       if (this.viewer.state === 'ViewThumbnails') {
         this.viewer.thumbnails.highlightCurrentPage();
@@ -385,7 +385,7 @@ DV.Schema.helpers = {
     },
 
     getAppState: function(){
-      var docModel = this.models.document;
+      var docModel = this.viewer.models.document;
       var currentPage = (docModel.currentIndex() == 0) ? 1 : docModel.currentPage();
 
       return { page: currentPage, zoom: docModel.zoomLevel, view: this.viewer.state };
@@ -397,7 +397,7 @@ DV.Schema.helpers = {
       var pages = [];
       var totalPagesToCreate = (this.viewer.schema.data.totalPages < 3) ? this.viewer.schema.data.totalPages : 3;
 
-      var height = this.models.pages.height;
+      var height = this.viewer.models.pages.height;
       for (var i = 0; i < totalPagesToCreate; i++) {
         pages.push(JST.pages({ pageNumber: i+1, pageIndex: i , pageImageSource: null, baseHeight: height }));
       }

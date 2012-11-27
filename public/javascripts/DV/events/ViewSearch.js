@@ -1,12 +1,12 @@
 DV.Schema.events.ViewSearch = {
   next: function(e){
-    var nextPage = this.models.document.nextPage();
+    var nextPage = this.viewer.models.document.nextPage();
     this.loadText(nextPage);
 
     this.viewer.open('ViewText');
   },
   previous: function(e){
-    var previousPage = this.models.document.previousPage();
+    var previousPage = this.viewer.models.document.previousPage();
     this.loadText(previousPage);
 
     this.viewer.open('ViewText');

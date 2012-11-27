@@ -104,7 +104,7 @@ DV.Schema.states = {
     this.helpers.bindEvents(this);
 
     this.helpers.positionViewer();
-    this.models.document.computeOffsets();
+    this.viewer.models.document.computeOffsets();
     
     // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
     this.helpers.addObserver('drawPages');
@@ -143,9 +143,9 @@ DV.Schema.states = {
 
     this.helpers.toggleContent('viewDocument');
 
-    this.helpers.setActiveChapter(this.models.chapters.getChapterId(this.models.document.currentIndex()));
+    this.helpers.setActiveChapter(this.viewer.models.chapters.getChapterId(this.viewer.models.document.currentIndex()));
 
-    this.helpers.jump(this.models.document.currentIndex());
+    this.helpers.jump(this.viewer.models.document.currentIndex());
     return true;
   },
 

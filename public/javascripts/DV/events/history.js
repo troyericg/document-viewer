@@ -7,7 +7,7 @@ _.extend(DV.Schema.events, {
       this.viewer.pageSet.cleanUp();
       this.helpers.jump(pageIndex);
     }else{
-      this.models.document.setPageIndex(pageIndex);
+      this.viewer.models.document.setPageIndex(pageIndex);
       this.viewer.open('ViewDocument');
     }
   },
@@ -26,7 +26,7 @@ _.extend(DV.Schema.events, {
     if(this.viewer.state === 'ViewDocument'){
       this.viewer.pageSet.showAnnotation(this.viewer.models.annotations.byId[annotation]);
     }else{
-      this.models.document.setPageIndex(pageIndex);
+      this.viewer.models.document.setPageIndex(pageIndex);
       this.viewer.pageSet.setActiveAnnotation(annotation);
       this.viewer.openingAnnotationFromHash = true;
       this.viewer.open('ViewDocument');
@@ -49,7 +49,7 @@ _.extend(DV.Schema.events, {
   // Default route if all else fails
   handleHashChangeDefault: function(){
     this.viewer.pageSet.cleanUp();
-    this.models.document.setPageIndex(0);
+    this.viewer.models.document.setPageIndex(0);
 
     if(this.viewer.state === 'ViewDocument'){
       this.helpers.jump(0);
@@ -65,7 +65,7 @@ _.extend(DV.Schema.events, {
     if(this.viewer.state === 'ViewText'){
       this.events.loadText(pageIndex);
     }else{
-      this.models.document.setPageIndex(pageIndex);
+      this.viewer.models.document.setPageIndex(pageIndex);
       this.viewer.open('ViewText');
     }
   },
@@ -81,7 +81,7 @@ _.extend(DV.Schema.events, {
     this.elements.searchInput.val(decodeURIComponent(query));
 
     if(this.viewer.state !== 'ViewSearch'){
-      this.models.document.setPageIndex(pageIndex);
+      this.viewer.models.document.setPageIndex(pageIndex);
     }
     this.viewer.open('ViewSearch');
   },
@@ -91,7 +91,7 @@ _.extend(DV.Schema.events, {
     page = parseInt(page,10) - 1;
     name = decodeURIComponent(name);
     this.elements.searchInput.val(name);
-    this.models.document.setPageIndex(page);
+    this.viewer.models.document.setPageIndex(page);
     this.states.ViewEntity(name, parseInt(offset, 10), parseInt(length, 10));
   }
 });

@@ -1,10 +1,10 @@
 DV.Schema.events.ViewText = {
   next: function(e){
-    var nextPage = this.models.document.nextPage();
+    var nextPage = this.viewer.models.document.nextPage();
     this.loadText(nextPage);
   },
   previous: function(e){
-    var previousPage = this.models.document.previousPage();
+    var previousPage = this.viewer.models.document.previousPage();
     this.loadText(previousPage);
   },
   search: function(e){

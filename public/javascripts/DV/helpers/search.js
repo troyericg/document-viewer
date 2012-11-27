@@ -33,7 +33,7 @@ _.extend(DV.Schema.helpers, {
 
     pageIndex       = (pageIndex === '') ? 0 : pageIndex;
     pageIndex       = (pageIndex < 0) ? 0 : pageIndex;
-    pageIndex       = (pageIndex+1 > this.models.document.totalPages) ? this.models.document.totalPages-1 : pageIndex;
+    pageIndex       = (pageIndex+1 > this.viewer.models.document.totalPages) ? this.viewer.models.document.totalPages-1 : pageIndex;
     var pageNumber  = pageIndex+1;
 
     this.elements.currentPage.text(pageNumber);
@@ -65,7 +65,7 @@ _.extend(DV.Schema.helpers, {
       this.viewer.$('.DV-searchResults').removeClass('DV-noResults');
     }
     for(var i = 0; i < response.results.length; i++){
-      if(this.models.document.currentPage() === response.results[i]){
+      if(this.viewer.models.document.currentPage() === response.results[i]){
         currentResultEl.text('Page ' + (i+1) + ' ');
         break;
       }
@@ -161,7 +161,7 @@ _.extend(DV.Schema.helpers, {
     if(!searchResponse) {
       return false;
     }
-    var docModel = this.models.document;
+    var docModel = this.viewer.models.document;
     for(var i = 0,len = searchResponse.results.length; i<len;i++){
       if(searchResponse.results[i] === docModel.currentPage()){
         return i;
@@ -185,7 +185,7 @@ _.extend(DV.Schema.helpers, {
     this.viewer.$('span.DV-totalSearchResult').text('');
     this.viewer.$('span.DV-searchQuery').text(name);
     this.viewer.$('span.DV-currentSearchResult').text("Searching");
-    this.events.loadText(this.models.document.currentIndex(), _.bind(this.viewer.helpers.highlightEntity, this.viewer.helpers, offset, length));
+    this.events.loadText(this.viewer.models.document.currentIndex(), _.bind(this.viewer.helpers.highlightEntity, this.viewer.helpers, offset, length));
   },
   cleanUpSearch: function(){
     var viewer            = this.viewer;
