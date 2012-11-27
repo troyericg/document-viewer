@@ -64,7 +64,7 @@ _.extend(DV.Schema.helpers, {
       return;
     }
 
-    var elements  = this.viewer.elements.
+    var elements  = this.viewer.elements;
     var aPage     = annotation.page;
     var aEl       = annotation.annotationEl;
     var aPosTop   = annotation.position.top * this.viewer.models.pages.zoomFactor();

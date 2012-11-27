@@ -364,7 +364,7 @@ DV.Schema.helpers = {
 
     // setWindowSize: function(windowDimensions){
     //   var viewer          = this.viewer;
-    //   var elements        = this.viewer.elements.
+    //   var elements        = this.viewer.elements;
     //   var headerHeight    = elements.header.outerHeight() + 15;
     //   var offset          = DV.jQuery(this.viewer.options.container).offset().top;
     //   var uiHeight        = Math.round((windowDimensions.height) - headerHeight - offset);
