@@ -7,7 +7,7 @@ _.extend(DV.Schema.helpers, {
   },
 
   renderViewer: function(){
-    var doc         = this.viewer.schema.document;
+    var doc         = this.viewer.model.toJSON();
     var pagesHTML   = this.constructPages();
     var description = (doc.description) ? doc.description : null;
     var storyURL = doc.resources.related_article;
