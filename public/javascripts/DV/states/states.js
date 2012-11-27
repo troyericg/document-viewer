@@ -10,7 +10,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
   },
 
   initialize: function(attributes, options){ 
-    this.viewer = this.get('viewer');
+    this.viewer = options.viewer;
     
     // TODO:
     // iterate over the state names to create a list 
