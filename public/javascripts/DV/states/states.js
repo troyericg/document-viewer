@@ -27,7 +27,7 @@ DV.Schema.states = {
     this.helpers.bindEvents(this);
 
     this.helpers.positionViewer();
-    this.models.document.computeOffsets();
+    this.viewer.models.document.computeOffsets();
     this.helpers.addObserver('drawPages');
     this.helpers.registerHashChangeEvents();
     this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
@@ -61,9 +61,9 @@ DV.Schema.states = {
 
     this.helpers.toggleContent('viewDocument');
 
-    this.helpers.setActiveChapter(this.models.chapters.getChapterId(this.models.document.currentIndex()));
+    this.helpers.setActiveChapter(this.viewer.models.chapters.getChapterId(this.viewer.models.document.currentIndex()));
 
-    this.helpers.jump(this.models.document.currentIndex());
+    this.helpers.jump(this.viewer.models.document.currentIndex());
     return true;
   },
 

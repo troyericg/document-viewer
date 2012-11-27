@@ -11,7 +11,7 @@ _.extend(DV.Schema.events, {
 
     }else if (noteEl.length) {
       var aid         = noteEl[0].id.replace('DV-annotationMarker-','');
-      var annotation  = this.models.annotations.getAnnotation(aid);
+      var annotation  = this.viewer.models.annotations.getAnnotation(aid);
       var pageNumber  = parseInt(annotation.index,10)+1;
 
       if(this.viewer.state === 'ViewText'){
@@ -29,7 +29,7 @@ _.extend(DV.Schema.events, {
       // its a header, take it to the page
       chapterEl.removeClass('DV-collapsed');
       var cid           = parseInt(chapterEl[0].id.replace('DV-chapter-',''), 10);
-      var chapterIndex  = parseInt(this.models.chapters.getChapterPosition(cid),10);
+      var chapterIndex  = parseInt(this.viewer.models.chapters.getChapterPosition(cid),10);
       var pageNumber    = parseInt(chapterIndex,10)+1;
 
       if(this.viewer.state === 'ViewText'){

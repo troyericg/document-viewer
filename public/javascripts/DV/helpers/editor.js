@@ -11,7 +11,7 @@ _.extend(DV.Schema.helpers,{
     this.viewer.$('.DV-annotationTitleInput', annoEl).val(anno.title);
     this.viewer.$('.DV-annotationTextArea', annoEl).val(anno.text);
     if (anno.unsaved) {
-      this.models.annotations.removeAnnotation(anno);
+      this.viewer.models.annotations.removeAnnotation(anno);
     } else {
       annoEl.removeClass('DV-editing');
     }
@@ -34,17 +34,17 @@ _.extend(DV.Schema.helpers,{
         (!anno.title || anno.title == 'Untitled Note') &&
         !anno.text &&
         !anno.server_id) {
-      return this.models.annotations.removeAnnotation(anno);
+      return this.viewer.models.annotations.removeAnnotation(anno);
     }
     annoEl.removeClass('DV-editing');
-    this.models.annotations.fireSaveCallbacks(anno);
+    this.viewer.models.annotations.fireSaveCallbacks(anno);
     this.viewer.api.redraw(true);
     if (this.viewer.activeAnnotation) this.viewer.pageSet.showAnnotation(anno);
   },
   deleteAnnotation : function(e) {
     var annoEl = this.viewer.$(e.target).closest(this.annotationClassName);
     var anno   = this.getAnnotationModel(annoEl);
-    this.models.annotations.removeAnnotation(anno);
-    this.models.annotations.fireDeleteCallbacks(anno);
+    this.viewer.models.annotations.removeAnnotation(anno);
+    this.viewer.models.annotations.fireDeleteCallbacks(anno);
   }
 });

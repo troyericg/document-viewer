@@ -3,7 +3,7 @@ _.extend(DV.Schema.helpers, {
 
   showAnnotations : function() {
     if (this.viewer.options.showAnnotations === false) return false;
-    return _.size(this.models.annotations.byId) > 0;
+    return _.size(this.viewer.models.annotations.byId) > 0;
   },
 
   renderViewer: function(){
@@ -73,7 +73,7 @@ _.extend(DV.Schema.helpers, {
 
   renderSpecificPageCss : function() {
     var classes = [];
-    for (var i = 1, l = this.models.document.totalPages; i <= l; i++) {
+    for (var i = 1, l = this.viewer.models.document.totalPages; i <= l; i++) {
       classes.push('.DV-page-' + i + ' .DV-pageSpecific-' + i);
     }
     var css = classes.join(', ') + ' { display: block; }';
@@ -94,7 +94,7 @@ _.extend(DV.Schema.helpers, {
         bolds.push("#DV-selectedAnnotation-" + note.id + " #DV-annotationMarker-" + note.id + " .DV-navAnnotationTitle");
         return JST['annotationNav'](note);
       };
-      for(var i = 0; i < this.models.document.totalPages; i++){
+      for(var i = 0; i < this.viewer.models.document.totalPages; i++){
         var noteData = this.viewer.schema.data.annotationsByPage[i];
         if(noteData){ notes[i] = nav[i] = _.map(noteData, markupNote).join(''); }
       }
@@ -162,7 +162,7 @@ _.extend(DV.Schema.helpers, {
 
     // Hide and show navigation flags:
     var showAnnotations = this.showAnnotations();
-    var showPages       = this.models.document.totalPages > 1;
+    var showPages       = this.viewer.models.document.totalPages > 1;
     var showSearch      = (this.viewer.options.search !== false) &&
                           (this.viewer.options.text !== false) &&
                           (!this.viewer.options.width || this.viewer.options.width >= 540);
@@ -197,7 +197,7 @@ _.extend(DV.Schema.helpers, {
     this.viewer.api.roundTabCorners();
 
     // Hide the entire sidebar, if there are no annotations or sections.
-    var showChapters = this.models.chapters.chapters.length > 0;
+    var showChapters = this.viewer.models.chapters.chapters.length > 0;
 
     // Remove and re-render the nav controls.
     // Don't show the nav controls if there's no sidebar, and it's a one-page doc.
@@ -234,7 +234,7 @@ _.extend(DV.Schema.helpers, {
 
     // Set the currentPage element reference.
     this.elements.currentPage = this.viewer.$('span.DV-currentPage');
-    this.models.document.setPageIndex(this.models.document.currentIndex());
+    this.viewer.models.document.setPageIndex(this.viewer.models.document.currentIndex());
   },
 
   // Reset the view state to a baseline, when transitioning between views.

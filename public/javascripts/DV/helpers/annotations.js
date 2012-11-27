@@ -1,7 +1,7 @@
 _.extend(DV.Schema.helpers, {
   getAnnotationModel : function(annoEl) {
     var annoId = parseInt(annoEl.attr('rel').match(/\d+/), 10);
-    return this.models.annotations.getAnnotation(annoId);
+    return this.viewer.models.annotations.getAnnotation(annoId);
   },
   // Return the annotation Object that connects with the element in the DOM
   getAnnotationObject: function(annotation){
@@ -67,7 +67,7 @@ _.extend(DV.Schema.helpers, {
     var elements  = this.elements;
     var aPage     = annotation.page;
     var aEl       = annotation.annotationEl;
-    var aPosTop   = annotation.position.top * this.models.pages.zoomFactor();
+    var aPosTop   = annotation.position.top * this.viewer.models.pages.zoomFactor();
     var _trackAnnotation = this.events.trackAnnotation;
 
     if(annotation.type === 'page'){

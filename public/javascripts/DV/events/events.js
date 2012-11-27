@@ -16,7 +16,7 @@ DV.Schema.events = {
   // Draw (or redraw) the visible pages on the screen.
   drawPages: function() {
     if (this.viewer.state != 'ViewDocument') return;
-    var doc           = this.models.document;
+    var doc           = this.viewer.models.document;
     var win           = this.elements.window[0];
     var offsets       = doc.baseHeightsPortionOffsets;
     var scrollPos     = this.viewer.scrollPosition = win.scrollTop;
@@ -33,7 +33,7 @@ DV.Schema.events = {
   // Draw the page at the given index.
   drawPageAt : function(pageIds, index) {
     var first = index == 0;
-    var last  = index == this.models.document.totalPages - 1;
+    var last  = index == this.viewer.models.document.totalPages - 1;
     if (first) index += 1;
     var pages = [
       { label: pageIds[0], index: index - 1 },
@@ -58,7 +58,7 @@ DV.Schema.events = {
 
   loadText: function(pageIndex,afterLoad){
 
-    pageIndex = (!pageIndex) ? this.models.document.currentIndex() : parseInt(pageIndex,10);
+    pageIndex = (!pageIndex) ? this.viewer.models.document.currentIndex() : parseInt(pageIndex,10);
     this._previousTextIndex = pageIndex;
 
     var me = this;
