@@ -90,6 +90,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     // Legacy components to be refactored
     this.helpers  = _.extend({}, DV.Schema.helpers);
     this.api      = new DV.Api(this);
+    this.models   = {};
     
     // Extend helpers with viewer references to provide 
     // access to viewer internals in the helper namespace.

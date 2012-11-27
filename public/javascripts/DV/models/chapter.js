@@ -10,13 +10,15 @@ DV.model.Chapters.prototype = {
 
   // Load (or reload) the chapter model from the schema's defined sections.
   loadChapters : function() {
-    var sections = this.viewer.schema.data.sections;
-    var chapters = this.chapters = this.viewer.schema.data.chapters = [];
-    var pageCount = this.viewer.schema.data.totalPages;
+    var doc = this.viewer.model;
+    var sections = doc.sections;
+    // not clear why we're even keeping an inverted index of pages => chapter/sections
+    var chapters = this.chapters = doc.chapters = [];
+    var pageCount = doc.totalPages;
 
     if (sections.length < 1) return; // short circuit if there are no sections
 
-    _.each(sections, function(section){ 
+    sections.each(function(section){ 
       // make sure each section has a unique id we can reference.
       section.id || (section.id = _.uniqueId());
 

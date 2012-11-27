@@ -164,7 +164,11 @@ DV.model.Document = DV.Backbone.Model.extend({
   initialize: function(attributes, options) {
     this.sections = new DV.model.SectionSet(attributes.sections);
     this.notes    = new DV.model.NoteSet(attributes.annotations);
-    this.set('canonicalURL', this.get('canonical_url'));
+    
+    // Legacy behavior (which must be replaced in order to guarantee
+    // data integrity via setters)
+    this.totalPages   = this.get('pages');
+    this.canonicalURL = this.get('canonical_url');
   }
 });
 
