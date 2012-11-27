@@ -54,7 +54,7 @@ _.extend(DV.Schema.helpers, {
   },
   // Update currentpage text to indicate current annotation
   setAnnotationPosition: function(_position){
-    this.elements.currentPage.text(_position);
+    this.viewer.elements.currentPage.text(_position);
   },
   // Update active annotation limits
   setActiveAnnotationLimits: function(annotation){
@@ -64,7 +64,7 @@ _.extend(DV.Schema.helpers, {
       return;
     }
 
-    var elements  = this.elements;
+    var elements  = this.viewer.elements.
     var aPage     = annotation.page;
     var aEl       = annotation.annotationEl;
     var aPosTop   = annotation.position.top * this.viewer.models.pages.zoomFactor();

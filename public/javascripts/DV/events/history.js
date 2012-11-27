@@ -78,7 +78,7 @@ _.extend(DV.Schema.events, {
   // #search/[searchString]
   handleHashChangeViewSearchRequest: function(page,query){
     var pageIndex = parseInt(page,10) - 1;
-    this.elements.searchInput.val(decodeURIComponent(query));
+    this.viewer.elements.searchInput.val(decodeURIComponent(query));
 
     if(this.viewer.state !== 'ViewSearch'){
       this.viewer.models.document.setPageIndex(pageIndex);
@@ -90,7 +90,7 @@ _.extend(DV.Schema.events, {
   handleHashChangeViewEntity: function(page, name, offset, length) {
     page = parseInt(page,10) - 1;
     name = decodeURIComponent(name);
-    this.elements.searchInput.val(name);
+    this.viewer.elements.searchInput.val(name);
     this.viewer.models.document.setPageIndex(page);
     this.states.ViewEntity(name, parseInt(offset, 10), parseInt(length, 10));
   }

@@ -175,7 +175,7 @@ _.extend(DV.Schema.helpers, {
 
     // Hide the text tab, if it's disabled.
     if (showSearch) {
-      this.elements.viewer.addClass('DV-searchable');
+      this.viewer.elements.viewer.addClass('DV-searchable');
       this.viewer.$('input.DV-searchInput', containerEl).placeholder({
         message: 'Search',
         clearClassName: 'DV-searchInput-show-search-cancel'
@@ -215,7 +215,7 @@ _.extend(DV.Schema.helpers, {
       var fullscreenControl = JST['fullscreenControl']({});
       if (noFooter) {
         this.viewer.$('.DV-collapsibleControls').prepend(fullscreenControl);
-        this.elements.viewer.addClass('DV-hideFooter');
+        this.viewer.elements.viewer.addClass('DV-hideFooter');
       } else {
         this.viewer.$('.DV-fullscreenContainer').html(fullscreenControl);
       }
@@ -227,13 +227,13 @@ _.extend(DV.Schema.helpers, {
 
     // Check if the zoom is showing, and if not, shorten the width of search
     _.defer(_.bind(function() {
-      if ((this.elements.viewer.width() <= 700) && (showAnnotations || showPages || showSearch)) {
+      if ((this.viewer.elements.viewer.width() <= 700) && (showAnnotations || showPages || showSearch)) {
         this.viewer.$('.DV-controls').addClass('DV-narrowControls');
       }
     }, this));
 
     // Set the currentPage element reference.
-    this.elements.currentPage = this.viewer.$('span.DV-currentPage');
+    this.viewer.elements.currentPage = this.viewer.$('span.DV-currentPage');
     this.viewer.models.document.setPageIndex(this.viewer.models.document.currentIndex());
   },
 
@@ -244,7 +244,7 @@ _.extend(DV.Schema.helpers, {
     this.viewer.pageSet.cleanUp();
     this.removeObserver('drawPages');
     this.viewer.dragReporter.unBind();
-    this.elements.window.scrollTop(0);
+    this.viewer.elements.window.scrollTop(0);
   }
 
 });

@@ -125,8 +125,8 @@ DV.Schema.states = {
     this.acceptInput.deny();
     // Nudge IE to force the annotations to repaint.
     if (DV.jQuery.browser.msie) {
-      this.elements.annotations.css({zoom : 0});
-      this.elements.annotations.css({zoom : 1});
+      this.viewer.elements.annotations.css({zoom : 0});
+      this.viewer.elements.annotations.css({zoom : 1});
     }
 
     this.helpers.toggleContent('viewAnnotations');
@@ -138,7 +138,7 @@ DV.Schema.states = {
     this.helpers.reset();
     this.helpers.addObserver('drawPages');
     this.dragReporter.setBinding();
-    this.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
+    this.viewer.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
     this.acceptInput.allow();
 
     this.helpers.toggleContent('viewDocument');
@@ -158,10 +158,10 @@ DV.Schema.states = {
   ViewSearch: function(){
     this.helpers.reset();
 
-    if(this.elements.searchInput.val() == '') {
-      this.elements.searchInput.val(searchRequest);
+    if(this.viewer.elements.searchInput.val() == '') {
+      this.viewer.elements.searchInput.val(searchRequest);
     } else {
-      var searchRequest = this.elements.searchInput.val();
+      var searchRequest = this.viewer.elements.searchInput.val();
     }
 
     this.helpers.getSearchResponse(searchRequest);

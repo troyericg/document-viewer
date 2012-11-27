@@ -70,10 +70,10 @@ DV.Schema.helpers = {
       // Prevent navigation elements from being selectable when clicked.
       viewer.$('.DV-trigger').bind('selectstart', function(){ return false; });
 
-      this.elements.viewer.delegate('.DV-fullscreen', 'click', _.bind(this.openFullScreen, this));
+      this.viewer.elements.viewer.delegate('.DV-fullscreen', 'click', _.bind(this.openFullScreen, this));
 
       var boundToggle  = DV.jQuery.proxy(this.annotationBridgeToggle, this);
-      var collection   = this.elements.collection;
+      var collection   = this.viewer.elements.collection;
 
       collection.delegate('.DV-annotationTab','click', boundToggle);
       collection.delegate('.DV-annotationRegion','click', DV.jQuery.proxy(this.annotationBridgeShow, this));
@@ -102,12 +102,12 @@ DV.Schema.helpers = {
 
       // Handle iPad / iPhone scroll events...
       _.bindAll(this, 'touchStart', 'touchMove', 'touchEnd');
-      this.elements.window[0].ontouchstart  = this.touchStart;
-      this.elements.window[0].ontouchmove   = this.touchMove;
-      this.elements.window[0].ontouchend    = this.touchEnd;
-      this.elements.well[0].ontouchstart    = this.touchStart;
-      this.elements.well[0].ontouchmove     = this.touchMove;
-      this.elements.well[0].ontouchend      = this.touchEnd;
+      this.viewer.elements.window[0].ontouchstart  = this.touchStart;
+      this.viewer.elements.window[0].ontouchmove   = this.touchMove;
+      this.viewer.elements.window[0].ontouchend    = this.touchEnd;
+      this.viewer.elements.well[0].ontouchstart    = this.touchStart;
+      this.viewer.elements.well[0].ontouchmove     = this.touchMove;
+      this.viewer.elements.well[0].ontouchend      = this.touchEnd;
 
       viewer.$('.DV-descriptionToggle').live('click',function(e){
         e.preventDefault();
@@ -119,7 +119,7 @@ DV.Schema.helpers = {
 
       var cleanUp = DV.jQuery.proxy(viewer.pageSet.cleanUp, this);
 
-      this.elements.window.live('mousedown',
+      this.viewer.elements.window.live('mousedown',
         function(e){
           var el = viewer.$(e.target);
           if (el.parents().is('.DV-annotation') || el.is('.DV-annotation')) return true;
@@ -134,19 +134,19 @@ DV.Schema.helpers = {
       var docId = viewer.schema.document.id;
 
       if(DV.jQuery.browser.msie == true){
-        this.elements.browserDocument.bind('focus.' + docId, DV.jQuery.proxy(this.focusWindow,this));
-        this.elements.browserDocument.bind('focusout.' + docId, DV.jQuery.proxy(this.focusOut,this));
+        this.viewer.elements.browserDocument.bind('focus.' + docId, DV.jQuery.proxy(this.focusWindow,this));
+        this.viewer.elements.browserDocument.bind('focusout.' + docId, DV.jQuery.proxy(this.focusOut,this));
       }else{
-        this.elements.browserWindow.bind('focus.' + docId, DV.jQuery.proxy(this.focusWindow,this));
-        this.elements.browserWindow.bind('blur.' + docId, DV.jQuery.proxy(this.blurWindow,this));
+        this.viewer.elements.browserWindow.bind('focus.' + docId, DV.jQuery.proxy(this.focusWindow,this));
+        this.viewer.elements.browserWindow.bind('blur.' + docId, DV.jQuery.proxy(this.blurWindow,this));
       }
 
       // When the document is scrolled, even in the background, resume polling.
-      this.elements.window.bind('scroll.' + docId, DV.jQuery.proxy(this.focusWindow, this));
+      this.viewer.elements.window.bind('scroll.' + docId, DV.jQuery.proxy(this.focusWindow, this));
 
-      this.elements.coverPages.live('mousedown', cleanUp);
+      this.viewer.elements.coverPages.live('mousedown', cleanUp);
 
-      viewer.acceptInput = this.elements.currentPage.acceptInput({ changeCallBack: DV.jQuery.proxy(this.acceptInputCallBack,this) });
+      viewer.acceptInput = this.viewer.elements.currentPage.acceptInput({ changeCallBack: DV.jQuery.proxy(this.acceptInputCallBack,this) });
 
     },
 
@@ -155,8 +155,8 @@ DV.Schema.helpers = {
       var viewer = this.viewer;
       var docId = viewer.schema.document.id;
       if(DV.jQuery.browser.msie == true){
-        this.elements.browserDocument.unbind('focus.' + docId);
-        this.elements.browserDocument.unbind('focusout.' + docId);
+        this.viewer.elements.browserDocument.unbind('focus.' + docId);
+        this.viewer.elements.browserDocument.unbind('focusout.' + docId);
       }else{
         viewer.helpers.elements.browserWindow.unbind('focus.' + docId);
         viewer.helpers.elements.browserWindow.unbind('blur.' + docId);
@@ -278,14 +278,14 @@ DV.Schema.helpers = {
     },
 
     setDocHeight:   function(height,diff) {
-      this.elements.bar.css('height', height);
-      this.elements.window[0].scrollTop += diff;
+      this.viewer.elements.bar.css('height', height);
+      this.viewer.elements.window[0].scrollTop += diff;
     },
 
     getWindowDimensions: function(){
       var d = {
-        height: window.innerHeight ? window.innerHeight : this.elements.browserWindow.height(),
-        width: this.elements.browserWindow.width()
+        height: window.innerHeight ? window.innerHeight : this.viewer.elements.browserWindow.height(),
+        width: this.viewer.elements.browserWindow.width()
       };
       return d;
     },
@@ -297,7 +297,7 @@ DV.Schema.helpers = {
     },
 
     resetScrollState: function(){
-      this.elements.window.scrollTop(0);
+      this.viewer.elements.window.scrollTop(0);
     },
 
     gotoPage: function(e){
@@ -327,7 +327,7 @@ DV.Schema.helpers = {
           url += '#document/p' + currentPage;
           break;
         case 'ViewSearch':
-          url += '#search/p' + currentPage + '/' + encodeURIComponent(this.elements.searchInput.val());
+          url += '#search/p' + currentPage + '/' + encodeURIComponent(this.viewer.elements.searchInput.val());
           break;
         case 'ViewText':
           url += '#text/p' + currentPage;
@@ -361,13 +361,13 @@ DV.Schema.helpers = {
     },
 
     toggleContent: function(toggleClassName){
-      this.elements.viewer.removeClass('DV-viewText DV-viewSearch DV-viewDocument DV-viewAnnotations DV-viewThumbnails').addClass('DV-'+toggleClassName);
+      this.viewer.elements.viewer.removeClass('DV-viewText DV-viewSearch DV-viewDocument DV-viewAnnotations DV-viewThumbnails').addClass('DV-'+toggleClassName);
     },
 
     jump: function(pageIndex, modifier, forceRedraw){
       modifier = (modifier) ? parseInt(modifier, 10) : 0;
       var position = this.viewer.models.document.getOffset(parseInt(pageIndex, 10)) + modifier;
-      this.elements.window[0].scrollTop = position;
+      this.viewer.elements.window[0].scrollTop = position;
       this.viewer.models.document.setPageIndex(pageIndex);
       if (forceRedraw) this.viewer.pageSet.redraw(true);
       if (this.viewer.state === 'ViewThumbnails') {
@@ -376,7 +376,7 @@ DV.Schema.helpers = {
     },
 
     shift: function(argHash){
-      var windowEl        = this.elements.window;
+      var windowEl        = this.viewer.elements.window;
       var scrollTopShift  = windowEl.scrollTop() + argHash.deltaY;
       var scrollLeftShift  = windowEl.scrollLeft() + argHash.deltaX;
 
@@ -408,8 +408,8 @@ DV.Schema.helpers = {
     // Position the viewer on the page. For a full screen viewer, this means
     // absolute from the current y offset to the bottom of the viewport.
     positionViewer : function() {
-      var offset = this.elements.viewer.position();
-      this.elements.viewer.css({position: 'absolute', top: offset.top, bottom: 0, left: offset.left, right: offset.left});
+      var offset = this.viewer.elements.viewer.position();
+      this.viewer.elements.viewer.css({position: 'absolute', top: offset.top, bottom: 0, left: offset.left, right: offset.left});
     },
 
     unsupportedBrowser : function() {
@@ -454,7 +454,7 @@ DV.Schema.helpers = {
     // Sets up the zoom slider to match the appropriate for the specified
     // initial zoom level, and real document page sizes.
     autoZoomPage: function() {
-      var windowWidth = this.elements.window.outerWidth(true);
+      var windowWidth = this.viewer.elements.window.outerWidth(true);
       var zoom;
       if (this.viewer.options.zoom == 'auto') {
         zoom = Math.min(700, windowWidth - (this.viewer.models.pages.getPadding() * 2));

@@ -28,7 +28,7 @@ _.extend(DV.Schema.helpers, {
     DV.jQuery.ajax({url : searchURI, dataType : 'json', success : handleResponse, error : failResponse});
   },
   acceptInputCallBack: function(){
-    var pageIndex = parseInt(this.elements.currentPage.text(),10) - 1;
+    var pageIndex = parseInt(this.viewer.elements.currentPage.text(),10) - 1;
     // sanitize input
 
     pageIndex       = (pageIndex === '') ? 0 : pageIndex;
@@ -36,7 +36,7 @@ _.extend(DV.Schema.helpers, {
     pageIndex       = (pageIndex+1 > this.viewer.models.document.totalPages) ? this.viewer.models.document.totalPages-1 : pageIndex;
     var pageNumber  = pageIndex+1;
 
-    this.elements.currentPage.text(pageNumber);
+    this.viewer.elements.currentPage.text(pageNumber);
     this.viewer.$('.DV-pageNumberContainer input').val(pageNumber);
 
     if(this.viewer.state === 'ViewDocument' ||
@@ -149,7 +149,7 @@ _.extend(DV.Schema.helpers, {
     var match = this.viewer.$('.DV-textContents span.DV-searchMatch:eq('+index+')');
     match.addClass('DV-highlightedMatch');
 
-    this.elements.window[0].scrollTop = match.position().top - 50;
+    this.viewer.elements.window[0].scrollTop = match.position().top - 50;
     if (searchResponse) searchResponse.highlighted = index;
 
     // cleanup
@@ -178,7 +178,7 @@ _.extend(DV.Schema.helpers, {
   },
 
   clearSearch: function(e) {
-    this.elements.searchInput.val('').keyup().focus();
+    this.viewer.elements.searchInput.val('').keyup().focus();
   },
 
   showEntity: function(name, offset, length) {
@@ -191,7 +191,7 @@ _.extend(DV.Schema.helpers, {
     var viewer            = this.viewer;
     viewer.searchResponse = null;
     viewer.toHighLight    = null;
-    if (this.elements) this.elements.searchInput.keyup().blur();
+    if (this.viewer.elements. this.viewer.elements.searchInput.keyup().blur();
   }
 
 });
