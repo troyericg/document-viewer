@@ -154,6 +154,8 @@ DV.load = function(documentRep, options) {
     
     // Since we're retaining the existing loading mechanism
     // we'll load the models manually.
+    // N.B. this does a shallow copy using _.clone, rather than
+    // jQuery.extend
     var doc = new DV.model.NewDocument(json);
     DV.documents.add(doc);
 
