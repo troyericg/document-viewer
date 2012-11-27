@@ -3,9 +3,15 @@
 // and manages which states the viewer can transition into
 // as well as notifications 
 DV.model.ViewerState = DV.Backbone.Model.extend({
+  defaults: {
+    zoomLevel: 700,
+    pageWidthPadding: 20,
+    additionalPaddingOnPage: 30
+  },
 
   initialize: function(attributes, options){ 
     this.viewer = this.get('viewer');
+    
     // TODO:
     // iterate over the state names to create a list 
     // of event namespaces to attach callbacks to when

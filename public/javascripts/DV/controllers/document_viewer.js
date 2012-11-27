@@ -86,7 +86,9 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.confirmStateChange = null;
     
     this.options  = options;
-    this.state    = new DV.model.ViewerState({viewer: this});
+    var state_data = {};
+    if (options.zoomLevel) state_data.zoomLevel = options.zoomLevel;
+    this.state    = new DV.model.ViewerState(state_data, { viewer: this });
 
     // Legacy components to be refactored
     this.helpers  = _.extend({}, DV.Schema.helpers);
