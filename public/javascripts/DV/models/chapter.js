@@ -23,6 +23,7 @@ DV.model.Chapters.prototype = {
 
       // make sure each section has a unique id we can reference.
       section.id || (section.id = _.uniqueId());
+      section.set('id', section.id);
       section.set('pageNumber', section.get('page'));
       section.set('endPage', nextSection ? nextSection.get('page') - 1 : pageCount);
 
