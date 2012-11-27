@@ -12,13 +12,13 @@ _.extend(DV.Schema.helpers, {
     var description = (doc.description) ? doc.description : null;
     var storyURL = doc.resources.related_article;
 
-    var headerHTML  = JST.header({
+    var headerHTML  = JST['header']({
       options     : this.viewer.options,
       id          : doc.id,
       story_url   : storyURL,
       title       : doc.title || ''
     });
-    var footerHTML = JST.footer({options : this.viewer.options});
+    var footerHTML = JST['footer']({options : this.viewer.options});
 
     var pdfURL = doc.resources.pdf;
     pdfURL = pdfURL && this.viewer.options.pdf !== false ? '<a target="_blank" href="' + pdfURL + '">Original Document (PDF) &raquo;</a>' : '';
@@ -38,7 +38,7 @@ _.extend(DV.Schema.helpers, {
       contributors: contribs,
       story_url: storyURL,
       print_notes_url: printNotesURL,
-      descriptionContainer: JST.descriptionContainer({ description: description}),
+      descriptionContainer: JST['descriptionContainer']({ description: description}),
       autoZoom: this.viewer.options.zoom == 'auto',
       mini: false
     };
@@ -60,7 +60,7 @@ _.extend(DV.Schema.helpers, {
     var container = this.viewer.options.container;
     var containerEl = DV.jQuery(container);
     if (!containerEl.length) throw "Document Viewer container element not found: " + container;
-    containerEl.html(JST.viewer(viewerOptions));
+    containerEl.html(JST['viewer'](viewerOptions));
   },
 
   // If there is no description, no navigation, and no sections, tighten up
@@ -83,7 +83,15 @@ _.extend(DV.Schema.helpers, {
 
   renderNavigation : function() {
     var me = this;
-    var chapterViews = [], bolds = [], expandIcons = [], expanded = [], navigationExpander = JST.navigationExpander({}),nav=[],notes = [],chapters = [];
+    var chapterViews = [], 
+        bolds = [], 
+        expandIcons = [], 
+        expanded = [], 
+        navigationExpander = JST['navigationExpander']({}),
+        nav=[],
+        notes = [],
+        chapters = [];
+        
     var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = _.uniqueId());
 
     /* ---------------------------------------------------- start the nav helper methods */
@@ -102,7 +110,7 @@ _.extend(DV.Schema.helpers, {
       var selectionRule = "#DV-selectedChapter-" + chapter.id + " #DV-chapter-" + chapter.id;
 
       bolds.push(selectionRule+" .DV-navChapterTitle");
-      return (JST.chapterNav(chapter));
+      return (JST['chapterNav'](chapter));
     };
 
     var createNavAnnotations = function(annotationIndex){
@@ -111,7 +119,7 @@ _.extend(DV.Schema.helpers, {
 
       for (var j=0; j<annotations.length; j++) {
         var annotation = annotations[j];
-        renderedAnnotations.push(JST.annotationNav(annotation));
+        renderedAnnotations.push(JST['annotationNav'](annotation));
         bolds.push("#DV-selectedAnnotation-" + annotation.id + " #DV-annotationMarker-" + annotation.id + " .DV-navAnnotationTitle");
       }
       return renderedAnnotations.join('');
@@ -119,7 +127,7 @@ _.extend(DV.Schema.helpers, {
     /* ---------------------------------------------------- end the nav helper methods */
 
     if (this.showAnnotations()) {
-      for(var i = 0,len = this.models.document.totalPages; i < len;i++){
+      for(var i = 0; i < this.models.document.totalPages; i++){
         if(this.viewer.schema.data.annotationsByPage[i]){
           nav[i]   = createNavAnnotations(i);
           notes[i] = nav[i];
@@ -225,7 +233,7 @@ _.extend(DV.Schema.helpers, {
     // Don't show the nav controls if there's no sidebar, and it's a one-page doc.
     this.viewer.$('.DV-navControls').remove();
     if (showPages || this.viewer.options.sidebar) {
-      var navControls = JST.navControls({
+      var navControls = JST['navControls']({
         totalPages: this.viewer.schema.data.totalPages,
         totalAnnotations: this.viewer.schema.data.totalAnnotations
       });
@@ -234,7 +242,7 @@ _.extend(DV.Schema.helpers, {
 
     this.viewer.$('.DV-fullscreenControl').remove();
     if (this.viewer.schema.document.canonicalURL) {
-      var fullscreenControl = JST.fullscreenControl({});
+      var fullscreenControl = JST['fullscreenControl']({});
       if (noFooter) {
         this.viewer.$('.DV-collapsibleControls').prepend(fullscreenControl);
         this.elements.viewer.addClass('DV-hideFooter');
