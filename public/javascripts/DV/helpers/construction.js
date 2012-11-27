@@ -97,7 +97,7 @@ _.extend(DV.Schema.helpers, {
     /* ---------------------------------------------------- start the nav helper methods */
     var getAnnotionsByRange = function(rangeStart, rangeEnd){
       var annotations = [];
-      for(var i = rangeStart, len = rangeEnd; i < len; i++){
+      for(var i = rangeStart; i < rangeEnd; i++){
         if(notes[i]){
           annotations.push(notes[i]);
           nav[i] = '';
@@ -110,55 +110,42 @@ _.extend(DV.Schema.helpers, {
       var selectionRule = "#DV-selectedChapter-" + chapter.id + " #DV-chapter-" + chapter.id;
 
       bolds.push(selectionRule+" .DV-navChapterTitle");
-      return (JST['chapterNav'](chapter));
+      return JST['chapterNav'](chapter);
     };
 
-    var createNavAnnotations = function(annotationIndex){
-      var renderedAnnotations = [];
-      var annotations = me.viewer.schema.data.annotationsByPage[annotationIndex];
-
-      for (var j=0; j<annotations.length; j++) {
-        var annotation = annotations[j];
-        renderedAnnotations.push(JST['annotationNav'](annotation));
-        bolds.push("#DV-selectedAnnotation-" + annotation.id + " #DV-annotationMarker-" + annotation.id + " .DV-navAnnotationTitle");
-      }
-      return renderedAnnotations.join('');
+    var createNavAnnotations = function(noteData){
+      var markupNote = function(note) {
+        bolds.push("#DV-selectedAnnotation-" + note.id + " #DV-annotationMarker-" + note.id + " .DV-navAnnotationTitle");
+        return JST['annotationNav'](note);
+      };
+      return _.map(noteData, markupNote).join('');
     };
+
     /* ---------------------------------------------------- end the nav helper methods */
 
     if (this.showAnnotations()) {
       for(var i = 0; i < this.models.document.totalPages; i++){
-        if(this.viewer.schema.data.annotationsByPage[i]){
-          nav[i]   = createNavAnnotations(i);
-          notes[i] = nav[i];
-        }
+        var noteData = this.viewer.schema.data.annotationsByPage[i];
+        if(noteData){ notes[i] = nav[i] = createNavAnnotations(noteData); }
       }
     }
 
     var sections = this.viewer.schema.data.sections;
-    if (sections.length) {
-      for (var i = 0; i < sections.length; i++) {
-        var section        = sections[i];
-        var nextSection    = sections[i + 1];
-        section.id         = section.id || _.uniqueId();
-        section.pageNumber = section.page;
-        section.endPage    = nextSection ? nextSection.page - 1 : this.viewer.schema.data.totalPages;
-        var annotations    = getAnnotionsByRange(section.pageNumber - 1, section.endPage);
-
-        if(annotations != '') {
-          section.navigationExpander       = navigationExpander;
-          section.navigationExpanderClass  = 'DV-hasChildren';
-          section.noteViews                = annotations;
-          nav[section.pageNumber - 1]      = createChapter(section);
-        } else {
-          section.navigationExpanderClass  = 'DV-noChildren';
-          section.noteViews                = '';
-          section.navigationExpander       = '';
-          nav[section.pageNumber - 1]      = createChapter(section);
-        }
+    _.each(sections, function(section){
+      var annotations    = getAnnotionsByRange(section.pageNumber - 1, section.endPage);
+      if(annotations != '') {
+        section.navigationExpander       = navigationExpander;
+        section.navigationExpanderClass  = 'DV-hasChildren';
+        section.noteViews                = annotations;
+        nav[section.pageNumber - 1]      = createChapter(section);
+      } else {
+        section.navigationExpanderClass  = 'DV-noChildren';
+        section.noteViews                = '';
+        section.navigationExpander       = '';
+        nav[section.pageNumber - 1]      = createChapter(section);
       }
-    }
-
+    });
+    
     // insert and observe the nav
     var navigationView = nav.join('');
 

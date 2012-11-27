@@ -15,9 +15,13 @@ DV.model.Chapters.prototype = {
     var pageCount = this.viewer.schema.data.totalPages;
 
     if (sections.length < 1) return; // short circuit if there are no sections
-    _.each(sections, function(section) {
+    _.each(sections, function(section, index) {
+      var nextSection = sections[index+1];
+      
       // make sure each section has a unique id we can reference.
       section.id || (section.id = _.uniqueId());
+      section.pageNumber = section.page;
+      section.endPage    = nextSection ? nextSection.page - 1 : pageCount;
 
       // so long as the pageIndex for the section is in bounds
       // assign the section to the appropriate page's chapter.
