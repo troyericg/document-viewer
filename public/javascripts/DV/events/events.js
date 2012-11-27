@@ -17,7 +17,7 @@ DV.Schema.events = {
   drawPages: function() {
     if (this.viewer.state != 'ViewDocument') return;
     var doc           = this.viewer.models.document;
-    var win           = this.elements.window[0];
+    var win           = this.viewer.elements.window[0];
     var offsets       = doc.baseHeightsPortionOffsets;
     var scrollPos     = this.viewer.scrollPosition = win.scrollTop;
     var midpoint      = scrollPos + (this.viewer.$(win).height() / 3);
@@ -107,7 +107,7 @@ DV.Schema.events = {
   trackAnnotation: function(){
     var viewer          = this.viewer;
     var helpers         = this.helpers;
-    var scrollPosition  = this.elements.window[0].scrollTop;
+    var scrollPosition  = this.viewer.elements.window[0].scrollTop;
 
     if(viewer.activeAnnotation){
       var annotation      = viewer.activeAnnotation;
