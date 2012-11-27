@@ -6,8 +6,8 @@ DV.model.Annotations = function(viewer) {
   this.offsetAdjustmentSum      = 0;
   this.saveCallbacks            = [];
   this.deleteCallbacks          = [];
-  this.byId                     = this.viewer.schema.data.annotationsById;
-  this.byPage                   = this.viewer.schema.data.annotationsByPage;
+  this.byId                     = this.viewer.model.notes.ById;
+  this.byPage                   = this.viewer.model.notes.ByPage;
   this.bySortOrder              = this.sortAnnotations();
 };
 
@@ -210,13 +210,31 @@ DV.model.Annotations.prototype = {
 DV.model.Note = DV.Backbone.Model.extend({});
 
 DV.model.NoteSet = DV.Backbone.Collection.extend({
-  byId: function(){
-    
+  model: DV.model.Note,
+  
+  // Default comparator set to sort by vertical order.
+  // The annotation presenter accesses notes in three ways
+  // byId, byPage and bySortOrder.  Only the last is an array
+  // so, we'll use it as the default order, and manually track
+  // the other two.
+  comparator: function(anno) { return anno.page * 10000 + anno.y1; },
+
+  initialize: function(data, options){
+    this.byId   = {};
+    this.byPage = {};
+
+    this.on( 'reset', function(){ this.each( _.bind(this.insertNoteIntoIndexes, this) ); }, this );
+    this.on( 'add', this.insertNoteIntoIndexes, this );
   },
-  byPage: function(){
+  
+  insertNoteIntoIndexes: function(note){
+    this.byId[note.id] = note;
     
-  },
-  bySortOrder: function(){
-    
+    var pageIndex = note.get('page') - 1;
+    var pageNotes = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
+    var insertionIndex = _.sortedIndex(pageNotes, note, function(n){ return n.y1; });
+    pageNotes.splice(insertionIndex, 0, note);
   }
+  
+  
 });

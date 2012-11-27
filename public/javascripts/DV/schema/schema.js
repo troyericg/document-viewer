@@ -51,9 +51,14 @@ DV.Schema.prototype.loadAnnotation = function(anno) {
   }else if(anno.type === 'page'){
     anno.y1 = 0; anno.x2 = 0; anno.y2 = 0; anno.x1 = 0;
   }
+  // insert note keyed by it's id into the annotationsById object.
   this.data.annotationsById[anno.id] = anno;
+  
+  // fetch (or initialize) the appropriate page of notes for the current note.
+  // Then insert the note into the page of notes according to its distance from the top of the page.
   var page = this.data.annotationsByPage[idx] = this.data.annotationsByPage[idx] || [];
   var insertionIndex = _.sortedIndex(page, anno, function(a){ return a.y1; });
   page.splice(insertionIndex, 0, anno);
+
   return anno;
 };
