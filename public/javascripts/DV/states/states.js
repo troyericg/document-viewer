@@ -68,10 +68,10 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); },
-    ViewDocument: function() {},
-    ViewSearch: function() {},
-    ViewText: function() {},
-    ViewThumbnails: function() {}
+    ViewDocument: function() { console.log("View Document"); },
+    ViewSearch: function() { console.log("View Search"); },
+    ViewText: function() { console.log("View Text"); },
+    ViewThumbnails: function() { console.log("View Thumbnails"); }
   }
 });
 
