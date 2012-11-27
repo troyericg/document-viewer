@@ -54,7 +54,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.bindEvents(this);
 
       this.helpers.positionViewer();
-      this.models.document.computeOffsets();
+      this.viewer.models.document.computeOffsets();
 
       // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
       this.helpers.addObserver('drawPages');
