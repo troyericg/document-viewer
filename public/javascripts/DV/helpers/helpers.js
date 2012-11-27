@@ -395,7 +395,7 @@ DV.Schema.helpers = {
     // generates markup.
     constructPages: function(){
       var pages = [];
-      var totalPagesToCreate = (this.viewer.schema.data.totalPages < 3) ? this.viewer.schema.data.totalPages : 3;
+      var totalPagesToCreate = (this.viewer.model.totalPages < 3) ? this.viewer.model.totalPages : 3;
 
       var height = this.viewer.models.pages.height;
       for (var i = 0; i < totalPagesToCreate; i++) {
