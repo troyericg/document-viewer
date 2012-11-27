@@ -18,19 +18,20 @@ DV.model.Document = function(viewer){
   this.additionalPaddingOnPage   = 0;
   this.ZOOM_RANGES               = [500, 700, 800, 900, 1000];
 
-  var data                       = this.viewer.schema.data;
+  //var data                       = this.viewer.schema.data;
+  var doc                        = this.viewer.model;
 
-  this.state                     = data.state;
-  this.baseImageURL              = data.baseImageURL;
-  this.canonicalURL              = data.canonicalURL;
-  this.additionalPaddingOnPage   = data.additionalPaddingOnPage;
-  this.pageWidthPadding          = data.pageWidthPadding;
-  this.totalPages                = data.totalPages;
+  //this.state                     = data.state;
+  //this.baseImageURL              = data.baseImageURL;
+  //this.canonicalURL              = data.canonicalURL;
+  this.additionalPaddingOnPage   = this.viewer.state.get('additionalPaddingOnPage');
+  this.pageWidthPadding          = this.viewer.state.get('pageWidthPadding');
+  this.totalPages                = doc.totalPages;
   
   this.onPageChangeCallbacks = [];
 
-  var zoom = this.zoomLevel = this.viewer.options.zoom || data.zoomLevel;
-  if (zoom == 'auto') this.zoomLevel = data.zoomLevel;
+  var zoom = this.zoomLevel = this.viewer.state.get('zoomLevel');
+  if (zoom == 'auto') this.zoomLevel = this.viewer.state.defaults.zoomLevel;
 
   // The zoom level cannot go over the maximum image width.
   var maxZoom = _.last(this.ZOOM_RANGES);
@@ -164,12 +165,12 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 DV.model.NewDocument = DV.Backbone.Model.extend({
   initialize: function(attributes, options) {
     this.sections = new DV.model.SectionSet(attributes.sections);
-    this.notes    = new DV.model.NoteSet(attributes.annotations);
+    this.notes    = new DV.model.NoteSet();
+    this.notes.reset(attributes.annotations);
     
     // Legacy behavior (which must be replaced in order to guarantee
     // data integrity via setters)
     this.totalPages   = this.get('pages');
-    this.canonicalURL = this.get('canonical_url');
   }
 });
 
