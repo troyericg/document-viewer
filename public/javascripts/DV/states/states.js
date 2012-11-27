@@ -28,6 +28,44 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
   states: {
     InitialLoad: function() {
       console.log("InitialLoad");
+      // If we're in an unsupported browser ... bail.
+      if (this.helpers.unsupportedBrowser()) return;
+
+      // Insert the Document Viewer HTML into the DOM.
+      this.helpers.renderViewer();
+
+      // Cache DOM node references.  See lib/elements.js and elements/elements.js for the actual list of elements.
+      this.elements = new DV.Elements(this);
+
+      // Render included components, and hide unused portions of the UI.
+      this.helpers.renderComponents();
+
+      // Render chapters and notes navigation:
+      this.helpers.renderNavigation();
+
+      // Render CSS rules for showing/hiding specific pages:
+      this.helpers.renderSpecificPageCss();
+
+      // Instantiate pageset and build accordingly
+      this.pageSet = new DV.PageSet(this);
+      this.pageSet.buildPages();
+
+      // BindEvents
+      this.helpers.bindEvents(this);
+
+      this.helpers.positionViewer();
+      this.models.document.computeOffsets();
+
+      // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
+      this.helpers.addObserver('drawPages');
+      this.helpers.registerHashChangeEvents();
+      this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
+
+      // Start observer timer loop.
+      this.helpers.startCheckTimer();
+      // If configured to do so, open the viewer to a non-default state.
+      this.helpers.handleInitialState();
+      _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); },
     ViewDocument: function() {},
