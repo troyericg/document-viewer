@@ -1,3 +1,9 @@
+// The Document Model is in actuality a rather
+// confused presenter conflated with viewer state storage.
+//
+// The Document "Model" such as it is should be converted
+// to a view and as much state as possible pushed into the
+// ViewerState model.
 DV.model.Document = function(viewer){
   this.viewer                    = viewer;
 
