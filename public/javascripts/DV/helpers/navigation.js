@@ -1,6 +1,6 @@
 _.extend(DV.Schema.helpers, {
   resetNavigationState: function(){
-    var elements                      = this.viewer.elements.
+    var elements                      = this.viewer.elements;
     if (elements.chaptersContainer.length) elements.chaptersContainer[0].id  = '';
     if (elements.navigation.length)        elements.navigation[0].id         = '';
   },
