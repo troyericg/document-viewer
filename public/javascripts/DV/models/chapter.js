@@ -12,37 +12,19 @@ DV.model.Chapters.prototype = {
   loadChapters : function() {
     var sections = this.viewer.schema.data.sections;
     var chapters = this.chapters = this.viewer.schema.data.chapters = [];
+    var pageCount = this.viewer.schema.data.totalPages;
 
     if (sections.length < 1) return; // short circuit if there are no sections
 
-    // ensure each section has a unique id we can reference.
-    _.each(sections, function(sec){ sec.id || (sec.id = _.uniqueId()); });
+    _.each(sections, function(section){ 
+      // make sure each section has a unique id we can reference.
+      section.id || (section.id = _.uniqueId());
 
-    // Run through each page.
-    var sectionIndex = 0;
-    for (var i = 0; i < this.viewer.schema.data.totalPages; i++) {
-      
-      // N.B. section ids start with 1, not 0.
-      // thus the first section will be undefined.
-
-      // get the current and next sections.
-      var section = sections[sectionIndex];
-      var nextSection = sections[sectionIndex + 1];
-      
-      // Check whether the next section's page index
-      // is greater than or equal to the current page.
-      if (nextSection && (i >= (nextSection.page - 1))) {
-        // when that is the case, increment the section index
-        // and move the next section to the current section.
-        sectionIndex += 1;
-        section = nextSection;
-      }
-
-      // assign the chapter for page i to the current section
-      // if the section's page is less than or equal to the current
-      // page.
-      if (section && (section.page <= i + 1)) chapters[i] = section.id;
-    }
+      // so long as the pageIndex for the section is in bounds
+      // assign the section to the appropriate page's chapter.
+      var pageIndex = section.page - 1;
+      if (pageIndex >= 0 && pageIndex < pageCount) { chapters[pageIndex] = section.id; }
+    });
   },
 
   getChapterId: function(index){
