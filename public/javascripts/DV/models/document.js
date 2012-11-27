@@ -144,23 +144,24 @@ DV.model.Document.prototype = {
 
 };
 
-//DV.Schema.prototype.importCanonicalDocument = function(json) {
-//  json.canonicalURL           = json.canonical_url;
-//
-//  this.document               = DV.jQuery.extend(true, {}, json);
-//  // Everything after this line is for back-compatibility.
-//  this.data.title             = json.title;
-//  this.data.totalPages        = json.pages;
-//  this.data.totalAnnotations  = json.annotations.length;
-//  this.data.sections          = json.sections;
-//  this.data.chapters          = [];
-//  this.data.annotationsById   = {};
-//  this.data.annotationsByPage = {};
-//  _.each(json.annotations, DV.jQuery.proxy(this.loadAnnotation, this));
-//};
-//
+/*
+DV.Schema.prototype.importCanonicalDocument = function(json) {
+  json.canonicalURL           = json.canonical_url;
 
-DV.model.Document = DV.Backbone.Model.extend({
+  this.document               = DV.jQuery.extend(true, {}, json);
+  // Everything after this line is for back-compatibility.
+  this.data.title             = json.title;
+  this.data.totalPages        = json.pages;
+  this.data.totalAnnotations  = json.annotations.length;
+  this.data.sections          = json.sections;
+  this.data.chapters          = [];
+  this.data.annotationsById   = {};
+  this.data.annotationsByPage = {};
+  _.each(json.annotations, DV.jQuery.proxy(this.loadAnnotation, this));
+};
+*/
+
+DV.model.NewDocument = DV.Backbone.Model.extend({
   initialize: function(attributes, options) {
     this.sections = new DV.model.SectionSet(attributes.sections);
     this.notes    = new DV.model.NoteSet(attributes.annotations);
@@ -172,6 +173,8 @@ DV.model.Document = DV.Backbone.Model.extend({
   }
 });
 
-DV.model.DocumentSet = DV.Backbone.Collection.extend({});
+DV.model.DocumentSet = DV.Backbone.Collection.extend({
+  model: DV.model.NewDocument
+});
 
 DV.model.SectionSet = DV.Backbone.Collection.extend({ comparator: function(sec){ return sec.get('page'); } });

@@ -82,6 +82,7 @@ DV.DocumentViewer.prototype.loadModels = function() {
 DV.DocumentViewer = DV.Backbone.View.extend({
   
   initialize: function(options) {
+    console.log("Creating Viewer");
     this.confirmStateChange = null;
     
     this.options  = options;
@@ -154,7 +155,7 @@ DV.load = function(documentRep, options) {
     
     // Since we're retaining the existing loading mechanism
     // we'll load the models manually.
-    var doc = new DV.model.Document(json);
+    var doc = new DV.model.NewDocument(json);
     DV.documents.add(doc);
 
     // And set viewer's model to the document
