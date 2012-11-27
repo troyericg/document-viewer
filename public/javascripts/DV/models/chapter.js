@@ -18,9 +18,13 @@ DV.model.Chapters.prototype = {
 
     if (sections.length < 1) return; // short circuit if there are no sections
 
-    sections.each(function(section){ 
+    sections.each(function(section, index){ 
+      var nextSection = sections[index+1];
+
       // make sure each section has a unique id we can reference.
       section.id || (section.id = _.uniqueId());
+      section.set('pageNumber', section.get('page'));
+      section.set('endPage', nextSection ? nextSection.get('page') - 1 : pageCount);
 
       // so long as the pageIndex for the section is in bounds
       // assign the section to the appropriate page's chapter.
@@ -29,13 +33,13 @@ DV.model.Chapters.prototype = {
     });
   },
 
-  getChapterId: function(index){
+  getChapterId: function(index) {
     return this.chapters[index];
   },
 
-  getChapterPosition: function(chapterId){
-    for(var i = 0,len=this.chapters.length; i < len; i++){
-      if(this.chapters[i] === chapterId){
+  getChapterPosition: function(chapterId) {
+    for (var i = 0, len = this.chapters.length; i < len; i++) {
+      if (this.chapters[i] === chapterId) {
         return i;
       }
     }
