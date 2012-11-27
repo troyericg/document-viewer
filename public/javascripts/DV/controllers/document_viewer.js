@@ -82,7 +82,6 @@ DV.DocumentViewer.prototype.loadModels = function() {
 DV.DocumentViewer = DV.Backbone.View.extend({
   
   initialize: function(options) {
-    console.log("Creating Viewer");
     this.confirmStateChange = null;
     
     this.options  = options;
@@ -101,8 +100,6 @@ DV.DocumentViewer = DV.Backbone.View.extend({
       viewer      : this,
       state       : this.state
     });
-    
-    //this.createSubViews();
   },
   
   loadModels: function() {
