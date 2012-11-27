@@ -1,3 +1,6 @@
+// The Chapters view keep track of a document's
+// sections/chapters and on which page each
+// chapter begins.
 DV.model.Chapters = function(viewer) {
   this.viewer = viewer;
   this.loadChapters();
@@ -9,18 +12,19 @@ DV.model.Chapters.prototype = {
   loadChapters : function() {
     var sections = this.viewer.schema.data.sections;
     var chapters = this.chapters = this.viewer.schema.data.chapters = [];
-    _.each(sections, function(sec){ sec.id || (sec.id = _.uniqueId()); });
+    var pageCount = this.viewer.schema.data.totalPages;
 
-    var sectionIndex = 0;
-    for (var i = 0, l = this.viewer.schema.data.totalPages; i < l; i++) {
-      var section = sections[sectionIndex];
-      var nextSection = sections[sectionIndex + 1];
-      if (nextSection && (i >= (nextSection.page - 1))) {
-        sectionIndex += 1;
-        section = nextSection;
-      }
-      if (section && !(section.page > i + 1)) chapters[i] = section.id;
-    }
+    if (sections.length < 1) return; // short circuit if there are no sections
+
+    _.each(sections, function(section){ 
+      // make sure each section has a unique id we can reference.
+      section.id || (section.id = _.uniqueId());
+
+      // so long as the pageIndex for the section is in bounds
+      // assign the section to the appropriate page's chapter.
+      var pageIndex = section.page - 1;
+      if (pageIndex >= 0 && pageIndex < pageCount) { chapters[pageIndex] = section.id; }
+    });
   },
 
   getChapterId: function(index){
