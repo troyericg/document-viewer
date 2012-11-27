@@ -98,7 +98,15 @@ DV.DocumentViewer = DV.Backbone.View.extend({
       state       : this.state
     });
     
-    this.createSubViews();
+    //this.createSubViews();
+  },
+  
+  loadModels: function() {
+    this.models.chapters     = new DV.model.Chapters(this);
+    this.models.document     = new DV.model.Document(this);
+    this.models.pages        = new DV.model.Pages(this);
+    this.models.annotations  = new DV.model.Annotations(this);
+    this.models.removedPages = {};
   },
   
   createSubViews: function() {
@@ -153,7 +161,7 @@ DV.load = function(documentRep, options) {
     viewer.model = doc;
     
     //viewer.schema.importCanonicalDocument(json);
-    //viewer.loadModels();
+    viewer.loadModels();
     DV.jQuery(function() {
       viewer.open('InitialLoad');
       if (options.afterLoad) options.afterLoad(viewer);
