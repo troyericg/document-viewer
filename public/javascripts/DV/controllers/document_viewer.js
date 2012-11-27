@@ -97,6 +97,13 @@ DV.DocumentViewer = DV.Backbone.View.extend({
       viewer      : this,
       state       : this.state
     });
+    
+    this.createSubViews();
+  },
+  
+  createSubViews: function() {
+    this.document = new DV.view.Document({viewer: this});
+    this.pages    = new DV.view.Pages({viewer: this});
   },
 
   // transition between viewer states.

@@ -8,4 +8,5 @@ DV.jQuery   = jQuery.noConflict(true);
 DV.Backbone = Backbone.noConflict();
 DV.viewers  = DV.viewers  || {};
 DV.model    = DV.model    || {};
+DV.view     = DV.view     || {};
 
