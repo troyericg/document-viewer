@@ -3,7 +3,7 @@ _.extend(DV.Schema.helpers, {
 
   showAnnotations : function() {
     if (this.viewer.options.showAnnotations === false) return false;
-    return _.size(this.viewer.models.annotations.byId) > 0;
+    return _.size(this.viewer.model.notes.byId) > 0;
   },
 
   renderViewer: function(){
@@ -92,10 +92,10 @@ _.extend(DV.Schema.helpers, {
     if (this.showAnnotations()) {
       var markupNote = function(note) {
         bolds.push("#DV-selectedAnnotation-" + note.id + " #DV-annotationMarker-" + note.id + " .DV-navAnnotationTitle");
-        return JST['annotationNav'](note);
+        return JST['annotationNav'](note.toJSON());
       };
-      for(var i = 0; i < this.viewer.models.document.totalPages; i++){
-        var noteData = this.viewer.schema.data.annotationsByPage[i];
+      for(var i = 0; i < this.viewer.model.totalPages; i++){
+        var noteData = this.viewer.model.notes.byPage[i];
         if(noteData){ notes[i] = nav[i] = _.map(noteData, markupNote).join(''); }
       }
     }
@@ -112,22 +112,22 @@ _.extend(DV.Schema.helpers, {
     };
 
     // Generate and store markup for each section
-    var sections = this.viewer.schema.data.sections;
-    _.each(sections, function(section){
-      var annotations    = noteMarkupForRange(section.pageNumber - 1, section.endPage);
+    var sections = this.viewer.model.sections;
+    sections.each(function(section){
+      var annotations    = noteMarkupForRange(section.get('pageNumber') - 1, section.get('endPage'));
       if(annotations != '') {
-        section.navigationExpander       = JST['navigationExpander']({});
-        section.navigationExpanderClass  = 'DV-hasChildren';
-        section.noteViews                = annotations;
+        section.set('navigationExpander', JST['navigationExpander']({}));
+        section.set('navigationExpanderClass', 'DV-hasChildren');
+        section.set('noteViews', annotations);
       } else {
-        section.navigationExpander       = '';
-        section.navigationExpanderClass  = 'DV-noChildren';
-        section.noteViews                = '';
+        section.set('navigationExpander', '');
+        section.set('navigationExpanderClass', 'DV-noChildren');
+        section.set('noteViews', '');
       }
     
       var selectionRule = "#DV-selectedChapter-" + section.id + " #DV-chapter-" + section.id;
       bolds.push(selectionRule+" .DV-navChapterTitle");
-      nav[section.pageNumber - 1] = JST['chapterNav'](section);
+      nav[section.get('pageNumber') - 1] = JST['chapterNav'](section.toJSON());
     });
     
     // insert and observe the nav
@@ -204,14 +204,14 @@ _.extend(DV.Schema.helpers, {
     this.viewer.$('.DV-navControls').remove();
     if (showPages || this.viewer.options.sidebar) {
       var navControls = JST['navControls']({
-        totalPages: this.viewer.schema.data.totalPages,
-        totalAnnotations: this.viewer.schema.data.totalAnnotations
+        totalPages: this.viewer.model.totalPages,
+        totalAnnotations: this.viewer.model.totalAnnotations
       });
       this.viewer.$('.DV-navControlsContainer').html(navControls);
     }
 
     this.viewer.$('.DV-fullscreenControl').remove();
-    if (this.viewer.schema.document.canonicalURL) {
+    if (this.viewer.model.canonicalURL) {
       var fullscreenControl = JST['fullscreenControl']({});
       if (noFooter) {
         this.viewer.$('.DV-collapsibleControls').prepend(fullscreenControl);
