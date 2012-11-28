@@ -62,8 +62,8 @@ DV.model.Annotations.prototype = {
 
     adata.orderClass = '';
     adata.options = this.viewer.options;
-    if (adata.position == 1) adata.orderClass += ' DV-firstAnnotation';
-    if (adata.position == this.bySortOrder.length) adata.orderClass += ' DV-lastAnnotation';
+    //if (adata.position == 1) adata.orderClass += ' DV-firstAnnotation';
+    //if (adata.position == this.bySortOrder.length) adata.orderClass += ' DV-lastAnnotation';
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
     return JST[template](adata);
@@ -209,9 +209,23 @@ DV.model.Annotations.prototype = {
 
 DV.model.Note = DV.Backbone.Model.extend({
   defaults: {
-    owns_note: false,
-    author: "",
-    author_organization: "",
+    title               : "Untitled Note",
+    text                : "",
+    content             : "",
+    access              : "public",
+    owns_note           : false,
+    author              : "",
+    author_organization : "",
+  },
+  initialize: function(data, options){
+    this.set("type", (this.get('location') && this.get('location').image ? 'region' : 'page'));
+
+    if (this.get('type') === 'region') {
+      var loc = DV.jQuery.map(this.get('location').image.split(','), function(n, i) { return parseInt(n, 10); });
+      this.set('y1', loc[0]); this.set('x2', loc[1]); this.set('y2', loc[2]); this.set('x1', loc[3]);
+    } else if(this.get('type') === 'page') {
+      this.set('y1', 0); this.set('x2', 0); this.set('y2', 0); this.set('x1', 0);
+    }
   }
 });
 

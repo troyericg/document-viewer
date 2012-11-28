@@ -38,27 +38,27 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 
 // Load an annotation into the Schema, starting from the canonical format.
 DV.Schema.prototype.loadAnnotation = function(anno) {
-  if (anno.id) anno.server_id = anno.id;
-  var idx     = anno.page - 1;
-  anno.id     = anno.id || _.uniqueId();
-  anno.title  = anno.title || 'Untitled Note';
-  anno.text   = anno.content || '';
-  anno.access = anno.access || 'public';
-  anno.type   = anno.location && anno.location.image ? 'region' : 'page';
-  if (anno.type === 'region') {
-    var loc = DV.jQuery.map(anno.location.image.split(','), function(n, i) { return parseInt(n, 10); });
-    anno.y1 = loc[0]; anno.x2 = loc[1]; anno.y2 = loc[2]; anno.x1 = loc[3];
-  }else if(anno.type === 'page'){
-    anno.y1 = 0; anno.x2 = 0; anno.y2 = 0; anno.x1 = 0;
-  }
-  // insert note keyed by it's id into the annotationsById object.
-  this.data.annotationsById[anno.id] = anno;
-  
-  // fetch (or initialize) the appropriate page of notes for the current note.
-  // Then insert the note into the page of notes according to its distance from the top of the page.
-  var page = this.data.annotationsByPage[idx] = this.data.annotationsByPage[idx] || [];
-  var insertionIndex = _.sortedIndex(page, anno, function(a){ return a.y1; });
-  page.splice(insertionIndex, 0, anno);
-
-  return anno;
+  //if (anno.id) anno.server_id = anno.id;
+  //var idx     = anno.page - 1;
+  //anno.id     = anno.id || _.uniqueId();
+  //anno.title  = anno.title || 'Untitled Note';
+  //anno.text   = anno.content || '';
+  //anno.access = anno.access || 'public';
+  //anno.type   = anno.location && anno.location.image ? 'region' : 'page';
+  //if (anno.type === 'region') {
+  //  var loc = DV.jQuery.map(anno.location.image.split(','), function(n, i) { return parseInt(n, 10); });
+  //  anno.y1 = loc[0]; anno.x2 = loc[1]; anno.y2 = loc[2]; anno.x1 = loc[3];
+  //}else if(anno.type === 'page'){
+  //  anno.y1 = 0; anno.x2 = 0; anno.y2 = 0; anno.x1 = 0;
+  //}
+  //// insert note keyed by it's id into the annotationsById object.
+  //this.data.annotationsById[anno.id] = anno;
+  //
+  //// fetch (or initialize) the appropriate page of notes for the current note.
+  //// Then insert the note into the page of notes according to its distance from the top of the page.
+  //var page = this.data.annotationsByPage[idx] = this.data.annotationsByPage[idx] || [];
+  //var insertionIndex = _.sortedIndex(page, anno, function(a){ return a.y1; });
+  //page.splice(insertionIndex, 0, anno);
+  //
+  //return anno;
 };
