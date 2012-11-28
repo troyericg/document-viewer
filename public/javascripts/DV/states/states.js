@@ -32,7 +32,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       if (this.helpers.unsupportedBrowser()) return;
 
       // Insert the Document Viewer HTML into the DOM.
-      this.helpers.renderViewer();
+      //this.helpers.renderViewer();
+      this.render();
 
       // Cache DOM node references.  See lib/elements.js and elements/elements.js for the actual list of elements.
       this.elements = new DV.Elements(this);
@@ -41,7 +42,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.renderComponents();
 
       // Render chapters and notes navigation:
-      this.helpers.renderNavigation();
+      //this.helpers.renderNavigation();
+      this.sidebar.render();
 
       // Render CSS rules for showing/hiding specific pages:
       this.helpers.renderSpecificPageCss();
@@ -54,7 +56,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.bindEvents(this);
 
       this.helpers.positionViewer();
-      this.viewer.models.document.computeOffsets();
+      this.models.document.computeOffsets();
 
       // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
       this.helpers.addObserver('drawPages');
