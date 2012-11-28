@@ -5,7 +5,9 @@ DV.Page = function(viewer, argHash){
 
   this.index            = argHash.index;
   for(var key in argHash) this[key] = argHash[key];
-  this.el               = this.viewer.$(this.el);
+  console.log(this.el)
+  this.el               = DV.jQuery(this.el);
+  console.log(this.el)
   this.parent           = this.el.parent();
   this.pageNumberEl     = this.el.find('span.DV-pageNumber');
   this.pageInsertEl     = this.el.find('.DV-pageNoteInsert');
