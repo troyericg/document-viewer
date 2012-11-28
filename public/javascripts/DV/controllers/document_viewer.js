@@ -1,84 +1,3 @@
-DV.DocumentViewer = function(options) {
-  this.options        = options;
-  this.window         = window;
-  this.$              = this.jQuery;
-  this.schema         = new DV.Schema();              // derp. should be done away with. Data should be held in models.
-  this.api            = new DV.Api(this);             // unclear whether this should retain its own namespace in this manner.
-  this.history        = new DV.History(this);         // replace with Backbone.History
-
-  // Build the data models
-  this.models     = this.schema.models;               // These aren't models proper, but some messy mix of controller/view functionality.
-  this.events     = _.extend({}, DV.Schema.events);   // 
-  this.helpers    = _.extend({}, DV.Schema.helpers);  // 
-  this.states     = _.extend({}, DV.Schema.states);   // Where most of the magic happens. See DocumentViewer.prototype.open
-
-  // state values
-  this.isFocus            = true;
-  this.openEditor         = null;
-  this.confirmStateChange = null;
-  this.activeElement      = null;
-  this.observers          = [];
-  this.windowDimensions   = {};
-  this.scrollPosition     = null;
-  this.checkTimer         = {};
-  this.busy               = false;
-  this.annotationToLoadId = null;
-  this.dragReporter       = null;
-  this.compiled           = {};
-  this.tracker            = {};
-
-  this.onStateChangeCallbacks = [];
-
-  this.events     = _.extend(this.events, {
-    viewer      : this,
-    states      : this.states,
-    elements    : this.elements,
-    helpers     : this.helpers,
-    models      : this.models,
-    // this allows us to bind events to call the method corresponding to the current state
-    compile     : function(){
-      var viewer      = this.viewer;
-      var methodName  = arguments[0];
-      return function(){
-        if(!viewer.events[viewer.state][methodName]){
-          viewer.events[methodName].apply(viewer.events,arguments);
-        }else{
-          viewer.events[viewer.state][methodName].apply(viewer.events,arguments);
-        }
-      };
-    }
-  });
-
-  // Extend helpers with viewer references to provide 
-  // access to viewer internals in the helper namespace.
-  this.helpers  = _.extend(this.helpers, {
-    viewer      : this,
-    states      : this.states,
-    elements    : this.elements,
-    events      : this.events,
-    models      : this.models
-  });
-
-  // Viewer references for everyone!
-  this.states   = _.extend(this.states, {
-    viewer      : this,
-    helpers     : this.helpers,
-    elements    : this.elements,
-    events      : this.events,
-    models      : this.models
-  });
-};
-
-DV.DocumentViewer.prototype.loadModels = function() {
-  this.models.chapters     = new DV.model.Chapters(this);
-  this.models.document     = new DV.model.Document(this);
-  this.models.pages        = new DV.model.Pages(this);
-  this.models.annotations  = new DV.model.Annotations(this);
-  this.models.removedPages = {};
-};
-
-// New Viewer
-
 DV.DocumentViewer = DV.Backbone.View.extend({
   
   initialize: function(options) {
@@ -100,8 +19,14 @@ DV.DocumentViewer = DV.Backbone.View.extend({
       viewer      : this,
       state       : this.state
     });
+    
+    this.createSubViews();
   },
   
+  // loadModels is currently necessary to initialize a pile of presenters
+  // it should be replaced by subsuming the data munging components
+  // into Backbone models, and view configuration into Backbone views
+  // and a call to the viewer's render method.
   loadModels: function() {
     this.models.chapters     = new DV.model.Chapters(this);
     this.models.document     = new DV.model.Document(this);
@@ -111,6 +36,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
   },
   
   createSubViews: function() {
+    this.sidebar  = new DV.view.ChapterSidebar({viewer: this});
     this.document = new DV.view.Document({viewer: this});
     this.pages    = new DV.view.Pages({viewer: this});
   },
@@ -132,6 +58,63 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     var id   = parseInt(this.api.getId(), 10);
     var key  = encodeURIComponent('document:' + id + ':' + url);
     DV.jQuery(document.body).append('<img alt="" width="1" height="1" src="' + hitUrl + '?key=' + key + '" />');
+  },
+  
+  render: function(){
+    var doc         = this.model.toJSON();
+    var pagesHTML   = this.pages.render();
+    var description = (doc.description) ? doc.description : null;
+    var storyURL = doc.resources.related_article;
+
+    var headerHTML  = JST['header']({
+      options     : this.options,
+      id          : doc.id,
+      story_url   : storyURL,
+      title       : doc.title || ''
+    });
+    var footerHTML = JST['footer']({options : this.options});
+
+    var pdfURL = doc.resources.pdf;
+    pdfURL = pdfURL && this.options.pdf !== false ? '<a target="_blank" href="' + pdfURL + '">Original Document (PDF) &raquo;</a>' : '';
+
+    var contribs = doc.contributor && doc.contributor_organization &&
+                   ('' + doc.contributor + ', '+ doc.contributor_organization);
+
+    var showAnnotations = this.helpers.showAnnotations();
+    var printNotesURL = (showAnnotations) && doc.resources.print_annotations;
+
+    var viewerOptions = {
+      options : this.options,
+      pages: pagesHTML,
+      header: headerHTML,
+      footer: footerHTML,
+      pdf_url: pdfURL,
+      contributors: contribs,
+      story_url: storyURL,
+      print_notes_url: printNotesURL,
+      descriptionContainer: JST['descriptionContainer']({ description: description}),
+      autoZoom: this.options.zoom == 'auto',
+      mini: false
+    };
+
+    var width  = this.options.width;
+    var height = this.options.height;
+    if (width && height) {
+      if (width < 500) {
+        this.options.mini = true;
+        viewerOptions.mini = true;
+      }
+      DV.jQuery(this.options.container).css({
+        position: 'relative',
+        width: this.options.width,
+        height: this.options.height
+      });
+    }
+
+    var container = this.options.container;
+    var containerEl = DV.jQuery(container);
+    if (!containerEl.length) throw "Document Viewer container element not found: " + container;
+    containerEl.html(JST['viewer'](viewerOptions));
   }
 });
 
@@ -147,6 +130,7 @@ DV.load = function(documentRep, options) {
   };
   options            = _.extend({}, defaults, options);
   options.fixedSize  = !!(options.width || options.height);
+  options.el         = options.container;
   var viewer         = new DV.DocumentViewer(options);
   DV.viewers[id]     = viewer;
   // Once we have the JSON representation in-hand, finish loading the viewer.
