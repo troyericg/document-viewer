@@ -30,6 +30,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     // ??? do something.
   },
   
+  delegatedEventFunction: function(methodName) { return _.bind(this.delegateToState, this, methodName); },
+
   delegateToState: function() {
     var methodName  = arguments[0];
     if (this.eventFunctions[this.name] && this.eventFunctions[this.name][methodName]) { 
@@ -39,11 +41,6 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     }
   },
   
-  delegatedEventFunction: function() {
-    var methodName  = arguments[0];
-    return _.bind(this.delegateToState, this, arguments);
-  },
-
   states: {
     InitialLoad: function() {
       console.log("InitialLoad");
