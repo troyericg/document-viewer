@@ -66,8 +66,8 @@ _.extend(DV.Schema.helpers, {
   // If there is no description, no navigation, and no sections, tighten up
   // the sidebar.
   displayNavigation : function() {
-    var doc = this.viewer.schema.document;
-    var missing = (!doc.description && !_.size(this.viewer.schema.data.annotationsById) && !this.viewer.schema.data.sections.length);
+    var doc = this.viewer.model;
+    var missing = (!doc.get('description') && !_.size(this.viewer.model.notes.byId) && !this.viewer.model.sections.length);
     this.viewer.$('.DV-supplemental').toggleClass('DV-noNavigation', missing);
   },
 
