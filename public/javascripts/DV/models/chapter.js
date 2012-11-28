@@ -19,7 +19,7 @@ DV.model.Chapters.prototype = {
     if (sections.length < 1) return; // short circuit if there are no sections
 
     sections.each(function(section, index){ 
-      var nextSection = sections[index+1];
+      var nextSection = sections.at(index+1);
 
       // make sure each section has a unique id we can reference.
       section.id || (section.id = _.uniqueId());
