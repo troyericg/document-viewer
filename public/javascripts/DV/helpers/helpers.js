@@ -12,7 +12,8 @@ DV.Schema.helpers = {
       var viewer    = this.viewer;
       var doc       = context.models.document;
 
-      var boundZoom = this.events.compile('zoom');
+      //var boundZoom = this.events.compile('zoom');
+      var boundZoom = viewer.state.delegatedEventFunction('zoom');
       var value     = _.indexOf(doc.ZOOM_RANGES, doc.zoomLevel);
       viewer.slider = viewer.$('.DV-zoomBox').slider({
         step: 1,
@@ -25,13 +26,13 @@ DV.Schema.helpers = {
 
       // next/previous
       var history         = viewer.history;
-      var compiled        = viewer.compiled;
-      compiled.next       = this.events.compile('next');
-      compiled.previous   = this.events.compile('previous');
+      //var compiled        = viewer.compiled;
+      //compiled.next       = this.events.compile('next');
+      //compiled.previous   = this.events.compile('previous');
 
       var states = context.states;
-      viewer.$('.DV-navControls').delegate('span.DV-next',    'click', compiled.next);
-      viewer.$('.DV-navControls').delegate('span.DV-previous','click', compiled.previous);
+      viewer.$('.DV-navControls').delegate('span.DV-next',    'click', viewer.state.delegatedEventFunction('next'));
+      viewer.$('.DV-navControls').delegate('span.DV-previous','click', viewer.state.delegatedEventFunction('previous'));
 
       viewer.$('.DV-annotationView').delegate('.DV-trigger','click',function(e){ e.preventDefault(); context.open('ViewAnnotation'); });
       viewer.$('.DV-documentView').delegate(  '.DV-trigger',                   'click', function(e){ context.open('ViewDocument'); });
@@ -39,7 +40,7 @@ DV.Schema.helpers = {
       viewer.$('.DV-textView').delegate(      '.DV-trigger',                   'click', function(e){ context.open('ViewText'); });
       viewer.$('.DV-allAnnotations').delegate('.DV-annotationGoto .DV-trigger','click', DV.jQuery.proxy(this.gotoPage, this));
 
-      viewer.$('form.DV-searchDocument').submit(this.events.compile('search'));
+      viewer.$('form.DV-searchDocument').submit(viewer.state.delegatedEventFunction('search'));
       viewer.$('.DV-searchBar').delegate('.DV-closeSearch',           'click', function(e){ e.preventDefault(); context.open('ViewText'); });
       viewer.$('.DV-searchBox').delegate('.DV-searchInput-cancel',    'click', DV.jQuery.proxy(this.clearSearch, this));
       viewer.$('.DV-searchResults').delegate('span.DV-resultPrevious','click', DV.jQuery.proxy(this.highlightPreviousMatch, this));
@@ -105,7 +106,7 @@ DV.Schema.helpers = {
         }
       );
 
-      var docId = viewer.schema.document.id;
+      var docId = viewer.model.id;
 
       if(DV.jQuery.browser.msie == true){
         this.viewer.elements.browserDocument.bind('focus.' + docId, DV.jQuery.proxy(this.focusWindow,this));
