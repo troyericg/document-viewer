@@ -46,13 +46,13 @@ DV.Schema.events = {
   },
 
   check: function(){
-    var viewer = this.viewer;
-    if(viewer.busy === false){
-      viewer.busy = true;
-      for(var i = 0; i < this.viewer.observers.length; i++){
-        this[viewer.observers[i]].call(this);
+    var viewerState = this.viewer.state;
+    if(viewerState.busy === false){
+      viewerState.busy = true;
+      for(var i = 0; i < viewerState.observers.length; i++){
+        this[viewerState.observers[i]].call(this);
       }
-      viewer.busy = false;
+      viewerState.busy = false;
     }
   },
 

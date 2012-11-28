@@ -150,8 +150,8 @@ DV.Schema.helpers = {
     },
 
     startCheckTimer: function(){
-      var _t = this.viewer;
-      var _check = function(){ _t.events.check(); };
+      var _t = this.viewer.state.eventFunctions;
+      var _check = function(){ _t.check(); };
       this.viewer.checkTimer = setInterval(_check,100);
     },
 
@@ -323,11 +323,11 @@ DV.Schema.helpers = {
 
     addObserver: function(observerName){
       this.removeObserver(observerName);
-      this.viewer.observers.push(observerName);
+      this.viewer.state.observers.push(observerName);
     },
 
     removeObserver: function(observerName){
-      var observers = this.viewer.observers;
+      var observers = this.viewer.state.observers;
       for(var i = 0,len=observers.length;i<len;i++){
         if(observerName === observers[i]){
           observers.splice(i,1);

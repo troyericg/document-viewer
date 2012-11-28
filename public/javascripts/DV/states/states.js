@@ -11,7 +11,10 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
 
   initialize: function(attributes, options){ 
     this.viewer = options.viewer;
-    this.eventFunctions = _.extend({}, DV.Schema.events);
+
+    // this is a hack to preserve the existing event function namespacing
+    this.observers      = [];
+    this.eventFunctions = _.extend( { viewer: this.viewer }, DV.Schema.events);
     
     // TODO:
     // iterate over the state names to create a list 
@@ -76,7 +79,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
 
       // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
       this.helpers.addObserver('drawPages');
-      this.helpers.registerHashChangeEvents();
+      //this.helpers.registerHashChangeEvents();
       this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
 
       // Start observer timer loop.
