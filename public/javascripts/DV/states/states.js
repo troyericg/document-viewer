@@ -27,7 +27,7 @@ DV.Schema.states = {
     this.helpers.bindEvents(this);
 
     this.helpers.positionViewer();
-    this.viewer.models.document.computeOffsets();
+    this.models.document.computeOffsets();
     this.helpers.addObserver('drawPages');
     this.helpers.registerHashChangeEvents();
     this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
@@ -43,8 +43,8 @@ DV.Schema.states = {
     this.acceptInput.deny();
     // Nudge IE to force the annotations to repaint.
     if (DV.jQuery.browser.msie) {
-      this.viewer.elements.annotations.css({zoom : 0});
-      this.viewer.elements.annotations.css({zoom : 1});
+      this.elements.annotations.css({zoom : 0});
+      this.elements.annotations.css({zoom : 1});
     }
 
     this.helpers.toggleContent('viewAnnotations');
@@ -56,14 +56,14 @@ DV.Schema.states = {
     this.helpers.reset();
     this.helpers.addObserver('drawPages');
     this.dragReporter.setBinding();
-    this.viewer.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
+    this.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
     this.acceptInput.allow();
 
     this.helpers.toggleContent('viewDocument');
 
-    this.helpers.setActiveChapter(this.viewer.models.chapters.getChapterId(this.viewer.models.document.currentIndex()));
+    this.helpers.setActiveChapter(this.models.chapters.getChapterId(this.models.document.currentIndex()));
 
-    this.helpers.jump(this.viewer.models.document.currentIndex());
+    this.helpers.jump(this.models.document.currentIndex());
     return true;
   },
 
@@ -76,10 +76,10 @@ DV.Schema.states = {
   ViewSearch: function(){
     this.helpers.reset();
 
-    if(this.viewer.elements.searchInput.val() == '') {
-      this.viewer.elements.searchInput.val(searchRequest);
+    if(this.elements.searchInput.val() == '') {
+      this.elements.searchInput.val(searchRequest);
     } else {
-      var searchRequest = this.viewer.elements.searchInput.val();
+      var searchRequest = this.elements.searchInput.val();
     }
 
     this.helpers.getSearchResponse(searchRequest);
