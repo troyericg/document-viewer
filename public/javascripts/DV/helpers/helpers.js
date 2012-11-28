@@ -351,7 +351,7 @@ DV.Schema.helpers = {
     },
 
     shift: function(argHash){
-      var windowEl        = this.viewer.elements.window;
+      var windowEl        = this.elements.window;
       var scrollTopShift  = windowEl.scrollTop() + argHash.deltaY;
       var scrollLeftShift  = windowEl.scrollLeft() + argHash.deltaX;
 
@@ -451,7 +451,7 @@ DV.Schema.helpers = {
       }
       this.viewer.models.document.ZOOM_RANGES = ranges;
       this.viewer.slider.slider({'value': parseInt(_.indexOf(ranges, zoom), 10)});
-      this.events.zoom(zoom);
+      this.viewer.state.eventFunctions.zoom(zoom);
     },
 
     handleInitialState: function(){

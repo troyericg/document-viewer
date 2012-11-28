@@ -1,8 +1,6 @@
 DV.DocumentViewer = DV.Backbone.View.extend({
   
   initialize: function(options) {
-    this.confirmStateChange = null;
-    
     this.options  = options;
     var state_data = {};
     if (options.zoomLevel) state_data.zoomLevel = options.zoomLevel;
@@ -12,7 +10,9 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.helpers  = _.extend({}, DV.Schema.helpers);
     this.api      = new DV.Api(this);
     this.models   = {};
-    
+    this.confirmStateChange = null;
+    this.onStateChangeCallbacks = [];
+        
     // Extend helpers with viewer references to provide 
     // access to viewer internals in the helper namespace.
     this.helpers  = _.extend(this.helpers, {
@@ -47,6 +47,10 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     if (this.state.name == state) return;
     var continuation = _.bind( function() { this.state.transitionTo(state); return true; }, this );
     this.confirmStateChange ? this.confirmStateChange(continuation) : continuation();
+  },
+
+  notifyChangedState: function() {
+    _.each(this.onStateChangeCallbacks, function(c) { c(); });
   },
 
   slapIE: function(){ this.$el.css({zoom: 0.99}).css({zoom: 1}); },
