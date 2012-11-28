@@ -4,7 +4,28 @@ DV.view.Notes = DV.Backbone.View.extend({
   },
   
   render: function() {
-    this.collection.each(function(note){ return renderNote(note); })
+    if (this.viewer.options.showAnnotations === false) return;
+
+    var notes = this.viewer.model.notes;
+    for (var i=0; i< notes.length; i++) {
+      var anno      = notes.at(i);
+      //anno.of       = _.indexOf(notes.byPage[anno.get('page') - 1], anno);
+      anno.html     = this.renderNote(anno);
+    }
+
+    var rendered  = _.map(this.bySortOrder, function(anno){ return anno.html; });
+    var html      = rendered.join('')
+                    .replace(/class="DV-img" src="/g, 'class="DV-img" data-src="')
+                    .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
+      return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
+    });
+
+    this.viewer.$('div.DV-allAnnotations').html(html);
+
+    // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
+    // test with both autozoom and page notes.
+    this.updateAnnotationOffsets();
+    _.defer(_.bind(this.updateAnnotationOffsets, this));
   },
   
   // stolen from models/annotation.js#render(annotation)
@@ -12,7 +33,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     var documentModel             = this.viewer.models.document;
     var pageModel                 = this.viewer.models.pages;
     var zoom                      = pageModel.zoomFactor();
-    var adata                     = annotation;
+    var adata                     = note.toJSON();
     var x1, x2, y1, y2;
 
     if(adata.type === 'page'){
@@ -56,7 +77,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     adata.orderClass = '';
     adata.options = this.viewer.options;
     if (adata.position == 1) adata.orderClass += ' DV-firstAnnotation';
-    if (adata.position == this.bySortOrder.length) adata.orderClass += ' DV-lastAnnotation';
+    if (adata.position == this.viewer.model.notes.length) adata.orderClass += ' DV-lastAnnotation';
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
     return JST[template](adata);
@@ -64,5 +85,44 @@ DV.view.Notes = DV.Backbone.View.extend({
   
   renderPageNote: function(note) {
     
+  },
+  
+  // Offsets all document pages based on interleaved page annotations.
+  updateAnnotationOffsets: function(){
+    this.offsetsAdjustments   = [];
+    this.offsetAdjustmentSum  = 0;
+    var documentModel         = this.viewer.models.document;
+    var annotationsContainer  = this.viewer.$('div.DV-allAnnotations');
+    var pageAnnotationEls     = annotationsContainer.find('.DV-pageNote');
+    var pageNoteHeights       = this.viewer.models.pages.pageNoteHeights;
+    var me = this;
+
+    if(this.viewer.$('div.DV-docViewer').hasClass('DV-viewAnnotations') == false){
+      annotationsContainer.addClass('DV-getHeights');
+    }
+
+    // First, collect the list of page annotations, and associate them with
+    // their DOM elements.
+    var pageAnnos = [];
+    _.each(_.select(this.bySortOrder, function(anno) {
+      return anno.type == 'page';
+    }), function(anno, i) {
+      anno.el = pageAnnotationEls[i];
+      pageAnnos[anno.pageNumber] = anno;
+    });
+
+    // Then, loop through the pages and store the cumulative offset due to
+    // page annotations.
+    for (var i = 0, len = documentModel.totalPages; i <= len; i++) {
+      pageNoteHeights[i] = 0;
+      if (pageAnnos[i]) {
+        var height = (this.viewer.$(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
+        pageNoteHeights[i - 1] = height;
+        this.offsetAdjustmentSum += height;
+      }
+      this.offsetsAdjustments[i] = this.offsetAdjustmentSum;
+    }
+    annotationsContainer.removeClass('DV-getHeights');
   }
+  
 });
