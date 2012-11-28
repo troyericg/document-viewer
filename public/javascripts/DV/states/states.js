@@ -21,6 +21,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
   transitionTo: function(name) {
     // call state function
     this.states[name].apply(this.viewer, arguments);
+    this.name = name;
     // Trigger event announcing transition into state.
     // ??? do something.
   },
