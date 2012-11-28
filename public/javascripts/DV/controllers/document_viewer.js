@@ -34,10 +34,11 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.models.annotations  = new DV.model.Annotations(this);
     this.models.removedPages = {};
   },
-  
+
   createSubViews: function() {
     this.sidebar  = new DV.view.ChapterSidebar({viewer: this});
     this.document = new DV.view.Document({viewer: this});
+    this.notes    = new DV.view.Notes({viewer: this});
     this.pages    = new DV.view.Pages({viewer: this});
   },
 

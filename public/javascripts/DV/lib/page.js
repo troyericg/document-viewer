@@ -32,7 +32,7 @@ DV.Page = function(viewer, argHash){
   var m = this.viewer.models;
   this.model_document     = m.document;
   this.model_pages        = m.pages;
-  this.model_annotations  = m.annotations;
+  this.model_annotations  = this.viewer.model.notes;
   this.model_chapters     = m.chapters;
 };
 

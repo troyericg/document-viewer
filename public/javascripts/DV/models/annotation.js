@@ -6,8 +6,8 @@ DV.model.Annotations = function(viewer) {
   this.offsetAdjustmentSum      = 0;
   this.saveCallbacks            = [];
   this.deleteCallbacks          = [];
-  this.byId                     = this.viewer.model.notes.ById;
-  this.byPage                   = this.viewer.model.notes.ByPage;
+  this.byId                     = this.viewer.model.notes.byId;
+  this.byPage                   = this.viewer.model.notes.byPage;
   this.bySortOrder              = this.sortAnnotations();
 };
 
@@ -34,11 +34,11 @@ DV.model.Annotations.prototype = {
       adata.top                   = y1 - 5;
     }
 
-    adata.owns_note               = adata.owns_note || false;
+    //adata.owns_note               = adata.owns_note || false;
     adata.width                   = pageModel.width;
     adata.pageNumber              = adata.page;
-    adata.author                  = adata.author || "";
-    adata.author_organization     = adata.author_organization || "";
+    //adata.author                  = adata.author || "";
+    //adata.author_organization     = adata.author_organization || "";
     adata.bgWidth                 = adata.width;
     adata.bWidth                  = adata.width - 16;
     adata.excerptWidth            = (x2 - x1) - 8;
@@ -207,7 +207,13 @@ DV.model.Annotations.prototype = {
 
 };
 
-DV.model.Note = DV.Backbone.Model.extend({});
+DV.model.Note = DV.Backbone.Model.extend({
+  defaults: {
+    owns_note: false,
+    author: "",
+    author_organization: "",
+  }
+});
 
 DV.model.NoteSet = DV.Backbone.Collection.extend({
   model: DV.model.Note,
