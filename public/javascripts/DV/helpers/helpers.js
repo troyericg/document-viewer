@@ -369,7 +369,7 @@ DV.Schema.helpers = {
     },
 
     shift: function(argHash){
-      var windowEl        = this.viewer.elements.window;
+      var windowEl        = this.elements.window;
       var scrollTopShift  = windowEl.scrollTop() + argHash.deltaY;
       var scrollLeftShift  = windowEl.scrollLeft() + argHash.deltaX;
 
