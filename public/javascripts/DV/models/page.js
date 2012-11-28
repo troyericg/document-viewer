@@ -40,10 +40,11 @@ DV.model.Pages.prototype = {
 
   // Get the complete image URL for a particular page.
   imageURL: function(index) {
-    var url  = this.viewer.schema.document.resources.page.image;
+    var resources = this.viewer.model.get('resources');
+    var url  = resources.page.image;
     var size = this.zoomLevel > this.BASE_WIDTH ? 'large' : 'normal';
     var pageNumber = index + 1;
-    if (this.viewer.schema.document.resources.page.zeropad) pageNumber = this.zeroPad(pageNumber, 5);
+    if (resources.page.zeropad) pageNumber = this.zeroPad(pageNumber, 5);
     url = url.replace(/\{size\}/, size);
     url = url.replace(/\{page\}/, pageNumber);
     return url;
