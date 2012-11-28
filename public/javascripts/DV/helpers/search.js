@@ -191,7 +191,7 @@ _.extend(DV.Schema.helpers, {
     var viewer            = this.viewer;
     viewer.searchResponse = null;
     viewer.toHighLight    = null;
-    if (this.viewer.elements. this.viewer.elements.searchInput.keyup().blur();
+    if (this.viewer.elements) this.viewer.elements.searchInput.keyup().blur();
   }
 
 });
