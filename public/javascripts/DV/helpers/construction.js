@@ -81,6 +81,8 @@ _.extend(DV.Schema.helpers, {
     DV.jQuery("head").append(stylesheet);
   },
 
+  // Render Navigation is a distinct candidate for a Backbone.View
+  // Required models: notes and sections
   renderNavigation : function() {
     var bolds = [], nav=[], notes = [];
         
