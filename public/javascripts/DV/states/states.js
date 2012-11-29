@@ -11,6 +11,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
 
   initialize: function(attributes, options){ 
     this.viewer = options.viewer;
+    this.busy = false;
 
     // this is a hack to preserve the existing event function namespacing
     this.observers      = [];
