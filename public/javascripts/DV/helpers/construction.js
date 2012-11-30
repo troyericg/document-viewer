@@ -6,63 +6,6 @@ _.extend(DV.Schema.helpers, {
     return _.size(this.viewer.model.notes.byId) > 0;
   },
 
-//  renderViewer: function(){
-//    var doc         = this.viewer.model.toJSON();
-//    var pagesHTML   = this.constructPages();
-//    var description = (doc.description) ? doc.description : null;
-//    var storyURL = doc.resources.related_article;
-//
-//    var headerHTML  = JST['header']({
-//      options     : this.viewer.options,
-//      id          : doc.id,
-//      story_url   : storyURL,
-//      title       : doc.title || ''
-//    });
-//    var footerHTML = JST['footer']({options : this.viewer.options});
-//
-//    var pdfURL = doc.resources.pdf;
-//    pdfURL = pdfURL && this.viewer.options.pdf !== false ? '<a target="_blank" href="' + pdfURL + '">Original Document (PDF) &raquo;</a>' : '';
-//
-//    var contribs = doc.contributor && doc.contributor_organization &&
-//                   ('' + doc.contributor + ', '+ doc.contributor_organization);
-//
-//    var showAnnotations = this.showAnnotations();
-//    var printNotesURL = (showAnnotations) && doc.resources.print_annotations;
-//
-//    var viewerOptions = {
-//      options : this.viewer.options,
-//      pages: pagesHTML,
-//      header: headerHTML,
-//      footer: footerHTML,
-//      pdf_url: pdfURL,
-//      contributors: contribs,
-//      story_url: storyURL,
-//      print_notes_url: printNotesURL,
-//      descriptionContainer: JST['descriptionContainer']({ description: description}),
-//      autoZoom: this.viewer.options.zoom == 'auto',
-//      mini: false
-//    };
-//
-//    var width  = this.viewer.options.width;
-//    var height = this.viewer.options.height;
-//    if (width && height) {
-//      if (width < 500) {
-//        this.viewer.options.mini = true;
-//        viewerOptions.mini = true;
-//      }
-//      DV.jQuery(this.viewer.options.container).css({
-//        position: 'relative',
-//        width: this.viewer.options.width,
-//        height: this.viewer.options.height
-//      });
-//    }
-//
-//    var container = this.viewer.options.container;
-//    var containerEl = DV.jQuery(container);
-//    if (!containerEl.length) throw "Document Viewer container element not found: " + container;
-//    containerEl.html(JST['viewer'](viewerOptions));
-//  },
-
   // If there is no description, no navigation, and no sections, tighten up
   // the sidebar.
   displayNavigation : function() {
@@ -80,73 +23,6 @@ _.extend(DV.Schema.helpers, {
     var stylesheet = '<style type="text/css" media="all">\n' + css +'\n</style>';
     DV.jQuery("head").append(stylesheet);
   },
-
-//  // Render Navigation is a distinct candidate for a Backbone.View
-//  // Required models: notes and sections
-//  renderNavigation : function() {
-//    var bolds = [], nav=[], notes = [];
-//        
-//    var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = _.uniqueId());
-//
-//    // If notes are to be shown, iterate over all pages
-//    // and create a list of notes for the sidebar, stored
-//    // both in our list of notes and our list of nav elements.
-//    if (this.showAnnotations()) {
-//      var markupNote = function(note) {
-//        bolds.push("#DV-selectedAnnotation-" + note.id + " #DV-annotationMarker-" + note.id + " .DV-navAnnotationTitle");
-//        return JST['annotationNav'](note.toJSON());
-//      };
-//      for(var i = 0; i < this.viewer.model.totalPages; i++){
-//        var noteData = this.viewer.model.notes.byPage[i];
-//        if(noteData){ notes[i] = nav[i] = _.map(noteData, markupNote).join(''); }
-//      }
-//    }
-//
-//    var noteMarkupForRange = function(rangeStart, rangeEnd){
-//      var annotations = [];
-//      for(var i = rangeStart; i < rangeEnd; i++){
-//        if(notes[i]){
-//          annotations.push(notes[i]);
-//          nav[i] = ''; // blank out a note's entry in the nav markup.
-//        }
-//      }
-//      return annotations.join('');
-//    };
-//
-//    // Generate and store markup for each section
-//    var sections = this.viewer.model.sections;
-//    sections.each(function(section){
-//      var annotations    = noteMarkupForRange(section.get('pageNumber') - 1, section.get('endPage'));
-//      if(annotations != '') {
-//        section.set('navigationExpander', JST['navigationExpander']({}));
-//        section.set('navigationExpanderClass', 'DV-hasChildren');
-//        section.set('noteViews', annotations);
-//      } else {
-//        section.set('navigationExpander', '');
-//        section.set('navigationExpanderClass', 'DV-noChildren');
-//        section.set('noteViews', '');
-//      }
-//    
-//      var selectionRule = "#DV-selectedChapter-" + section.id + " #DV-chapter-" + section.id;
-//      bolds.push(selectionRule+" .DV-navChapterTitle");
-//      nav[section.get('pageNumber') - 1] = JST['chapterNav'](section.toJSON());
-//    });
-//    
-//    // insert and observe the nav
-//    var navigationView = nav.join('');
-//
-//    var chaptersContainer = this.viewer.$('div.DV-chaptersContainer');
-//    chaptersContainer.html(navigationView);
-//    chaptersContainer.unbind('click').bind('click',this.events.compile('handleNavigation'));
-//    if (sections.length || _.size(this.viewer.schema.data.annotationsById)) { chaptersContainer.show(); } else { chaptersContainer.hide(); }
-//    this.displayNavigation();
-//
-//    DV.jQuery('#DV-navigationBolds-' + boldsId, DV.jQuery("head")).remove();
-//    var boldsContents = bolds.join(", ") + ' { font-weight:bold; color:#000 !important; }';
-//    var navStylesheet = '<style id="DV-navigationBolds-' + boldsId + '" type="text/css" media="screen,print">\n' + boldsContents +'\n</style>';
-//    DV.jQuery("head").append(navStylesheet);
-//    chaptersContainer = null;
-//  },
 
   // Hide or show all of the components on the page that may or may not be
   // present, depending on what the document provides.
