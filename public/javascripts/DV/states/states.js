@@ -83,11 +83,25 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       // Start observer timer loop.
       this.helpers.startCheckTimer();
       // If configured to do so, open the viewer to a non-default state.
-      //this.helpers.handleInitialState();
+      this.helpers.handleInitialState();
       _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); },
-    ViewDocument: function() { console.log("View Document"); },
+    ViewDocument: function() { 
+      console.log("View Document");
+      this.helpers.reset();
+      this.helpers.addObserver('drawPages');
+      this.dragReporter.setBinding();
+      this.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
+      this.acceptInput.allow();
+
+      this.helpers.toggleContent('viewDocument');
+
+      this.helpers.setActiveChapter(this.models.chapters.getChapterId(this.models.document.currentIndex()));
+
+      this.helpers.jump(this.models.document.currentIndex());
+      return true;
+    },
     ViewSearch: function() { console.log("View Search"); },
     ViewText: function() { console.log("View Text"); },
     ViewThumbnails: function() { console.log("View Thumbnails"); }

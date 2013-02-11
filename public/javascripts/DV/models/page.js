@@ -103,7 +103,7 @@ DV.model.Pages.prototype = {
     this.averageHeight = ((this.averageHeight * this.numPagesLoaded) + height) / (this.numPagesLoaded + 1);
     this.numPagesLoaded += 1;
     if (h === height) return;
-    this.viewer.models.document.computeOffsets();
+    this.viewer.document.computeOffsets();
     this.viewer.pageSet.simpleReflowPages();
     if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
       var diff = Math.round(height * this.zoomFactor() - h);

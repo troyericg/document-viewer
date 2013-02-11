@@ -174,7 +174,7 @@ DV.Api.prototype = {
   redraw : function(redrawAll) {
     if (redrawAll) {
       this.viewer.models.annotations.renderAnnotations();
-      this.viewer.models.document.computeOffsets();
+      this.viewer.document.computeOffsets();
     }
     this.viewer.helpers.renderNavigation();
     this.viewer.helpers.renderComponents();

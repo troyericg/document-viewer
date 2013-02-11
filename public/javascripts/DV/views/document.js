@@ -40,7 +40,46 @@ DV.view.Document = DV.Backbone.View.extend({
   nextPage : function() { console.log("DV.view.Document.nextPage"); },
   previousPage : function() { console.log("DV.view.Document.previousPage"); },
   zoom: function(zoomLevel,force) { console.log("DV.view.Document.zoom"); },
-  computeOffsets: function() { console.log("DV.view.Document.computeOffsets"); },
+  computeOffsets: function() { 
+    console.log("DV.view.Document.computeOffsets"); 
+    var notes            = this.viewer.models.annotations; // annotation collection
+    var totalDocHeight   = 0;
+    var adjustedOffset   = 0;
+    var len              = this.totalPages;
+    var diff             = 0;
+    var scrollPos        = this.viewer.elements.window[0].scrollTop;
+
+    for(var i = 0; i < len; i++) {
+      if(notes.offsetsAdjustments[i]){
+        adjustedOffset   = notes.offsetsAdjustments[i];
+      }
+
+      var pageHeight     = this.viewer.models.pages.getPageHeight(i);
+      var previousOffset = this.offsets[i] || 0;
+      var h              = this.offsets[i] = adjustedOffset + totalDocHeight;
+
+      if((previousOffset !== h) && (h < scrollPos)) {
+        var delta = h - previousOffset - diff;
+        scrollPos += delta;
+        diff += delta;
+      }
+
+      this.baseHeightsPortion[i]        = Math.round((pageHeight + this.additionalPaddingOnPage) / 3);
+      this.baseHeightsPortionOffsets[i] = (i == 0) ? 0 : h - this.baseHeightsPortion[i];
+
+      totalDocHeight                    += (pageHeight + this.additionalPaddingOnPage);
+    }
+
+    // Add the sum of the page note heights to the total document height.
+    totalDocHeight += adjustedOffset;
+
+    // artificially set the scrollbar height
+    if(totalDocHeight != this.totalDocumentHeight){
+      diff = (this.totalDocumentHeight != 0) ? diff : totalDocHeight - this.totalDocumentHeight;
+      this.viewer.helpers.setDocHeight(totalDocHeight,diff);
+      this.totalDocumentHeight = totalDocHeight;
+    }
+  },
   getOffset: function(_index) { console.log("DV.view.Document.getOffset"); },
   resetRemovedPages: function() { console.log("DV.view.Document.resetRemovedPages"); },
   addPageToRemovedPages: function(page) { console.log("DV.view.Document.addPageToRemovedPages"); },

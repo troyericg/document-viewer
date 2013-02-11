@@ -6,6 +6,9 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     if (options.zoomLevel) state_data.zoomLevel = options.zoomLevel;
     this.state    = new DV.model.ViewerState(state_data, { viewer: this });
 
+    // this is a hack just to get loading working. see the end of states.InitialLoad
+    this.history        = new DV.History(this);
+    
     // Legacy components to be refactored
     this.helpers  = _.extend({}, DV.Schema.helpers);
     this.api      = new DV.Api(this);

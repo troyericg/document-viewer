@@ -17,14 +17,15 @@ DV.Schema.events = {
   drawPages: function() {
     if (this.viewer.state.name != 'ViewDocument') return;
     var doc           = this.viewer.models.document;
-    var win           = this.viewer.elements.window[0];
-    var offsets       = doc.baseHeightsPortionOffsets;
+    var win           = this.viewer.elements.window[0]; // this.viewer.$el.find('.DV-pages')
+    var offsets       = doc.baseHeightsPortionOffsets;  // calculated from DV.model.Document.computeOffsets
+    console.log(offsets);
     var scrollPos     = this.viewer.scrollPosition = win.scrollTop;
     var midpoint      = scrollPos + (this.viewer.$(win).height() / 3);
     var currentPage   = _.sortedIndex(offsets, scrollPos);
     var middlePage    = _.sortedIndex(offsets, midpoint);
     if (offsets[currentPage] == scrollPos) currentPage++ && middlePage++;
-    var pageIds       = this.helpers.sortPages(middlePage - 1);
+    var pageIds       = this.viewer.helpers.sortPages(middlePage - 1);
     var total         = doc.totalPages;
     if (doc.currentPage() != currentPage) doc.setPageIndex(currentPage - 1);
     this.drawPageAt(pageIds, middlePage - 1);
