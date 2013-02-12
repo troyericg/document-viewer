@@ -22,8 +22,6 @@ DV.DocumentViewer = DV.Backbone.View.extend({
       viewer      : this,
       state       : this.state
     });
-    
-    this.createSubViews();
   },
   
   // loadModels is currently necessary to initialize a pile of presenters
@@ -152,11 +150,14 @@ DV.load = function(documentRep, options) {
     DV.documents.add(doc);
 
     // And set viewer's model to the document
+    // and initialize subviews and models.
+    // ToDo: move this to a callback hooked
+    // to the viewer's model loading.
     var viewer = DV.viewers[json.id];
     viewer.model = doc;
-    
-    //viewer.schema.importCanonicalDocument(json);
+    viewer.createSubViews();
     viewer.loadModels();
+    //viewer.schema.importCanonicalDocument(json);
     DV.jQuery(function() {
       viewer.open('InitialLoad');
       if (options.afterLoad) options.afterLoad(viewer);
