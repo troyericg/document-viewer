@@ -1,13 +1,13 @@
 DV.Schema.events.ViewDocument = {
   next: function(){
     var nextPage = this.viewer.models.document.nextPage();
-    this.helpers.jump(nextPage);
+    this.viewer.helpers.jump(nextPage);
 
     // this.viewer.history.save('document/p'+(nextPage+1));
   },
   previous: function(e){
     var previousPage = this.viewer.models.document.previousPage();
-    this.helpers.jump(previousPage);
+    this.viewer.helpers.jump(previousPage);
 
     // this.viewer.history.save('document/p'+(previousPage+1));
   },
