@@ -25,20 +25,29 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
   
   transitionTo: function(name) {
     // call state function
+    //console.log("transitioning to: "+name);
     this.name = name;
     this.states[name].apply(this.viewer, arguments);
     // Trigger event announcing transition into state.
     // ??? do something.
   },
   
-  delegatedEventFunction: function(methodName) { return _.bind(this.delegateToState, this, methodName); },
+  delegatedEventFunction: function(methodName) {
+    //console.log(arguments.callee.caller);
+    return _.bind(_.partial(this.delegateToState,methodName), this);
+  },
 
   delegateToState: function() {
-    var methodName  = arguments[0];
+    //console.log("DELEGATE TO STATE");
+    //console.log(arguments.callee.caller);
+    var args = _.toArray(arguments);
+    var methodName = args.shift();
+    //console.log(methodName);
+    //console.log(this);
     if (this.eventFunctions[this.name] && this.eventFunctions[this.name][methodName]) { 
-      this.eventFunctions[this.name][methodName].apply(this.eventFunctions, arguments); 
+      this.eventFunctions[this.name][methodName].apply(this.eventFunctions, args); 
     } else { 
-      this.eventFunctions[methodName].apply(this.eventFunctions, arguments);
+      this.eventFunctions[methodName].apply(this.eventFunctions, args);
     }
   },
   
