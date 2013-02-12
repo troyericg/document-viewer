@@ -4,6 +4,7 @@
 DV.view.Document = DV.Backbone.View.extend({
   initialize: function(options) {
     this.viewer = options.viewer;
+    this.model  = this.viewer.model;
 
     this.currentPageIndex          = 0;
     this.offsets                   = [];
@@ -12,9 +13,12 @@ DV.view.Document = DV.Backbone.View.extend({
     this.paddedOffsets             = [];
     this.originalPageText          = {};
     this.totalDocumentHeight       = 0;
-    this.totalPages                = 0;
+    this.totalPages                = this.model.get('pages') || 0;
     this.additionalPaddingOnPage   = 0;
     this.ZOOM_RANGES               = [500, 700, 800, 900, 1000];
+    
+    // new!
+    this.defaultZoom               = 700;
 
     //var data                       = this.viewer.schema.data;
     //
@@ -27,8 +31,8 @@ DV.view.Document = DV.Backbone.View.extend({
 
     this.onPageChangeCallbacks = [];
 
-    //var zoom = this.zoomLevel = this.viewer.options.zoom || data.zoomLevel;
-    //if (zoom == 'auto') this.zoomLevel = data.zoomLevel;
+    var zoom = this.zoomLevel = this.viewer.options.zoom || this.model.get('zoomLevel') || this.defaultZoom;
+    if (zoom == 'auto') this.zoomLevel = this.model.get('zoomLevel') || this.defaultZoom;
 
     // The zoom level cannot go over the maximum image width.
     var maxZoom = _.last(this.ZOOM_RANGES);
@@ -41,7 +45,6 @@ DV.view.Document = DV.Backbone.View.extend({
   previousPage : function() { console.log("DV.view.Document.previousPage"); },
   zoom: function(zoomLevel,force) { console.log("DV.view.Document.zoom"); },
   computeOffsets: function() { 
-    console.log("DV.view.Document.computeOffsets"); 
     var notes            = this.viewer.models.annotations; // annotation collection
     var totalDocHeight   = 0;
     var adjustedOffset   = 0;
@@ -50,9 +53,7 @@ DV.view.Document = DV.Backbone.View.extend({
     var scrollPos        = this.viewer.elements.window[0].scrollTop;
 
     for(var i = 0; i < len; i++) {
-      if(notes.offsetsAdjustments[i]){
-        adjustedOffset   = notes.offsetsAdjustments[i];
-      }
+      if(notes.offsetsAdjustments[i]){ adjustedOffset = notes.offsetsAdjustments[i]; }
 
       var pageHeight     = this.viewer.models.pages.getPageHeight(i);
       var previousOffset = this.offsets[i] || 0;
