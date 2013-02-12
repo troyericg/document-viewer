@@ -11,6 +11,6 @@ configure do
 
 end
 
-require File.expand_path( './dv_viewer' )
+require File.expand_path( './dc_viewer' )
 
-run DVApp
+run DcViewer

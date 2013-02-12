@@ -9,16 +9,21 @@ require 'jammit'
 # enough power to serve the assets from Jammit
 #
 
-class DVApp < Sinatra::Base
+
+class DcViewer < Sinatra::Base
 
   register Padrino::Helpers
   register Jammit
 
   get "/" do
+    'hard-coded document in view is not longer supported, instead append document slug to root url'
+  end
+
+  get "/:document_id" do
     # this sets Jammit to 
     # always run in development mode
     Jammit.set_package_assets(false)
-    erb :debug
+    erb :index
   end
 
 end
