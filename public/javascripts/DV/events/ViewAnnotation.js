@@ -11,9 +11,7 @@ DV.Schema.events.ViewAnnotation = {
     }
 
     viewer.pageSet.showAnnotation(nextAnnotation);
-    this.helpers.setAnnotationPosition(nextAnnotation.position);
-
-
+    viewer.helpers.setAnnotationPosition(nextAnnotation.position);
   },
   previous: function(e){
     var viewer              = this.viewer;
@@ -27,7 +25,7 @@ DV.Schema.events.ViewAnnotation = {
     }
 
     viewer.pageSet.showAnnotation(previousAnnotation);
-    this.helpers.setAnnotationPosition(previousAnnotation.position);
+    viewer.helpers.setAnnotationPosition(previousAnnotation.position);
 
 
   },
