@@ -25,14 +25,14 @@ DV.Schema.helpers = {
       });
 
       // next/previous
-      var history         = viewer.history;
-      //var compiled        = viewer.compiled;
-      //compiled.next       = this.events.compile('next');
-      //compiled.previous   = this.events.compile('previous');
+      var history          = viewer.history;
+      var delegates        = viewer.state.delegated;
+      delegates.next       = viewer.state.delegatedEventFunction('next');
+      delegates.previous   = viewer.state.delegatedEventFunction('previous');
 
       var states = context.states;
-      viewer.$('.DV-navControls').delegate('span.DV-next',    'click', viewer.state.delegatedEventFunction('next'));
-      viewer.$('.DV-navControls').delegate('span.DV-previous','click', viewer.state.delegatedEventFunction('previous'));
+      viewer.$('.DV-navControls').delegate('span.DV-next',    'click', delegates.next);
+      viewer.$('.DV-navControls').delegate('span.DV-previous','click', delegates.previous);
 
       viewer.$('.DV-annotationView').delegate('.DV-trigger','click',function(e){ e.preventDefault(); context.open('ViewAnnotation'); });
       viewer.$('.DV-documentView').delegate(  '.DV-trigger',                   'click', function(e){ context.open('ViewDocument'); });
