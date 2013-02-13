@@ -33,6 +33,18 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     // ??? do something.
   },
   
+  // The original viewer has a notion of delegated event/state functions
+  // where a single function can be called, and depending on the current
+  // state of the viewer, the call will be dispatche dynamically to a
+  // namespaced behavior.
+  //
+  // For example, viewer.compiled.next().
+  //
+  // This functionality has been migrated over to the viewer state to
+  // manage for the time being.
+  //
+  // instead of calling viewer.compiled.next()
+  // call: viewer.state.delegated.next()
   delegatedEventFunction: function(methodName) {
     //console.log(arguments.callee.caller);
     return _.bind(_.partial(this.delegateToState,methodName), this);
@@ -97,7 +109,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); 
-      this.helpers.reset();
+      this.helpers.reset(); // in construction.js
       this.helpers.ensureAnnotationImages();
       this.activeAnnotationId = null;
       this.acceptInput.deny();
