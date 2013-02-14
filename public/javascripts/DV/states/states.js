@@ -81,8 +81,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.renderComponents();
 
       // Render chapters and notes navigation:
-      //this.helpers.renderNavigation();
-      this.sidebar.render();
+      this.sidebar.render(); // used to be: this.helpers.renderNavigation();
 
       // Render CSS rules for showing/hiding specific pages:
       this.helpers.renderSpecificPageCss();
@@ -109,10 +108,10 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); 
-      this.helpers.reset(); // in construction.js
-      this.helpers.ensureAnnotationImages();
+      this.helpers.reset();                       // in construction.js
+      this.helpers.ensureAnnotationImages();      // 
       this.activeAnnotationId = null;
-      this.acceptInput.deny();
+      this.acceptInput.deny(); // lock jumping to another page (since that doesn't make sense in the Notes tab)
       // Nudge IE to force the annotations to repaint.
       if (DV.jQuery.browser.msie) {
         this.elements.annotations.css({zoom : 0});
@@ -125,8 +124,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     },
     ViewDocument: function() { 
       console.log("View Document");
-      this.helpers.reset();
-      this.helpers.addObserver('drawPages');
+      this.helpers.reset();                   // in construction.js cleans up search/activeAnnotation/dragReporter/drawPages.
+      this.helpers.addObserver('drawPages');  // resets the page drawing function
       this.dragReporter.setBinding();
       this.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
       this.acceptInput.allow();

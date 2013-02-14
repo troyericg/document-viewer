@@ -60,9 +60,7 @@ DV.PageSet.prototype.simpleReflowPages = function(){
 
 // hide any active annotations
 DV.PageSet.prototype.cleanUp = function(){
-  if(this.viewer.activeAnnotation){
-    this.viewer.activeAnnotation.hide(true);
-  }
+  if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); }
 };
 
 DV.PageSet.prototype.zoom = function(argHash){
