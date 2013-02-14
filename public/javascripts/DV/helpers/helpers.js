@@ -121,6 +121,7 @@ DV.Schema.helpers = {
 
       this.viewer.elements.coverPages.live('mousedown', cleanUp);
 
+      // Reference to the acceptInput jQuery extension for the currentPage input navigation box.
       viewer.acceptInput = this.viewer.elements.currentPage.acceptInput({ changeCallBack: DV.jQuery.proxy(this.acceptInputCallBack,this) });
 
     },
@@ -329,9 +330,7 @@ DV.Schema.helpers = {
     removeObserver: function(observerName){
       var observers = this.viewer.state.observers;
       for(var i = 0,len=observers.length;i<len;i++){
-        if(observerName === observers[i]){
-          observers.splice(i,1);
-        }
+        if(observerName === observers[i]){ observers.splice(i,1); }
       }
     },
 
