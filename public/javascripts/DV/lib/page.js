@@ -35,23 +35,15 @@ DV.Page = function(viewer, argHash){
 };
 
 // Set the image reference for the page for future updates
-DV.Page.prototype.setPageImage = function(){
-  this.pageImageEl = this.getPageImage();
-};
+DV.Page.prototype.setPageImage = function(){ this.pageImageEl = this.getPageImage(); };
 
 // get page image to update
-DV.Page.prototype.getPageImage = function(){
-  return this.el.find('img.DV-pageImage');
-};
+DV.Page.prototype.getPageImage = function(){ return this.el.find('img.DV-pageImage'); };
 
 // Get the offset for the page at its current index
-DV.Page.prototype.getOffset = function(){
-  return this.model_document.offsets[this.index];
-};
+DV.Page.prototype.getOffset = function(){ return this.model_document.offsets[this.index]; };
 
-DV.Page.prototype.getPageNoteHeight = function() {
-  return this.model_pages.pageNoteHeights[this.index];
-};
+DV.Page.prototype.getPageNoteHeight = function() { return this.model_pages.pageNoteHeights[this.index]; };
 
 // Draw the current page and its associated layers/annotations
 // Will stop if page index appears the same or force boolean is passed
@@ -88,7 +80,7 @@ DV.Page.prototype.draw = function(argHash) {
     this.annotations = [];
 
     // if there are annotations for this page, it will proceed and attempt to draw
-    var byPage = this.model_annotations.byPage[this.index];
+    var byPage = this.model_annotations.byPage[this.index] || [];
     if (byPage) {
       // Loop through all annotations and add to page
       for (var i=0; i < byPage.length; i++) {
@@ -137,7 +129,6 @@ DV.Page.prototype.draw = function(argHash) {
         );
 
         this.annotations.push(newAnno);
-
       }
     }
 

@@ -7,9 +7,7 @@ DV.PageSet = function(viewer){
 
 // used to call the same method with the same params against all page instances
 DV.PageSet.prototype.execute = function(action,params){
-  this.pages.each(function(pageInstance){
-    pageInstance[action].apply(pageInstance,params);
-  });
+  this.pages.each(function(pageInstance){ pageInstance[action].apply(pageInstance,params); });
 };
 
 // build the basic page presentation layer
@@ -59,9 +57,7 @@ DV.PageSet.prototype.simpleReflowPages = function(){
 };
 
 // hide any active annotations
-DV.PageSet.prototype.cleanUp = function(){
-  if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); }
-};
+DV.PageSet.prototype.cleanUp = function(){ if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); } };
 
 DV.PageSet.prototype.zoom = function(argHash){
   if (this.viewer.models.document.zoomLevel === argHash.zoomLevel) return;
