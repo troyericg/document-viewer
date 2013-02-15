@@ -48,11 +48,11 @@ DV.view.Notes = DV.Backbone.View.extend({
       adata.top                   = y1 - 5;
     }
 
-    //adata.owns_note               = adata.owns_note || false;
+    adata.owns_note               = adata.owns_note || false;
     adata.width                   = pageModel.width;
     adata.pageNumber              = adata.page;
-    //adata.author                  = adata.author || "";
-    //adata.author_organization     = adata.author_organization || "";
+    adata.author                  = adata.author || "";
+    adata.author_organization     = adata.author_organization || "";
     adata.bgWidth                 = adata.width;
     adata.bWidth                  = adata.width - 16;
     adata.excerptWidth            = (x2 - x1) - 8;
