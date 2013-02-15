@@ -1,17 +1,25 @@
 DV.view.Pages = DV.Backbone.View.extend({
-  averageHeight   : 0,
+  // In pixels.
   BASE_WIDTH      : 700,
   BASE_HEIGHT     : 906,
+  // Factors for scaling from image size to zoomlevel.
   SCALE_FACTORS   : {'500': 0.714, '700': 1.0, '800': 0.8, '900': 0.9, '1000': 1.0},
+  // For viewing page text.
   DEFAULT_PADDING : 100,
+  // Embed reduces padding.
   REDUCED_PADDING : 44,
+  // Mini padding, when < 500 px wide.
   MINI_PADDING    : 18,
 
   initialize: function(options) {
     this.viewer          = options.viewer;
+    // Real page heights.
     this.pageHeights     = [];
+    // Real page note heights.
     this.pageNoteHeights = [];
-    //this.zoomLevel       = this.viewer.model.zoomLevel;
+    // Rolling average page height.
+    this.averageHeight   = 0;
+    this.zoomLevel       = this.viewer.model.zoomLevel;
     this.baseWidth       = this.BASE_WIDTH;
     this.baseHeight      = this.BASE_HEIGHT;
     this.width           = this.zoomLevel;
