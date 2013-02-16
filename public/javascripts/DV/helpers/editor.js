@@ -39,7 +39,7 @@ _.extend(DV.Schema.helpers,{
     annoEl.removeClass('DV-editing');
     this.viewer.models.annotations.fireSaveCallbacks(anno);
     this.viewer.api.redraw(true);
-    if (this.viewer.activeAnnotation) this.viewer.pageSet.showAnnotation(anno);
+    if (this.viewer.activeAnnotation) this.viewer.pages.showAnnotation(anno);
   },
   deleteAnnotation : function(e) {
     var annoEl = this.viewer.$(e.target).closest(this.annotationClassName);

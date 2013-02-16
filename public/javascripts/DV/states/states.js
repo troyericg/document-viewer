@@ -87,9 +87,10 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.renderSpecificPageCss();
 
       // Instantiate pageset and build accordingly
-      //this.pageSet = new DV.PageSet(this);
-      this.pageSet = new DV.view.PageSet({viewer: this});
-      this.pageSet.buildPages();
+      //this.pages = new DV.PageSet(this);
+      //this.pages = new DV.view.PageSet({viewer: this});
+      //this.pages.buildPages();
+      this.pages.buildPages();
 
       // BindEvents
       this.helpers.bindEvents(this);
@@ -203,7 +204,7 @@ DV.Schema.states = {
   ViewText: function(){
     this.helpers.reset();
     this.acceptInput.allow();
-    this.pageSet.zoomText();
+    this.pages.zoomText();
     this.helpers.toggleContent('viewText');
     this.events.loadText();
     return true;

@@ -4,7 +4,7 @@ _.extend(DV.Schema.events, {
   handleHashChangeViewDocumentPage: function(page){
     var pageIndex = parseInt(page,10) - 1;
     if(this.viewer.state === 'ViewDocument'){
-      this.viewer.pageSet.cleanUp();
+      this.viewer.pages.cleanUp();
       this.helpers.jump(pageIndex);
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
@@ -24,10 +24,10 @@ _.extend(DV.Schema.events, {
     var annotation  = parseInt(annotation,10);
 
     if(this.viewer.state === 'ViewDocument'){
-      this.viewer.pageSet.showAnnotation(this.viewer.models.annotations.byId[annotation]);
+      this.viewer.pages.showAnnotation(this.viewer.models.annotations.byId[annotation]);
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
-      this.viewer.pageSet.setActiveAnnotation(annotation);
+      this.viewer.pages.setActiveAnnotation(annotation);
       this.viewer.openingAnnotationFromHash = true;
       this.viewer.open('ViewDocument');
     }
@@ -39,7 +39,7 @@ _.extend(DV.Schema.events, {
     var viewer = this.viewer;
 
     if(viewer.state === 'ViewAnnotation'){
-      viewer.pageSet.showAnnotation(this.viewer.models.annotations.byId[annotation]);
+      viewer.pages.showAnnotation(this.viewer.models.annotations.byId[annotation]);
     }else{
       viewer.activeAnnotationId = annotation;
       this.viewer.open('ViewAnnotation');
@@ -48,7 +48,7 @@ _.extend(DV.Schema.events, {
 
   // Default route if all else fails
   handleHashChangeDefault: function(){
-    this.viewer.pageSet.cleanUp();
+    this.viewer.pages.cleanUp();
     this.viewer.models.document.setPageIndex(0);
 
     if(this.viewer.state === 'ViewDocument'){

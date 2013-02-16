@@ -131,7 +131,7 @@ DV.model.Document.prototype = {
   },
 
   redrawPages: function() {
-    _.each(this.viewer.pageSet.pages, function(page) {
+    _.each(this.viewer.pages.pages, function(page) {
       page.drawRemoveOverlay();
     });
     if (this.viewer.thumbnails) {

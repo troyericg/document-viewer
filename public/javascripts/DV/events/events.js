@@ -4,7 +4,7 @@ DV.Schema.events = {
   zoom: function(level){
     var viewer = this.viewer;
     var continuation = function() {
-      viewer.pageSet.zoom({ zoomLevel: level });
+      viewer.pages.zoom({ zoomLevel: level });
       var ranges = viewer.models.document.ZOOM_RANGES;
       viewer.dragReporter.sensitivity = ranges[ranges.length-1] == level ? 1.5 : 1;
       viewer.notifyChangedState();
@@ -49,7 +49,7 @@ DV.Schema.events = {
     ];
     if (last) pages.pop();
     pages[first ? 0 : pages.length - 1].currentPage = true;
-    this.viewer.pageSet.draw(pages);
+    this.viewer.pages.draw(pages);
   },
 
   check: function(){
@@ -128,14 +128,14 @@ DV.Schema.events = {
       if(!viewer.activeAnnotation.annotationEl.hasClass('DV-editing') &&
          (scrollPosition > (trackAnnotation.h) || scrollPosition < trackAnnotation.combined)) {
         annotation.hide(true);
-        viewer.pageSet.setActiveAnnotation(null);
+        viewer.pages.setActiveAnnotation(null);
         viewer.activeAnnotation   = null;
         trackAnnotation.h         = null;
         trackAnnotation.id        = null;
         trackAnnotation.combined  = null;
       }
     }else{
-      viewer.pageSet.setActiveAnnotation(null);
+      viewer.pages.setActiveAnnotation(null);
       viewer.activeAnnotation   = null;
       trackAnnotation.h         = null;
       trackAnnotation.id        = null;

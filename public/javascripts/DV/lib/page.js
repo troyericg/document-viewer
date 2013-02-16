@@ -208,7 +208,7 @@ DV.Page.prototype.loadImage = function(argHash) {
   };
 
   this.loadTimer = setTimeout(lazyImageLoader, 150);
-  this.viewer.pageSet.redraw();
+  this.viewer.pages.redraw();
 };
 
 DV.Page.prototype.sizeImage = function() {

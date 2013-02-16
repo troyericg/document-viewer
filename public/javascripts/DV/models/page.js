@@ -99,7 +99,7 @@ DV.model.Pages.prototype = {
     this.numPagesLoaded += 1;
     if (h === height) return;
     this.viewer.document.computeOffsets();
-    this.viewer.pageSet.simpleReflowPages();
+    this.viewer.pages.simpleReflowPages();
     if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
       var diff = Math.round(height * this.zoomFactor() - h);
       this.viewer.elements.window[0].scrollTop += diff;

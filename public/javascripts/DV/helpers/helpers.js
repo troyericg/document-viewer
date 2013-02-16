@@ -96,7 +96,7 @@ DV.Schema.helpers = {
         viewer.$('.DV-descriptionToggle').toggleClass('DV-showDescription');
       });
 
-      var cleanUp = DV.jQuery.proxy(viewer.pageSet.cleanUp, this);
+      var cleanUp = DV.jQuery.proxy(viewer.pages.cleanUp, this);
 
       this.viewer.elements.window.live('mousedown',
         function(e){
@@ -233,7 +233,7 @@ DV.Schema.helpers = {
         var number  = this.viewer.models.document.currentPage();
       } else {
         var pageId  = this.viewer.$(e.target).closest('.DV-set').attr('data-id');
-        var page    = this.viewer.pageSet.pages[pageId];
+        var page    = this.viewer.pages.pages[pageId];
         var number  = page.pageNumber;
         this.jump(page.index);
       }
@@ -246,7 +246,7 @@ DV.Schema.helpers = {
       var anno = this.viewer.models.annotations.getAnnotation(id);
       var sid  = anno.server_id || anno.id;
       if (this.viewer.state == 'ViewDocument') {
-        this.viewer.pageSet.showAnnotation(anno);
+        this.viewer.pages.showAnnotation(anno);
         this.viewer.history.save('document/p' + anno.pageNumber + '/a' + sid);
       } else {
         this.viewer.history.save('annotation/a' + sid);
@@ -343,7 +343,7 @@ DV.Schema.helpers = {
       var position = this.viewer.models.document.getOffset(parseInt(pageIndex, 10)) + modifier;
       this.viewer.elements.window[0].scrollTop = position;
       this.viewer.models.document.setPageIndex(pageIndex);
-      if (forceRedraw) this.viewer.pageSet.redraw(true);
+      if (forceRedraw) this.viewer.pages.redraw(true);
       if (this.viewer.state === 'ViewThumbnails') {
         this.viewer.thumbnails.highlightCurrentPage();
       }
@@ -460,7 +460,7 @@ DV.Schema.helpers = {
         var opts = this.viewer.options;
         this.viewer.open('ViewDocument');
         if (opts.note) {
-          this.viewer.pageSet.showAnnotation(this.viewer.models.annotations.byId[opts.note]);
+          this.viewer.pages.showAnnotation(this.viewer.models.annotations.byId[opts.note]);
         } else if (opts.page) {
           this.jump(opts.page - 1);
         }

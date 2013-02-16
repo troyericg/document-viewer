@@ -119,7 +119,7 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
   this.viewer.events.trackAnnotation.id       = null;
   this.viewer.events.trackAnnotation.combined = null;
   this.active                                 = false;
-  this.viewer.pageSet.setActiveAnnotation(null);
+  this.viewer.pages.setActiveAnnotation(null);
   this.viewer.helpers.removeObserver('trackAnnotation');
   this.viewer.helpers.setActiveAnnotationInNav();
   this.pageEl.parent('.DV-set').removeClass('DV-activePage');

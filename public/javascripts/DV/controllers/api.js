@@ -23,7 +23,7 @@ DV.Api.prototype = {
 
   // Return the page number for one of the three physical page DOM elements, by id:
   getPageNumberForId : function(id) {
-    var page = this.viewer.pageSet.pages[id];
+    var page = this.viewer.pages.pages[id];
     return page.index + 1;
   },
 
@@ -180,8 +180,8 @@ DV.Api.prototype = {
     this.viewer.helpers.renderComponents();
     if (redrawAll) {
       this.viewer.elements.window.removeClass('DV-coverVisible');
-      this.viewer.pageSet.buildPages({noNotes : true});
-      this.viewer.pageSet.reflowPages();
+      this.viewer.pages.buildPages({noNotes : true});
+      this.viewer.pages.reflowPages();
     }
   },
 
@@ -202,7 +202,7 @@ DV.Api.prototype = {
     anno = this.viewer.schema.loadAnnotation(anno);
     this.viewer.models.annotations.sortAnnotations();
     this.redraw(true);
-    this.viewer.pageSet.showAnnotation(anno, {active: true, edit : true});
+    this.viewer.pages.showAnnotation(anno, {active: true, edit : true});
     return anno;
   },
 

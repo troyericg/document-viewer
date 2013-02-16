@@ -89,7 +89,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
         this.loadText(annotation.index); 
       } else {
         if (this.viewer.state.name === 'ViewThumbnails') { this.viewer.open('ViewDocument'); }
-        this.viewer.pageSet.showAnnotation(annotation); // Otherwise show the note.
+        this.viewer.pages.showAnnotation(annotation); // Otherwise show the note.
       }
 
     } else if (chapterEl.length) {                                                            // If we have a chapter header

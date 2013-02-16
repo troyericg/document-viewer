@@ -10,7 +10,7 @@ DV.Schema.events.ViewAnnotation = {
       return false;
     }
 
-    viewer.pageSet.showAnnotation(nextAnnotation);
+    viewer.pages.showAnnotation(nextAnnotation);
     viewer.helpers.setAnnotationPosition(nextAnnotation.position);
   },
   previous: function(e){
@@ -24,7 +24,7 @@ DV.Schema.events.ViewAnnotation = {
       return false;
     }
 
-    viewer.pageSet.showAnnotation(previousAnnotation);
+    viewer.pages.showAnnotation(previousAnnotation);
     viewer.helpers.setAnnotationPosition(previousAnnotation.position);
 
 

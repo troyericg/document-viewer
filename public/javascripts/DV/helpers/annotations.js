@@ -10,7 +10,7 @@ _.extend(DV.Schema.helpers, {
     var annotationId  = annotation.attr('id').replace(/DV\-annotation\-|DV\-listAnnotation\-/,'');
     var pageId        = annotation.closest('div.DV-set').attr('data-id');
 
-    for(var i = 0; (annotationObject = this.viewer.pageSet.pages[pageId].annotations[i]); i++){
+    for(var i = 0; (annotationObject = this.viewer.pages.pages[pageId].annotations[i]); i++){
       if(annotationObject.id == annotationId){
         // cleanup
         annotation = null;
