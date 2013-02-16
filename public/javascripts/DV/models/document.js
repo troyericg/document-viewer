@@ -169,6 +169,11 @@ DV.model.NewDocument = DV.Backbone.Model.extend({
     this.sections = new DV.model.SectionSet(attributes.sections);
     this.notes    = new DV.model.NoteSet();
     this.notes.reset(attributes.annotations);
+    this.pages    = new DV.model.PageSet([], {
+      pageTotal: this.get('pages'),
+      resources: this.get('resources').page,
+      notes:     this.notes
+    });
     
     // Legacy behavior (which must be replaced in order to guarantee
     // data integrity via setters)
