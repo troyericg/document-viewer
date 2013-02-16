@@ -58,19 +58,14 @@ DV.model.Pages.prototype = {
 
   // Return the appropriate padding for the size of the viewer.
   getPadding: function() {
-    if (this.viewer.options.mini) {
-      return this.MINI_PADDING;
-    } else if (this.viewer.options.zoom == 'auto') {
-      return this.REDUCED_PADDING;
-    } else {
-      return this.DEFAULT_PADDING;
+           if (this.viewer.options.mini)           { return this.MINI_PADDING;
+    } else if (this.viewer.options.zoom == 'auto') { return this.REDUCED_PADDING;
+    } else                                         { return this.DEFAULT_PADDING;
     }
   },
 
   // The zoom factor is the ratio of the image width to the baseline width.
-  zoomFactor : function() {
-    return this.zoomLevel / this.BASE_WIDTH;
-  },
+  zoomFactor : function() { return this.zoomLevel / this.BASE_WIDTH; },
 
   // Resize or zoom the pages width and height.
   resize : function(zoomLevel) {
@@ -112,9 +107,7 @@ DV.model.Pages.prototype = {
   },
 
   // set the real page height
-  setPageHeight: function(pageIndex, pageHeight) {
-    this.pageHeights[pageIndex] = Math.round(pageHeight);
-  },
+  setPageHeight: function(pageIndex, pageHeight) { this.pageHeights[pageIndex] = Math.round(pageHeight); },
 
   // get the real page height
   getPageHeight: function(pageIndex) {
@@ -123,3 +116,101 @@ DV.model.Pages.prototype = {
   }
 
 };
+
+DV.model.Page = DV.Backbone.Model.extend({
+  defaults: {
+    notes: []
+  },
+  /*
+    attributes:
+      padding
+      imageURL
+      reference to notes?
+      height
+      width
+  */
+
+  initialize: function(attributes, options) {
+    this.notes      = new DV.model.NoteSet(this.get('notes'));
+    this.pageIndex  = this.get('index');
+    this.pageNumber = this.pageIndex + 1;
+  },
+  
+  // Get the complete image URL for a particular page.
+  imageURL: function(size) {
+    var url  = this.get('imageURL');
+    //var size = this.zoomLevel > this.BASE_WIDTH ? 'large' : 'normal';
+    if (size != 'large' || size != 'normal') { size = 'normal'; }
+    if (resources.page.zeropad) { pageNumber = this.zeroPad(this.pageNumber, 5); }
+    url = url.replace(/\{size\}/, size);
+    url = url.replace(/\{page\}/, this.pageNumber);
+    return url;
+  },
+
+  zeroPad : function(num, count) {
+    var string = num.toString();
+    while (string.length < count) string = '0' + string;
+    return string;
+  },
+
+});
+
+DV.model.PageSet = DV.Backbone.Collection.extend({
+  initialize: function(models, options) {
+    this.resources = options.resources || {};
+    this.notes     = options.notes     || new DV.model.NoteSet();
+    this.padding   = options.padding   || 'default';
+    this.pageTotal = options.pageTotal || 0;
+    
+    // Rolling average page height.
+    this.averageHeight   = 0;
+
+    // Real page heights.
+    this.pageHeights     = [];
+
+    // Real page note heights.
+    this.pageNoteHeights = [];
+
+    // In pixels.
+    this.BASE_WIDTH      = 700;
+    this.BASE_HEIGHT     = 906;
+
+    // Factors for scaling from image size to zoomlevel.
+    this.SCALE_FACTORS   = {'500': 0.714, '700': 1.0, '800': 0.8, '900': 0.9, '1000': 1.0};
+
+    // For viewing page text.
+    this.DEFAULT_PADDING = 100;
+
+    // Embed reduces padding.
+    this.REDUCED_PADDING = 44;
+
+    // Mini padding, when < 500 px wide.
+    this.MINI_PADDING    = 18;
+    
+    this.PADDINGS = {
+      'default': 100,
+      'reduced': 44,
+      'mini'   : 18
+    };
+    this.numPagesLoaded = 0;
+  },
+  
+  getPadding: function() { return this.PADDINGS[this.padding]; },
+  
+  getPageByIndex: function(pageIndex) {
+    var page = this.find(function(model){ return model.get('index') == pageIndex })
+    if (!page) {
+      page = new DV.model.Page({
+        index:    pageIndex,
+        height:   this.BASE_HEIGHT,
+        width:    this.BASE_WIDTH,
+        padding:  this.getPadding(),
+        imageURL: this.resources.imageURL,
+        textURL:  this.resources.textURL,
+        notes:    this.notes.byPage[pageIndex], 
+      });
+      this.add(page);
+    }
+    return page;
+  }
+});
