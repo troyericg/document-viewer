@@ -1,4 +1,4 @@
-DV.view.Pages = DV.Backbone.View.extend({
+DV.view.Page = DV.Backbone.View.extend({
   // In pixels.
   BASE_WIDTH      : 700,
   BASE_HEIGHT     : 906,
