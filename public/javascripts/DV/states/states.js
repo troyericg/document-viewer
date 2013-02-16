@@ -87,7 +87,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.renderSpecificPageCss();
 
       // Instantiate pageset and build accordingly
-      this.pageSet = new DV.PageSet(this);
+      //this.pageSet = new DV.PageSet(this);
+      this.pageSet = new DV.view.PageSet({viewer: this});
       this.pageSet.buildPages();
 
       // BindEvents
