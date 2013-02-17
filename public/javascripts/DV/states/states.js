@@ -37,7 +37,7 @@ DV.Schema.states = {
   },
 
   ViewAnnotation: function(){
-    this.helpers.reset();
+    this.helpers.reset(); // in construction.js
     this.helpers.ensureAnnotationImages();
     this.activeAnnotationId = null;
     this.acceptInput.deny();

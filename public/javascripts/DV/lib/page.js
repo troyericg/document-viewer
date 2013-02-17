@@ -158,13 +158,9 @@ DV.Page.prototype.drawRemoveOverlay = function() {
 
 DV.Page.prototype.setPageType = function(){
   if(this.annotations.length > 0){
-   if(this.hasLayerPage === true){
-    this.el.addClass('DV-layer-page');
-   }
-   if(this.hasLayerRegional === true){
-    this.el.addClass('DV-layer-page');
-   }
-  }else{
+    if(this.hasLayerPage === true)    { this.el.addClass('DV-layer-page'); }
+    if(this.hasLayerRegional === true){ this.el.addClass('DV-layer-page'); }
+  } else {
     this.el.removeClass('DV-layer-page DV-layer-regional');
   }
 };
