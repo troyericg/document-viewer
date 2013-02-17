@@ -44,6 +44,10 @@ DV.view.Pages = DV.Backbone.View.extend({
     return pages.join('');
   },
 
+  /*
+    EXTRACTED FROM PAGE MODEL
+  */
+
   // Get the complete image URL for a particular page.
   imageURL: function(index) {
     var resources = this.viewer.model.get('resources');
@@ -120,6 +124,14 @@ DV.view.Pages = DV.Backbone.View.extend({
     var realHeight = this.pageHeights[pageIndex];
     return Math.round(realHeight ? realHeight * this.zoomFactor() : this.height);
   },
+
+  /*
+    END OF PAGE MODEL
+  */
+  
+  /*
+    ORIGINAL PAGE VIEW
+  */
 
   setPageImage: function(){ this.pageImageEl = this.getPageImage(); },
 
@@ -335,6 +347,10 @@ DV.view.Pages = DV.Backbone.View.extend({
     this.el.addClass('DV-loaded').removeClass('DV-loading');
   },
   
+  /*
+    END OF ORIGINAL PAGE VIEW
+  */
+
   /*
     ALL OF THE METHODS BELOW WERE EXTRACTED FROM PAGE SET
   */
