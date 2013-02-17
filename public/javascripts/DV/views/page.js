@@ -385,11 +385,20 @@ DV.view.Pages = DV.Backbone.View.extend({
   // used to generate references for the build action
   getPages: function(){
     var _pages = [];
+    // for each of the Page DOM nodes
     this.viewer.elements.sets.each(function(_index,el){
+      // identify whether this page is the current page
       var currentPage = (_index == 0) ? true : false;
-      _pages.push({ label: 'p'+_index, el: el, index: _index, pageNumber: _index+1, currentPage: currentPage });
+      // create an impromptu model
+      _pages.push({ 
+        label: 'p'+_index, 
+        el: el, 
+        index: _index, 
+        pageNumber: _index+1, 
+        currentPage: currentPage 
+      });
     });
-    return _pages;
+    return _pages; // and return all of the models.
   },
 
   // basic reflow to ensure zoomlevel is right, pages are in the right place and annotation limits are correct
