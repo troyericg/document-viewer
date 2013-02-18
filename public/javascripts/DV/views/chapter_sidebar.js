@@ -63,6 +63,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
     chaptersContainer.html(navigationView);
     // following line is obsolete pending move to Backbone view.
     //chaptersContainer.unbind('click').bind('click',this.events.compile('handleNavigation'));
+    chaptersContainer.unbind('click').bind('click',this.viewer.state.delegatedEventFunction('handleNavigation'));
     if (sections.length || _.size(this.viewer.model.notes.byId)) { chaptersContainer.show(); } else { chaptersContainer.hide(); }
     this.viewer.helpers.displayNavigation();
 
