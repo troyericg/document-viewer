@@ -1,6 +1,7 @@
 DV.view.Notes = DV.Backbone.View.extend({
   initialize: function(options) {
-    this.viewer = options.viewer;
+    this.viewer          = options.viewer;
+    this.PAGE_NOTE_FUDGE = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
   },
   
   render: function() {
@@ -10,16 +11,16 @@ DV.view.Notes = DV.Backbone.View.extend({
     for (var i=0; i< notes.length; i++) {
       var anno      = notes.at(i);
       //anno.of       = _.indexOf(notes.byPage[anno.get('page') - 1], anno);
+      anno.position = i + 1;
       anno.html     = this.renderNote(anno);
     }
 
-    var rendered  = _.map(this.bySortOrder, function(anno){ return anno.html; });
+    var rendered  = notes.map(function(anno){ return anno.html; });
     var html      = rendered.join('')
                     .replace(/class="DV-img" src="/g, 'class="DV-img" data-src="')
                     .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
       return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     });
-
     this.viewer.$('div.DV-allAnnotations').html(html);
 
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
@@ -77,7 +78,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     adata.orderClass = '';
     adata.options = this.viewer.options;
     if (adata.position == 1) adata.orderClass += ' DV-firstAnnotation';
-    if (adata.position == this.viewer.model.notes.length) adata.orderClass += ' DV-lastAnnotation';
+    if (adata.position == this.viewer.model.notes.length) { adata.orderClass += ' DV-lastAnnotation'; }
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
     return JST[template](adata);
@@ -104,19 +105,18 @@ DV.view.Notes = DV.Backbone.View.extend({
     // First, collect the list of page annotations, and associate them with
     // their DOM elements.
     var pageAnnos = [];
-    _.each(_.select(this.bySortOrder, function(anno) {
-      return anno.type == 'page';
-    }), function(anno, i) {
+    var pageNotes = this.viewer.model.notes.select(function(anno) { return anno.get('type') == 'page'; });
+    _.each(pageNotes, function(anno, i) {
       anno.el = pageAnnotationEls[i];
-      pageAnnos[anno.pageNumber] = anno;
+      pageAnnos[anno.get('page')] = anno;
     });
 
     // Then, loop through the pages and store the cumulative offset due to
     // page annotations.
-    for (var i = 0, len = documentModel.totalPages; i <= len; i++) {
+    for (var i = 0; i <= documentModel.totalPages; i++) {
       pageNoteHeights[i] = 0;
       if (pageAnnos[i]) {
-        var height = (this.viewer.$(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
+        var height = (DV.jQuery(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
         pageNoteHeights[i - 1] = height;
         this.offsetAdjustmentSum += height;
       }
