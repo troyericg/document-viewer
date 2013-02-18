@@ -68,7 +68,7 @@ _.extend(DV.Schema.helpers, {
     var aPage     = annotation.page;
     var aEl       = annotation.annotationEl;
     var aPosTop   = annotation.position.top * this.viewer.models.pages.zoomFactor();
-    var _trackAnnotation = this.events.trackAnnotation;
+    var _trackAnnotation = this.viewer.state.eventFunctions.trackAnnotation;
 
     if(annotation.type === 'page'){
       _trackAnnotation.h          = aEl.outerHeight()+aPage.getOffset();

@@ -17,7 +17,7 @@ DV.Annotation = function(argHash){
 
   if(argHash.active){
     this.viewer.helpers.setActiveAnnotationLimits(this);
-    this.viewer.events.resetTracker();
+    this.viewer.state.eventFunctions.resetTracker();
     this.active = null;
     // this.viewer.elements.window[0].scrollTop += this.annotationEl.offset().top;
     this.show();
@@ -115,9 +115,9 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
 
   // stop tracking this annotation
   this.viewer.activeAnnotation                = null;
-  this.viewer.events.trackAnnotation.h        = null;
-  this.viewer.events.trackAnnotation.id       = null;
-  this.viewer.events.trackAnnotation.combined = null;
+  this.viewer.state.eventFunctions.trackAnnotation.h        = null;
+  this.viewer.state.eventFunctions.trackAnnotation.id       = null;
+  this.viewer.state.eventFunctions.trackAnnotation.combined = null;
   this.active                                 = false;
   this.viewer.pages.setActiveAnnotation(null);
   this.viewer.helpers.removeObserver('trackAnnotation');

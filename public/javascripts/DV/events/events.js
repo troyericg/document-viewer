@@ -118,12 +118,12 @@ DV.Schema.events = {
 
     if(viewer.activeAnnotation){
       var annotation      = viewer.activeAnnotation;
-      var trackAnnotation = this.trackAnnotation;
+      var trackAnnotation = this.viewer.state.eventFunctions.trackAnnotation;
 
 
       if(trackAnnotation.id != annotation.id){
         trackAnnotation.id = annotation.id;
-        helpers.setActiveAnnotationLimits(annotation);
+        viewer.helpers.setActiveAnnotationLimits(annotation);
       }
       if(!viewer.activeAnnotation.annotationEl.hasClass('DV-editing') &&
          (scrollPosition > (trackAnnotation.h) || scrollPosition < trackAnnotation.combined)) {
@@ -140,7 +140,7 @@ DV.Schema.events = {
       trackAnnotation.h         = null;
       trackAnnotation.id        = null;
       trackAnnotation.combined  = null;
-      helpers.removeObserver('trackAnnotation');
+      viewer.helpers.removeObserver('trackAnnotation');
     }
   }
 };
