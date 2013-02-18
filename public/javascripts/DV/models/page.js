@@ -119,39 +119,43 @@ DV.model.Pages.prototype = {
 
 DV.model.Page = DV.Backbone.Model.extend({
   defaults: {
-    notes: []
-  },
-  /*
-    attributes:
-      padding
+    notes: [],
+    height: 906,
+    width: 700,
+    padding: 'normal'
+    /*
       imageURL
-      reference to notes?
-      height
-      width
-  */
+    */
+  },
 
   initialize: function(attributes, options) {
     this.notes      = new DV.model.NoteSet(this.get('notes'));
     this.pageIndex  = this.get('index');
     this.pageNumber = this.pageIndex + 1;
+    
   },
   
   // Get the complete image URL for a particular page.
   imageURL: function(size) {
     var url  = this.get('imageURL');
+    var pageIdentifier = this.pageNumber;
     //var size = this.zoomLevel > this.BASE_WIDTH ? 'large' : 'normal';
     if (size != 'large' || size != 'normal') { size = 'normal'; }
-    if (resources.page.zeropad) { pageNumber = this.zeroPad(this.pageNumber, 5); }
+    if (resources.page.zeropad) { pageIdentifier = this.zeroPad(this.pageNumber, 5); }
     url = url.replace(/\{size\}/, size);
-    url = url.replace(/\{page\}/, this.pageNumber);
+    url = url.replace(/\{page\}/, pageIdentifier);
     return url;
   },
 
+  // helper to pad page number with 0s used in conjunction
+  // with image/text URL creation.
   zeroPad : function(num, count) {
     var string = num.toString();
     while (string.length < count) string = '0' + string;
     return string;
-  },
+  }
+  
+  
 
 });
 
@@ -198,7 +202,7 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
   getPadding: function() { return this.PADDINGS[this.padding]; },
   
   getPageByIndex: function(pageIndex) {
-    var page = this.find(function(model){ return model.get('index') == pageIndex })
+    var page = this.find(function(model){ return model.get('index') == pageIndex; });
     if (!page) {
       page = new DV.model.Page({
         index:    pageIndex,
@@ -207,7 +211,7 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
         padding:  this.getPadding(),
         imageURL: this.resources.imageURL,
         textURL:  this.resources.textURL,
-        notes:    this.notes.byPage[pageIndex], 
+        notes:    this.notes.byPage[pageIndex]
       });
       this.add(page);
     }
