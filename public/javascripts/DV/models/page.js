@@ -69,7 +69,7 @@ DV.model.Pages.prototype = {
 
   // Resize or zoom the pages width and height.
   resize : function(zoomLevel) {
-    var padding = this.viewer.models.pages.DEFAULT_PADDING;
+    var padding = this.viewer.model.pages.DEFAULT_PADDING;
 
     if (zoomLevel) {
       if (zoomLevel == this.zoomLevel) return;
@@ -88,18 +88,32 @@ DV.model.Pages.prototype = {
 
   // Update the height for a page, when its real image has loaded.
   updateHeight: function(image, pageIndex) {
+    
+    // get the page's stored height.
     var h = this.getPageHeight(pageIndex);
+
+    // the image's height modulated by whether viewer is zoomed larger
     var height = image.height * (this.zoomLevel > this.BASE_WIDTH ? 0.7 : 1.0);
+
     if (image.width < this.baseWidth) {
       // Not supposed to happen, but too-small images sometimes do.
+      // 
       height *= (this.baseWidth / image.width);
     }
     this.setPageHeight(pageIndex, height);
+    // update the average page height
     this.averageHeight = ((this.averageHeight * this.numPagesLoaded) + height) / (this.numPagesLoaded + 1);
+    // increment the page load count.
     this.numPagesLoaded += 1;
+    
+    // if the actual loaded page height is equal to the assumed page height
+    // return
     if (h === height) return;
+
+    // If it's not, recomput all page position offsets and reflow the pages
     this.viewer.document.computeOffsets();
     this.viewer.pages.simpleReflowPages();
+    // Jump to the top of the current page, if loading pushed our page top off and a note isn't open.
     if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
       var diff = Math.round(height * this.zoomFactor() - h);
       this.viewer.elements.window[0].scrollTop += diff;
