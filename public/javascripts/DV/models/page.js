@@ -71,6 +71,7 @@ DV.model.Pages.prototype = {
   resize : function(zoomLevel) {
     var padding = this.viewer.model.pages.DEFAULT_PADDING;
 
+    // resize can be called w/o a zoomLevel
     if (zoomLevel) {
       if (zoomLevel == this.zoomLevel) return;
       var previousFactor  = this.zoomFactor();
@@ -81,7 +82,9 @@ DV.model.Pages.prototype = {
       this.averageHeight  = Math.round(this.averageHeight * scale);
     }
 
+    // set the PageSet el width to the PageSet's zoomLevel
     this.viewer.elements.sets.width(this.zoomLevel);
+    // set the PageSet container to the PageSet's width + padding
     this.viewer.elements.collection.css({width : this.width + padding });
     this.viewer.$('.DV-textContents').css({'font-size' : this.zoomLevel * 0.02 + 'px'});
   },
@@ -173,6 +176,7 @@ DV.model.Page = DV.Backbone.Model.extend({
 
 });
 
+
 DV.model.PageSet = DV.Backbone.Collection.extend({
   initialize: function(models, options) {
     this.resources = options.resources || {};
@@ -215,6 +219,8 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
   
   getPadding: function() { return this.PADDINGS[this.padding]; },
   
+  // getPageByIndex will fetch or create a Page object
+  // to represent a page.
   getPageByIndex: function(pageIndex) {
     var page = this.find(function(model){ return model.get('index') == pageIndex; });
     if (!page) {

@@ -166,9 +166,20 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 
 DV.model.NewDocument = DV.Backbone.Model.extend({
   initialize: function(attributes, options) {
+    // Track Sections
     this.sections = new DV.model.SectionSet(attributes.sections);
+
+    // Create the main collection of notes.
     this.notes    = new DV.model.NoteSet();
     this.notes.reset(attributes.annotations);
+    
+    // Create a collection to represent all pages
+    // The PageSet acts as a lazy loading container
+    // for Page objects, and will only create them
+    // when requested by the PageSet view.
+    // In this way the PageSet model also doubles as
+    // a factory, and thus needs access to notes
+    // and the document's url resources.
     this.pages    = new DV.model.PageSet([], {
       pageTotal: this.get('pages'),
       resources: this.get('resources').page,

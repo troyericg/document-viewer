@@ -57,7 +57,9 @@ DV.view.Page = DV.Backbone.View.extend({
     this.el[0].className = this.el[0].className.replace(/\s*DV-page-\d+/, '') + ' DV-page-' + (this.index + 1);
 
     if (this.imgSource != source) {
+      // Change the image source
       this.imgSource = source;
+      // load & notify the model as to what the image's dimensions are.
       this.loadImage();
     }
     this.sizeImage();
@@ -167,7 +169,9 @@ DV.view.Page = DV.Backbone.View.extend({
     this.pageNumber = argHash.pageNumber;
   },
 
-  // Load the actual image
+  // Load the actual image 
+  // and once loaded, notify the page collection
+  // so that page dimensions can be recalculated
   loadImage: function(argHash) {
     if(this.loadTimer){
       clearTimeout(this.loadTimer);
