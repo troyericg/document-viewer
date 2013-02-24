@@ -43,7 +43,6 @@ _.extend(DV.Schema.events, {
                this.viewer.state.name === 'ViewThumbnails'){
         this.viewer.helpers.jump(chapterIndex);
         // this.viewer.history.save('document/p'+pageNumber);
-        if (this.viewer.state === 'ViewThumbnails') {
         if (this.viewer.state.name === 'ViewThumbnails') {
           this.viewer.open('ViewDocument');
         }
