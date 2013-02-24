@@ -233,7 +233,7 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   // byId, byPage and bySortOrder.  Only the last is an array
   // so, we'll use it as the default order, and manually track
   // the other two.
-  comparator: function(anno) { return anno.page * 10000 + anno.y1; },
+  comparator: function(note) { return note.get('page') * 10000 + note.get('y1'); },
 
   initialize: function(data, options){
     this.byId   = {};
