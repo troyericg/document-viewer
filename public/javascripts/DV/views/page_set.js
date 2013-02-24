@@ -80,21 +80,25 @@ DV.view.PageSet = DV.Backbone.View.extend({
   cleanUp: function(){ if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); } },
 
   zoom: function(argHash){
+    // don't do anything if current zoom level is the same as the requested zoom level
     if (this.viewer.models.document.zoomLevel === argHash.zoomLevel) return;
 
+    // get the current position and zoom and stash them for later.
     var currentPage  = this.viewer.models.document.currentIndex();
     var oldOffset    = this.viewer.models.document.offsets[currentPage];
     var oldZoom      = this.viewer.models.document.zoomLevel*1;
+    // get the scale factor between target zoom and current zoom.
     var relativeZoom = argHash.zoomLevel / oldZoom;
     var scrollPos    = this.viewer.elements.window.scrollTop();
 
+    // tell the document to zoom.
     this.viewer.models.document.zoom(argHash.zoomLevel);
 
     // absolute value of the difference between oldOffset and scrollPos.
     var diff = oldOffset - scrollPos;
     if (diff < 0) diff *= -1
 
-    var diffPercentage   = diff / this.viewer.models.pages.height;
+    var diffPercentage = diff / this.viewer.models.pages.height;
 
     this.reflowPages();
     this.zoomText();
