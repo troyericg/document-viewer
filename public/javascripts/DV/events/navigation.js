@@ -28,9 +28,13 @@ _.extend(DV.Schema.events, {
     } else if (chapterEl.length) {
       // its a header, take it to the page
       chapterEl.removeClass('DV-collapsed');
-      var cid           = parseInt(chapterEl[0].id.replace('DV-chapter-',''), 10);
-      var chapterIndex  = parseInt(this.models.chapters.getChapterPosition(cid),10);
-      var pageNumber    = parseInt(chapterIndex,10)+1;
+      var cid          = parseInt(chapterEl[0].id.replace('DV-chapter-',''), 10);
+      var chapter      = this.viewer.model.sections.find(function(s){ return s.id == cid; });
+      var pageNumber   = chapter.get("page");
+      var chapterIndex = pageNumber - 1;
+
+      //var chapterIndex = parseInt(this.models.chapters.getChapterPosition(cid),10);
+      //var pageNumber   = parseInt(chapterIndex,10)+1;
 
       if(this.viewer.state.name === 'ViewText'){
         this.loadText(chapterIndex);
