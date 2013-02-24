@@ -173,7 +173,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
   },
 
   // a funky fucking mess to jump to the annotation that is active
-  showAnnotation: function(argHash, showHash){
+  showAnnotation: function(note, showHash){
     showHash = showHash || {};
 
     // if state is ViewAnnotation, jump to the appropriate position in the view
@@ -182,11 +182,11 @@ DV.view.PageSet = DV.Backbone.View.extend({
     // NOTE: This needs work
     if(this.viewer.state.name === 'ViewAnnotation'){
 
-      var offset = this.viewer.$('.DV-allAnnotations div[rel=aid-'+argHash.id+']')[0].offsetTop;
+      var offset = this.viewer.$('.DV-allAnnotations div[rel=aid-'+note.id+']')[0].offsetTop;
       this.viewer.elements.window.scrollTop(offset+10,'fast');
-      this.viewer.helpers.setActiveAnnotationInNav(argHash.id);
-      this.viewer.activeAnnotationId = argHash.id;
-      // this.viewer.history.save('annotation/a'+argHash.id);
+      this.viewer.helpers.setActiveAnnotationInNav(note.id);
+      this.viewer.activeAnnotationId = note.id;
+      // this.viewer.history.save('annotation/a'+note.id);
       return;
     }else{
       this.viewer.helpers.removeObserver('trackAnnotation');
@@ -194,17 +194,17 @@ DV.view.PageSet = DV.Backbone.View.extend({
       if(this.viewer.activeAnnotation != null){
         this.viewer.activeAnnotation.hide();
       }
-      this.setActiveAnnotation(argHash.id, showHash.edit);
+      this.setActiveAnnotation(note.id, showHash.edit);
 
-      var isPage = this.viewer.models.annotations.byId[argHash.id].type == 'page';
+      var isPage = note.get('type') == 'page';
       var nudge  = isPage ? -7 : 36;
-      var offset = argHash.top - nudge;
+      var offset = note.top - nudge;
 
       for(var i = 0; i <= 2; i++){
         if (this.pages['p' + i]) {
           for(var n = 0; n < this.pages['p'+i].annotations.length; n++){
-            if(this.pages['p'+i].annotations[n].id === argHash.id){
-              this.viewer.helpers.jump(argHash.index, offset);
+            if(this.pages['p'+i].annotations[n].id === note.id){
+              this.viewer.helpers.jump(note.get('page') - 1, offset);
               this.pages['p'+i].annotations[n].show(showHash);
               return;
             }
@@ -212,7 +212,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
         }
       }
 
-      this.viewer.helpers.jump(argHash.index,offset);
+      this.viewer.helpers.jump(note.get('page') - 1,offset);
     }
   }
   
