@@ -243,12 +243,22 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
     this.on( 'add', this.insertNoteIntoIndexes, this );
   },
   
+  getNextAnnotation: function(note) {
+    var anno = (note.id ? note : this.get(note));
+    return this.at(this.indexOf(anno) + 1);
+  },
+
+  getPreviousAnnotation: function(note) {
+    var anno = (note.id ? note : this.get(note));
+    return this.at(this.indexOf(anno) - 1);
+  },
+  
   insertNoteIntoIndexes: function(note){
     this.byId[note.id] = note;
     
     var pageIndex = note.get('page') - 1;
     var pageNotes = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
-    var insertionIndex = _.sortedIndex(pageNotes, note, function(n){ return n.y1; });
+    var insertionIndex = _.sortedIndex(pageNotes, note, function(n){ return n.get('y1'); });
     pageNotes.splice(insertionIndex, 0, note);
   }
   

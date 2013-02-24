@@ -51,22 +51,18 @@ DV.Annotation.prototype.add = function(){
 DV.Annotation.prototype.next = function(){
   this.hide.preventRemovalOfCoverClass = true;
 
-  var annotation = this.viewer.models.annotations.getNextAnnotation(this.id);
-  if(!annotation){
-    return;
-  }
-
-  this.page.set.showAnnotation({ index: annotation.index, id: annotation.id, top: annotation.top });
+  var note = this.viewer.model.notes.getNextAnnotation(this.id);
+  if(!note){ return; }
+  this.page.set.showAnnotation(note);
 };
 
 // Jump to previous annotation
 DV.Annotation.prototype.previous = function(){
   this.hide.preventRemovalOfCoverClass = true;
-  var annotation = this.viewer.models.annotations.getPreviousAnnotation(this.id);
-  if(!annotation) {
-    return;
-  }
-  this.page.set.showAnnotation({ index: annotation.index, id: annotation.id, top: annotation.top });
+
+  var note = this.viewer.model.notes.getPreviousAnnotation(this.id);
+  if(!note) { return; }
+  this.page.set.showAnnotation(note);
 };
 
 // Show annotation
