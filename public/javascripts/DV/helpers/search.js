@@ -39,11 +39,11 @@ _.extend(DV.Schema.helpers, {
     this.elements.currentPage.text(pageNumber);
     this.viewer.$('.DV-pageNumberContainer input').val(pageNumber);
 
-    if(this.viewer.state === 'ViewDocument' ||
-       this.viewer.state === 'ViewThumbnails'){
+    if(this.viewer.state.name === 'ViewDocument' ||
+       this.viewer.state.name === 'ViewThumbnails'){
       // this.viewer.history.save('document/p'+pageNumber);
       this.jump(pageIndex);
-    }else if(this.viewer.state === 'ViewText'){
+    }else if(this.viewer.state.name === 'ViewText'){
       // this.viewer.history.save('text/p'+pageNumber);
       this.events.loadText(pageIndex);
     }

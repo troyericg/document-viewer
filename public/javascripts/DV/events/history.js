@@ -3,7 +3,7 @@ _.extend(DV.Schema.events, {
   // #document/p[pageID]
   handleHashChangeViewDocumentPage: function(page){
     var pageIndex = parseInt(page,10) - 1;
-    if(this.viewer.state === 'ViewDocument'){
+    if(this.viewer.state.name === 'ViewDocument'){
       this.viewer.pages.cleanUp();
       this.helpers.jump(pageIndex);
     }else{
@@ -23,7 +23,7 @@ _.extend(DV.Schema.events, {
     var pageIndex   = parseInt(page,10) - 1;
     var annotation  = parseInt(annotation,10);
 
-    if(this.viewer.state === 'ViewDocument'){
+    if(this.viewer.state.name === 'ViewDocument'){
       this.viewer.pages.showAnnotation(this.viewer.models.annotations.byId[annotation]);
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
@@ -51,7 +51,7 @@ _.extend(DV.Schema.events, {
     this.viewer.pages.cleanUp();
     this.viewer.models.document.setPageIndex(0);
 
-    if(this.viewer.state === 'ViewDocument'){
+    if(this.viewer.state.name === 'ViewDocument'){
       this.helpers.jump(0);
       // this.viewer.history.save('document/p1');
     }else{
@@ -62,7 +62,7 @@ _.extend(DV.Schema.events, {
   // #text/p[pageID]
   handleHashChangeViewText: function(page){
     var pageIndex = parseInt(page,10) - 1;
-    if(this.viewer.state === 'ViewText'){
+    if(this.viewer.state.name === 'ViewText'){
       this.events.loadText(pageIndex);
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
@@ -71,7 +71,7 @@ _.extend(DV.Schema.events, {
   },
 
   handleHashChangeViewPages: function() {
-    if (this.viewer.state == 'ViewThumbnails') return;
+    if (this.viewer.state.name == 'ViewThumbnails') return;
     this.viewer.open('ViewThumbnails');
   },
 

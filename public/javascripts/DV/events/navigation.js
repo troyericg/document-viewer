@@ -14,12 +14,12 @@ _.extend(DV.Schema.events, {
       var annotation  = this.viewer.models.annotations.getAnnotation(aid);
       var pageNumber  = parseInt(annotation.index,10)+1;
 
-      if(this.viewer.state === 'ViewText'){
+      if(this.viewer.state.name === 'ViewText'){
         this.loadText(annotation.index);
 
         // this.viewer.history.save('text/p'+pageNumber);
       }else{
-        if (this.viewer.state === 'ViewThumbnails') {
+        if (this.viewer.state.name === 'ViewThumbnails') {
           this.viewer.open('ViewDocument');
         }
         this.viewer.pages.showAnnotation(annotation);
@@ -32,14 +32,15 @@ _.extend(DV.Schema.events, {
       var chapterIndex  = parseInt(this.models.chapters.getChapterPosition(cid),10);
       var pageNumber    = parseInt(chapterIndex,10)+1;
 
-      if(this.viewer.state === 'ViewText'){
+      if(this.viewer.state.name === 'ViewText'){
         this.loadText(chapterIndex);
         // this.viewer.history.save('text/p'+pageNumber);
-      }else if(this.viewer.state === 'ViewDocument' ||
-               this.viewer.state === 'ViewThumbnails'){
-        this.helpers.jump(chapterIndex);
+      }else if(this.viewer.state.name === 'ViewDocument' ||
+               this.viewer.state.name === 'ViewThumbnails'){
+        this.viewer.helpers.jump(chapterIndex);
         // this.viewer.history.save('document/p'+pageNumber);
         if (this.viewer.state === 'ViewThumbnails') {
+        if (this.viewer.state.name === 'ViewThumbnails') {
           this.viewer.open('ViewDocument');
         }
       }else{

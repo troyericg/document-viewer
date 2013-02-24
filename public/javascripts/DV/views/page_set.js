@@ -103,13 +103,13 @@ DV.view.PageSet = DV.Backbone.View.extend({
     this.reflowPages();
     this.zoomText();
 
-    if (this.viewer.state === 'ViewThumbnails') {
+    if (this.viewer.state.name === 'ViewThumbnails') {
       this.viewer.thumbnails.setZoom(argHash.zoomLevel);
       this.viewer.thumbnails.lazyloadThumbnails();
     }
 
     // Zoom any drawn redactions.
-    if (this.viewer.state === 'ViewDocument') {
+    if (this.viewer.state.name === 'ViewDocument') {
       this.viewer.$('.DV-annotationRegion.DV-accessRedact').each(function() {
         var el = DV.jQuery(this);
         el.css({
@@ -180,7 +180,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
     // else
     // hide active annotations and locate the position of the next annotation
     // NOTE: This needs work
-    if(this.viewer.state === 'ViewAnnotation'){
+    if(this.viewer.state.name === 'ViewAnnotation'){
 
       var offset = this.viewer.$('.DV-allAnnotations div[rel=aid-'+argHash.id+']')[0].offsetTop;
       this.viewer.elements.window.scrollTop(offset+10,'fast');

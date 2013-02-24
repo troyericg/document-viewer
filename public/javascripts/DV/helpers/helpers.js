@@ -245,7 +245,7 @@ DV.Schema.helpers = {
       var id   = this.viewer.$(e.target).closest('.DV-annotation').attr('data-id');
       var anno = this.viewer.models.annotations.getAnnotation(id);
       var sid  = anno.server_id || anno.id;
-      if (this.viewer.state == 'ViewDocument') {
+      if (this.viewer.state.name == 'ViewDocument') {
         this.viewer.pages.showAnnotation(anno);
         this.viewer.history.save('document/p' + anno.pageNumber + '/a' + sid);
       } else {
@@ -344,7 +344,7 @@ DV.Schema.helpers = {
       this.viewer.elements.window[0].scrollTop = position;
       this.viewer.models.document.setPageIndex(pageIndex);
       if (forceRedraw) this.viewer.pages.redraw(true);
-      if (this.viewer.state === 'ViewThumbnails') {
+      if (this.viewer.state.name === 'ViewThumbnails') {
         this.viewer.thumbnails.highlightCurrentPage();
       }
     },
