@@ -90,7 +90,9 @@ DV.view.PageSet = DV.Backbone.View.extend({
 
     this.viewer.models.document.zoom(argHash.zoomLevel);
 
-    var diff        = (parseInt(scrollPos, 10)>parseInt(oldOffset, 10)) ? scrollPos - oldOffset : oldOffset - scrollPos;
+    // absolute value of the difference between oldOffset and scrollPos.
+    var diff = oldOffset - scrollPos;
+    if (diff < 0) diff *= -1
 
     var diffPercentage   = diff / this.viewer.models.pages.height;
 
