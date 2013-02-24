@@ -217,10 +217,12 @@ DV.model.Note = DV.Backbone.Model.extend({
     if (this.get('type') === 'region') {
       var loc = DV.jQuery.map(this.get('location').image.split(','), function(n, i) { return parseInt(n, 10); });
       this.set('y1', loc[0]); this.set('x2', loc[1]); this.set('y2', loc[2]); this.set('x1', loc[3]);
+      this.top = this.get('y1') - 5;
     } else if(this.get('type') === 'page') {
       this.set('y1', 0); this.set('x2', 0); this.set('y2', 0); this.set('x1', 0);
+      this.top = 0;
     }
-  }
+  },
 });
 
 DV.model.NoteSet = DV.Backbone.Collection.extend({
