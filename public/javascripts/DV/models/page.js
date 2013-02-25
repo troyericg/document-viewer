@@ -147,18 +147,17 @@ DV.model.Page = DV.Backbone.Model.extend({
 
   initialize: function(attributes, options) {
     this.notes      = new DV.model.NoteSet(this.get('notes'));
+    this.offset     = 0;
     this.pageIndex  = this.get('index');
     this.pageNumber = this.pageIndex + 1;
-    
   },
   
   // Get the complete image URL for a particular page.
   imageURL: function(size) {
     var url  = this.get('imageURL');
     var pageIdentifier = this.pageNumber;
-    //var size = this.zoomLevel > this.BASE_WIDTH ? 'large' : 'normal';
     if (size != 'large' || size != 'normal') { size = 'normal'; }
-    if (resources.page.zeropad) { pageIdentifier = this.zeroPad(this.pageNumber, 5); }
+    if (this.get('zeropad')) { pageIdentifier = this.zeroPad(this.pageNumber, 5); }
     url = url.replace(/\{size\}/, size);
     url = url.replace(/\{page\}/, pageIdentifier);
     return url;
@@ -171,8 +170,6 @@ DV.model.Page = DV.Backbone.Model.extend({
     while (string.length < count) string = '0' + string;
     return string;
   }
-  
-  
 
 });
 
@@ -229,9 +226,10 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
         height:   this.BASE_HEIGHT,
         width:    this.BASE_WIDTH,
         padding:  this.getPadding(),
-        imageURL: this.resources.imageURL,
-        textURL:  this.resources.textURL,
-        notes:    this.notes.byPage[pageIndex]
+        imageURL: this.resources.image,
+        textURL:  this.resources.text,
+        notes:    this.notes.byPage[pageIndex],
+        zeroPad:  (this.resources.page && this.resources.page.zeroPad)
       });
       this.add(page);
     }

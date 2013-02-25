@@ -31,18 +31,18 @@ DV.view.Notes = DV.Backbone.View.extend({
   
   // stolen from models/annotation.js#render(annotation)
   renderNote: function(note){
-    var documentModel             = this.viewer.models.document;
     var pageModel                 = this.viewer.models.pages;
     var zoom                      = pageModel.zoomFactor();
     var adata                     = note.toJSON();
     var x1, x2, y1, y2;
+    var page                      = this.viewer.model.pages.getPageByIndex(note.get("page") - 1);
 
     if(adata.type === 'page'){
       x1 = x2 = y1 = y2           = 0;
       adata.top                   = 0;
     }else{
-      y1                          = Math.round(adata.y1 * zoom);
-      y2                          = Math.round(adata.y2 * zoom);
+      y1                          = Math.round((adata.y1 + page.offset) * zoom);
+      y2                          = Math.round((adata.y2 + page.offset) * zoom);
       if (x1 < this.LEFT_MARGIN) x1 = this.LEFT_MARGIN;
       x1                          = Math.round(adata.x1 * zoom);
       x2                          = Math.round(adata.x2 * zoom);
@@ -50,7 +50,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     }
 
     adata.owns_note               = adata.owns_note || false;
-    adata.width                   = pageModel.width;
+    adata.width                   = page.get('width');
     adata.pageNumber              = adata.page;
     adata.author                  = adata.author || "";
     adata.author_organization     = adata.author_organization || "";
@@ -59,17 +59,18 @@ DV.view.Notes = DV.Backbone.View.extend({
     adata.excerptWidth            = (x2 - x1) - 8;
     adata.excerptMarginLeft       = x1 - 3;
     adata.excerptHeight           = y2 - y1;
-    adata.index                   = adata.page - 1;
-    adata.image                   = pageModel.imageURL(adata.index);
+    adata.index                   = page.pageIndex;
+    adata.image                   = page.imageURL();
     adata.imageTop                = y1 + 1;
     adata.tabTop                  = (y1 < 35 ? 35 - y1 : 0) + 8;
-    adata.imageWidth              = pageModel.width;
-    adata.imageHeight             = Math.round(pageModel.height * zoom);
+    adata.imageWidth              = page.get('width');
+    adata.imageHeight             = Math.round(page.get('height') * zoom);
     adata.regionLeft              = x1;
     adata.regionWidth             = x2 - x1 ;
     adata.regionHeight            = y2 - y1;
     adata.excerptDSHeight         = adata.excerptHeight - 6;
     adata.DSOffset                = 3;
+    adata.text                    = adata.content;
 
     if (adata.access == 'public')         adata.accessClass = 'DV-accessPublic';
     else if (adata.access =='exclusive')  adata.accessClass = 'DV-accessExclusive';
