@@ -181,7 +181,7 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
   initialize: function(models, options) {
     this.resources = options.resources || {};
     this.notes     = options.notes     || new DV.model.NoteSet();
-    this.padding   = options.padding   || 'default';
+    this.padding   = options.padding   || 'reduced';
     this.pageTotal = options.pageTotal || 0;
     
     // Rolling average page height.
