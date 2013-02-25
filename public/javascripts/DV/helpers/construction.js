@@ -83,7 +83,7 @@ _.extend(DV.Schema.helpers, {
     if (showPages || this.viewer.options.sidebar) {
       var navControls = JST['navControls']({
         totalPages: this.viewer.model.totalPages,
-        totalAnnotations: this.viewer.model.totalAnnotations
+        totalAnnotations: this.viewer.model.notes.length
       });
       this.viewer.$('.DV-navControlsContainer').html(navControls);
     }

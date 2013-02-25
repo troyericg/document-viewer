@@ -242,6 +242,10 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
     this.on( 'reset', function(){ this.each( _.bind(this.insertNoteIntoIndexes, this) ); }, this );
     this.on( 'add', this.insertNoteIntoIndexes, this );
   },
+
+  getFirstAnnotation: function(){
+    return this.first();
+  },
   
   getNextAnnotation: function(note) {
     var anno = (note.id ? note : this.get(note));
