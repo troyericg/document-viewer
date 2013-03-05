@@ -41,10 +41,11 @@ DV.view.PageSet = DV.Backbone.View.extend({
       if (page.currentPage == true) { this.currentPage = this.pages[page.label]; }
     }, this);
 
-    this.viewer.models.annotations.renderAnnotations();
+    this.viewer.notes.render();
   },
 
   // used to generate references for the build action
+  // Instantiates views.
   getPages: function(){
     var _pages = [];
     // for each of the Page DOM nodes
