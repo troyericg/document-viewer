@@ -80,25 +80,6 @@ DV.model.Annotations.prototype = {
     _.each(this.deleteCallbacks, function(c){ c(anno); });
   },
 
-  // Returns the list of annotations on a given page.
-  getAnnotations: function(_index){
-    return this.byPage[_index];
-  },
-
-  getFirstAnnotation: function(){
-    return _.first(this.bySortOrder);
-  },
-
-  getNextAnnotation: function(currentId) {
-    var anno = this.byId[currentId];
-    return this.bySortOrder[_.indexOf(this.bySortOrder, anno) + 1];
-  },
-
-  getPreviousAnnotation: function(currentId) {
-    var anno = this.byId[currentId];
-    return this.bySortOrder[_.indexOf(this.bySortOrder, anno) - 1];
-  },
-
   // Get an annotation by id, with backwards compatibility for argument hashes.
   getAnnotation: function(identifier) {
     if (identifier.id) return this.byId[identifier.id];
