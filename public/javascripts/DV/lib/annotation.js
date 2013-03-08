@@ -9,7 +9,6 @@ DV.Annotation = function(argHash){
   this.renderedHTML = argHash.renderedHTML;
   this.type         = argHash.type;
   this.id           = argHash.id;
-  this.model        = this.viewer.models.annotations.getAnnotation(this.id);
   this.state        = 'collapsed';
   this.active       = false;
   this.remove();
