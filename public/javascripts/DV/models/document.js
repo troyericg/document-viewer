@@ -75,7 +75,7 @@ DV.model.Document.prototype = {
   // rewrite this.
   computeOffsets: function() {
     console.log("Computing Page Offsets");
-    var annotationModel  = this.viewer.models.annotations; // wrong location
+    var annotationModel  = this.viewer.model.notes;
     var totalDocHeight   = 0;
     var adjustedOffset   = 0;
     var len              = this.totalPages;

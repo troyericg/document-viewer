@@ -32,7 +32,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.models.chapters     = new DV.model.Chapters(this);
     this.models.document     = new DV.model.Document(this);
     this.models.pages        = new DV.model.Pages(this);
-    this.models.annotations  = new DV.model.Annotations(this);
+    //this.models.annotations  = new DV.model.Annotations(this);
     this.models.removedPages = {};
   },
 

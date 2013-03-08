@@ -124,6 +124,16 @@ DV.view.Notes = DV.Backbone.View.extend({
       this.offsetsAdjustments[i] = this.offsetAdjustmentSum;
     }
     annotationsContainer.removeClass('DV-getHeights');
-  }
+  },
+  
+  // Refresh the annotation's title and content from the model, in both
+  // The document and list views.
+  // N.B. Extracted from Annotation Model
+  //refreshAnnotation : function(anno) {
+  //  var viewer = this.viewer;
+  //  anno.html = this.render(anno);
+  //  DV.jQuery.$('#DV-annotation-' + anno.id).replaceWith(anno.html);
+  //}
+  
   
 });
