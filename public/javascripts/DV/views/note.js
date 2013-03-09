@@ -91,8 +91,9 @@ DV.view.Notes = DV.Backbone.View.extend({
   
   // Offsets all document pages based on interleaved page annotations.
   updateAnnotationOffsets: function(){
-    this.offsetsAdjustments   = [];
-    this.offsetAdjustmentSum  = 0;
+    var notes = this.viewer.model.notes;
+    notes.offsetsAdjustments   = [];
+    notes.offsetAdjustmentSum  = 0;
     var documentModel         = this.viewer.models.document;
     var annotationsContainer  = this.viewer.$('div.DV-allAnnotations');
     var pageAnnotationEls     = annotationsContainer.find('.DV-pageNote');
@@ -106,7 +107,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     // First, collect the list of page annotations, and associate them with
     // their DOM elements.
     var pageAnnos = [];
-    var pageNotes = this.viewer.model.notes.select(function(anno) { return anno.get('type') == 'page'; });
+    var pageNotes = notes.select(function(anno) { return anno.get('type') == 'page'; });
     _.each(pageNotes, function(anno, i) {
       anno.el = pageAnnotationEls[i];
       pageAnnos[anno.get('page')] = anno;
@@ -119,9 +120,9 @@ DV.view.Notes = DV.Backbone.View.extend({
       if (pageAnnos[i]) {
         var height = (DV.jQuery(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
         pageNoteHeights[i - 1] = height;
-        this.offsetAdjustmentSum += height;
+        notes.offsetAdjustmentSum += height;
       }
-      this.offsetsAdjustments[i] = this.offsetAdjustmentSum;
+      notes.offsetsAdjustments[i] = notes.offsetAdjustmentSum;
     }
     annotationsContainer.removeClass('DV-getHeights');
   },
