@@ -76,18 +76,22 @@ DV.model.Document.prototype = {
   computeOffsets: function() {
     console.log("Computing Page Offsets");
     var annotationModel  = this.viewer.model.notes;
+    var pages            = this.viewer.model.pages;
     var totalDocHeight   = 0;
     var adjustedOffset   = 0;
-    var len              = this.totalPages;
+    var len              = this.viewer.model.totalPages;
     var diff             = 0;
     var scrollPos        = this.viewer.elements.window[0].scrollTop;
 
     for(var i = 0; i < len; i++) {
+      var page = pages.getPageByIndex(i);
+      
       if(annotationModel.offsetsAdjustments[i]){
         adjustedOffset   = annotationModel.offsetsAdjustments[i];
       }
 
-      var pageHeight     = this.viewer.models.pages.getPageHeight(i);
+      //var pageHeight     = this.viewer.models.pages.getPageHeight(i);
+      var pageHeight     = page.get('height');
       var previousOffset = this.offsets[i] || 0;
       var h              = this.offsets[i] = adjustedOffset + totalDocHeight;
 
