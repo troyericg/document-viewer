@@ -92,11 +92,11 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   //    _.each(this.deleteCallbacks, function(c){ c(anno); });
   //  },
   //
-  //  // Get an annotation by id, with backwards compatibility for argument hashes.
-  //  //getAnnotation: function(identifier) {
-  //  //  if (identifier.id) return this.byId[identifier.id];
-  //  //  if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id');
-  //  //  return this.byId[identifier];
-  //  //}
+  // Get an annotation by id, with backwards compatibility for argument hashes.
+  getAnnotation: function(identifier) {
+    if (identifier.id) return this.byId[identifier.id];
+    if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id');
+    return this.byId[identifier];
+  }
   
 });

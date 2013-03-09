@@ -67,7 +67,7 @@ DV.model.Document.prototype = {
     if(this.zoomLevel != zoomLevel || force === true){
       this.zoomLevel   = zoomLevel;
       this.viewer.models.pages.resize(this.zoomLevel);
-      this.viewer.models.annotations.renderAnnotations();
+      this.viewer.notes.render();
       this.computeOffsets();
     }
   },

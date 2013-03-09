@@ -83,7 +83,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
 
     if (noteEl.length) {                                                    // If there is a note link nearby
       var aid         = noteEl[0].id.replace('DV-annotationMarker-','');    // find the note's id
-      var annotation  = this.viewer.models.annotations.getAnnotation(aid);  // get the note model
+      var annotation  = this.viewer.model.notes.getAnnotation(aid);  // get the note model
 
       // If we're vewing the text, load the text for this note's page.
       if ( this.viewer.state.name === 'ViewText' ){ 

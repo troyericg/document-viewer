@@ -243,7 +243,7 @@ DV.Schema.helpers = {
     // Click to open an annotation's permalink.
     permalinkAnnotation : function(e) {
       var id   = this.viewer.$(e.target).closest('.DV-annotation').attr('data-id');
-      var anno = this.viewer.models.annotations.getAnnotation(id);
+      var anno = this.viewer.model.notes.getAnnotation(id);
       var sid  = anno.server_id || anno.id;
       if (this.viewer.state.name == 'ViewDocument') {
         this.viewer.pages.showAnnotation(anno);
@@ -279,7 +279,7 @@ DV.Schema.helpers = {
     gotoPage: function(e){
       e.preventDefault();
       var aid           = this.viewer.$(e.target).parents('.DV-annotation').attr('rel').replace('aid-','');
-      var annotation    = this.viewer.models.annotations.getAnnotation(aid);
+      var annotation    = this.viewer.model.notes.getAnnotation(aid);
       var viewer        = this.viewer;
 
       if(viewer.state !== 'ViewDocument'){
@@ -460,7 +460,7 @@ DV.Schema.helpers = {
         var opts = this.viewer.options;
         this.viewer.open('ViewDocument');
         if (opts.note) {
-          this.viewer.pages.showAnnotation(this.viewer.models.annotations.byId[opts.note]);
+          this.viewer.pages.showAnnotation(this.viewer.model.notes.byId[opts.note]);
         } else if (opts.page) {
           this.jump(opts.page - 1);
         }

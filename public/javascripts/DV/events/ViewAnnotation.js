@@ -16,7 +16,7 @@ DV.Schema.events.ViewAnnotation = {
   previous: function(e){
     var viewer              = this.viewer;
     var activeAnnotationId  = viewer.activeAnnotationId;
-    var notes    = this.viewer.models.annotations;
+    var notes    = this.viewer.model.notes;
 
     var previousAnnotation = (!activeAnnotationId) ?
     notes.getFirstAnnotation() : notes.getPreviousAnnotation(activeAnnotationId);
