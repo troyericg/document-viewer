@@ -6,7 +6,7 @@ DV.model.Note = DV.Backbone.Model.extend({
     access              : "public",
     owns_note           : false,
     author              : "",
-    author_organization : "",
+    author_organization : ""
   },
   initialize: function(data, options){
     this.set("type", (this.get('location') && this.get('location').image ? 'region' : 'page'));
@@ -19,7 +19,7 @@ DV.model.Note = DV.Backbone.Model.extend({
       this.set('y1', 0); this.set('x2', 0); this.set('y2', 0); this.set('x1', 0);
       this.top = 0;
     }
-  },
+  }
 });
 
 DV.model.NoteSet = DV.Backbone.Collection.extend({

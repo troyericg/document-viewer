@@ -331,7 +331,7 @@ DV.view.Page = DV.Backbone.View.extend({
   getPageHeight: function(pageIndex) {
     var realHeight = this.pageHeights[pageIndex];
     return Math.round(realHeight ? realHeight * this.zoomFactor() : this.height);
-  },
+  }
 
   /*
     END OF PAGE MODEL

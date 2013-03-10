@@ -125,7 +125,7 @@ DV.view.Notes = DV.Backbone.View.extend({
       notes.offsetsAdjustments[i] = notes.offsetAdjustmentSum;
     }
     annotationsContainer.removeClass('DV-getHeights');
-  },
+  }
   
   // Refresh the annotation's title and content from the model, in both
   // The document and list views.
