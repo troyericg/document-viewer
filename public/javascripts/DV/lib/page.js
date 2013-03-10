@@ -97,9 +97,9 @@ DV.Page.prototype.draw = function(argHash) {
           var active = false;
         }
 
-        if(anno.type == 'page'){
+        if(anno.get("type") == 'page'){
           this.hasLayerPage     = true;
-        }else if(anno.type == 'regional'){
+        }else if(anno.get("type") == 'region'){
           this.hasLayerRegional = true;
         }
 
@@ -118,13 +118,13 @@ DV.Page.prototype.draw = function(argHash) {
           annotationContainerEl : this.annotationContainerEl,
           pageNumber:   this.pageNumber,
           state:        'collapsed',
-          top:          anno.y1,
-          left:         anno.x1,
-          width:        anno.x1 + anno.x2,
-          height:       anno.y1 + anno.y2,
+          top:          anno.get('y1'),
+          left:         anno.get('x1'),
+          width:        anno.get('x1') + anno.get('x2'),
+          height:       anno.get('y1') + anno.get('y2'),
           active:       active,
           showEdit:     argHash.edit,
-          type:         anno.type
+          type:         anno.get('type')
           }
         );
 

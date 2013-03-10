@@ -139,7 +139,8 @@ DV.model.Page = DV.Backbone.Model.extend({
     notes: [],
     height: 906,
     width: 700,
-    padding: 'normal'
+    padding: 'normal',
+    offset: 0
     /*
       imageURL
     */
@@ -147,7 +148,6 @@ DV.model.Page = DV.Backbone.Model.extend({
 
   initialize: function(attributes, options) {
     this.notes      = new DV.model.NoteSet(this.get('notes'));
-    this.offset     = 0;
     this.pageIndex  = this.get('index');
     this.pageNumber = this.pageIndex + 1;
   },
