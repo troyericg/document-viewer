@@ -78,8 +78,8 @@ DV.view.Notes = DV.Backbone.View.extend({
 
     adata.orderClass = '';
     adata.options = this.viewer.options;
-    if (adata.position == 1) adata.orderClass += ' DV-firstAnnotation';
-    if (adata.position == this.viewer.model.notes.length) { adata.orderClass += ' DV-lastAnnotation'; }
+    if (note === this.viewer.model.notes.first()) adata.orderClass += ' DV-firstAnnotation';
+    if (note === this.viewer.model.notes.last()) { adata.orderClass += ' DV-lastAnnotation'; }
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
     return JST[template](adata);
