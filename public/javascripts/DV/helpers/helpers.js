@@ -247,7 +247,7 @@ DV.Schema.helpers = {
       var sid  = anno.server_id || anno.id;
       if (this.viewer.state.name == 'ViewDocument') {
         this.viewer.pages.showAnnotation(anno);
-        this.viewer.history.save('document/p' + anno.pageNumber + '/a' + sid);
+        this.viewer.history.save('document/p' + anno.get('page') + '/a' + sid);
       } else {
         this.viewer.history.save('annotation/a' + sid);
       }
