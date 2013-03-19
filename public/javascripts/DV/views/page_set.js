@@ -8,6 +8,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
   
   // taken from helpers/helpers.js#constructPages
   // Sets up three page objects.
+  // Sort of a pre-render.
   render: function() {
     var pages = [];
     var totalPagesToCreate = (this.viewer.model.get('totalPages') < 3) ? this.viewer.model.get('totalPages') : 3;
@@ -29,6 +30,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
   },
 
   // build the basic page presentation layer
+  // renders views.
   buildPages: function(options) {
     this.zoomText();
     options = options || {};
@@ -81,19 +83,21 @@ DV.view.PageSet = DV.Backbone.View.extend({
   cleanUp: function(){ if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); } },
 
   zoom: function(argHash){
+    var oldDocModel = this.viewer.models.document;
     // don't do anything if current zoom level is the same as the requested zoom level
-    if (this.viewer.models.document.zoomLevel === argHash.zoomLevel) return;
+    if (oldDocModel.zoomLevel === argHash.zoomLevel) return;
+    console.log("Zooming in PageSet");
 
     // get the current position and zoom and stash them for later.
-    var currentPage  = this.viewer.models.document.currentIndex();
-    var oldOffset    = this.viewer.models.document.offsets[currentPage];
-    var oldZoom      = this.viewer.models.document.zoomLevel*1;
+    var currentPage  = oldDocModel.currentIndex();
+    var oldOffset    = oldDocModel.offsets[currentPage];
+    var oldZoom      = oldDocModel.zoomLevel*1;
     // get the scale factor between target zoom and current zoom.
     var relativeZoom = argHash.zoomLevel / oldZoom;
     var scrollPos    = this.viewer.elements.window.scrollTop();
 
-    // tell the document to zoom.
-    this.viewer.models.document.zoom(argHash.zoomLevel);
+    // tell the document to zoom.  Should be moved to a Document view method.
+    oldDocModel.zoom(argHash.zoomLevel);
 
     // absolute value of the difference between oldOffset and scrollPos.
     var diff = oldOffset - scrollPos;
@@ -126,7 +130,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
       // FIXME:
 
       var args = {
-        index: this.viewer.models.document.currentIndex(),
+        index: oldDocModel.currentIndex(),
         top: this.viewer.activeAnnotation.top,
         id: this.viewer.activeAnnotation.id
       };
@@ -136,7 +140,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
       this.viewer.helpers.setActiveAnnotationLimits(this.viewer.activeAnnotation);
     }else{
       var _offset      = Math.round(this.viewer.models.pages.height * diffPercentage);
-      this.viewer.helpers.jump(this.viewer.models.document.currentIndex(),_offset);
+      this.viewer.helpers.jump(oldDocModel.currentIndex(),_offset);
     }
   },
 
