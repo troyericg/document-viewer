@@ -7,7 +7,6 @@
 DV.model.Document = function(viewer){
   this.viewer                    = viewer;
 
-  this.currentPageIndex          = 0;
   this.offsets                   = [];
   this.baseHeightsPortion        = [];
   this.baseHeightsPortionOffsets = [];
@@ -41,17 +40,20 @@ DV.model.Document = function(viewer){
 DV.model.Document.prototype = {
 
   setPageIndex : function(index) {
-    this.currentPageIndex = index;
+    // current page now lives on model
+    this.viewer.model.set('currentPageIndex', index);
+    //this.currentPageIndex = index;
+    // Page indicator needs to be moved to view, and subscribe to change:currentPageIndex
     this.viewer.elements.currentPage.text(this.currentPage());
     this.viewer.helpers.setActiveChapter(this.viewer.models.chapters.getChapterId(index));
     _.each(this.onPageChangeCallbacks, function(c) { c(); });
     return index;
   },
   currentPage : function() {
-    return this.currentPageIndex + 1;
+    return this.viewer.model.get('currentPageIndex') + 1;
   },
   currentIndex : function() {
-    return this.currentPageIndex;
+    return this.viewer.model.get('currentPageIndex');
   },
   nextPage : function() {
     var nextIndex = this.currentIndex() + 1;
@@ -169,6 +171,8 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 */
 
 DV.model.NewDocument = DV.Backbone.Model.extend({
+  defaults: { currentPageIndex: 0 },
+  
   initialize: function(attributes, options) {
     // Track Sections
     this.sections = new DV.model.SectionSet(attributes.sections);

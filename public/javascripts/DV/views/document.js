@@ -6,7 +6,6 @@ DV.view.Document = DV.Backbone.View.extend({
     this.viewer = options.viewer;
     this.model  = this.viewer.model;
 
-    this.currentPageIndex          = 0;
     this.offsets                   = [];
     this.baseHeightsPortion        = [];
     this.baseHeightsPortionOffsets = [];
