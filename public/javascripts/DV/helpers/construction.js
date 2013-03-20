@@ -59,7 +59,7 @@ _.extend(DV.Schema.helpers, {
 
     var container = this.viewer.options.container;
     var containerEl = DV.jQuery(container);
-    if (!containerEl.length) throw "Document Viewer container element not found: " + container;
+    if (!containerEl.length) throw "Document Viewer container element not found: " + container; // TRANSLATE?
     containerEl.html(JST.viewer(viewerOptions));
   },
 

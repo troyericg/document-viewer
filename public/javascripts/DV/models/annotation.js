@@ -201,7 +201,7 @@ DV.model.Annotations.prototype = {
   // Get an annotation by id, with backwards compatibility for argument hashes.
   getAnnotation: function(identifier) {
     if (identifier.id) return this.byId[identifier.id];
-    if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id');
+    if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id'); // TRANSLATE ??
     return this.byId[identifier];
   }
 
