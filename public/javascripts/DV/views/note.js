@@ -17,7 +17,6 @@ DV.view.Notes = DV.Backbone.View.extend({
 
     var rendered  = notes.map(function(anno){ return anno.html; });
     var html      = rendered.join('')
-                    .replace(/class="DV-img" src="/g, 'class="DV-img" data-src="')
                     .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
       return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     });
