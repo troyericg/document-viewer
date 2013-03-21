@@ -1,10 +1,10 @@
 <div class="DV-navControls DV-clearfix">
   <span class="DV-trigger DV-previous">&laquo;</span>
   <div class="DV-clearfix DV-pageNumberContainer">
-    <span class="DV-currentPagePrefix">Page<%/*TRANSLATE*/%></span>
-    <span class="DV-currentAnnotationPrefix">Note&nbsp;<%/*TRANSLATE*/%></span>
+    <span class="DV-currentPagePrefix"><%= _.t('Page') %></span>
+    <span class="DV-currentAnnotationPrefix"><%= _.t('Note') %>&nbsp;</span>
     <span class="DV-currentPage">1</span>
-    <span class="DV-currentPageSuffix">of&nbsp;
+    <span class="DV-currentPageSuffix"><%= _.t('of') %>&nbsp;
       <span class="DV-totalPages"><%= totalPages %></span>
       <span class="DV-totalAnnotations"><%= totalAnnotations %></span>                        
     </span>

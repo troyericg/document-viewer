@@ -27,18 +27,18 @@
 
     <div class="DV-annotationHeader DV-clearfix">
       <div class="DV-pagination DV-editHidden">
-        <span class="DV-trigger DV-annotationPrevious" title="Previous Annotation<%/*TRANSLATE*/%>">Previous<%/*TRANSLATE*/%></span>
-        <span class="DV-trigger DV-annotationNext" title="Next Annotation<%/*TRANSLATE*/%>">Next<%/*TRANSLATE*/%></span>
+        <span class="DV-trigger DV-annotationPrevious" title="<%= _.t('PreviousAnnotation') %>"><%= _.t('Previous') %></span>
+        <span class="DV-trigger DV-annotationNext" title="<%= _.t('NextAnnotation') %>"><%= _.t('Next') %></span>
       </div>
-      <div class="DV-annotationGoto DV-editHidden"><div class="DV-trigger">p. <%/*TRANSLATE ??*/%><%= pageNumber %></div></div>
+      <div class="DV-annotationGoto DV-editHidden"><div class="DV-trigger"><%= _.t('p') %><%= pageNumber %></div></div>
       <div class="DV-annotationTitle DV-editHidden"><%= title %></div>
-      <input class="DV-annotationTitleInput DV-editVisible" type="text" placeholder="Annotation Title<%/*TRANSLATE*/%>" value="<%= title.replace(/"/g, '&quot;') %>" />
+      <input class="DV-annotationTitleInput DV-editVisible" type="text" placeholder="<%= _.t('AnnotationTitle') %>" value="<%= title.replace(/"/g, '&quot;') %>" />
       <% if (access == 'exclusive') { %>
-        <div class="DV-annotationDraftLabel DV-editHidden DV-interface">Draft<%/*TRANSLATE*/%></div>
+        <div class="DV-annotationDraftLabel DV-editHidden DV-interface"><%= _.t('Draft') %></div>
       <% } else if (access == 'private') { %>
-        <div class="DV-privateLock DV-editHidden" title="Private note<%/*TRANSLATE*/%>"></div>
+        <div class="DV-privateLock DV-editHidden" title="<%= _.t('PrivateNote') %>"></div>
       <% } %>
-      <span class="DV-permalink DV-editHidden" title="Link to this note<%/*TRANSLATE*/%>"></span>
+      <span class="DV-permalink DV-editHidden" title="<%= _.t('LinkToNote') %>"></span>
       <div class="DV-showEdit DV-editHidden <%= accessClass %>"></div>
     </div>
 
@@ -62,16 +62,16 @@
     <div class="DV-annotationMeta <%= accessClass %>">
       <% if (author) { %>
         <div class="DV-annotationAuthor DV-interface DV-editHidden">
-          <%/*TRANSLATE*/%>Annotated by: <%= author %><% if (author_organization) { %>, <i><%= author_organization %></i><% } %>
+          <%= _.t('AnnoBy') %> <%= author %><% if (author_organization) { %>, <i><%= author_organization %></i><% } %>
         </div>
       <% } %>
       <% if (access == 'exclusive') { %>
         <div class="DV-annotationWarning DV-interface DV-editHidden">
-          This draft is only visible to you and collaborators.<%/*TRANSLATE*/%>
+          <%= _.t('DraftOnlyVisCollab') %>
         </div>
       <% } else if (access == 'private') { %>
         <div class="DV-annotationWarning DV-interface DV-editHidden">
-          This private note is only visible to you.<%/*TRANSLATE*/%>
+          <%= _.t('PrivateNoteVisSelf') %>
         </div>
       <% } %>
       <div class="DV-annotationEditControls DV-editVisible">
@@ -79,15 +79,15 @@
           <div class="minibutton warn DV-deleteAnnotation float_left">Delete</div>
           <div class="minibutton default DV-saveAnnotation float_right">
             <% if (access == 'exclusive') { %>
-              Publish<%/*TRANSLATE*/%>
+              <%= _.t('Publish') %>
             <% } else { %>
-              Save<%/*TRANSLATE*/%>
+              <%= _.t('Save') %>
             <% } %>
           </div>
           <% if (access == 'public' || access == 'exclusive') { %>
-            <div class="minibutton DV-saveAnnotationDraft float_right">Save as Draft<%/*TRANSLATE*/%></div>
+            <div class="minibutton DV-saveAnnotationDraft float_right"><%= _.t('SaveAsDraft') %></div>
           <% } %>
-          <div class="minibutton DV-cancelEdit float_right">Cancel<%/*TRANSLATE*/%></div>
+          <div class="minibutton DV-cancelEdit float_right"><%= _.t('Cancel') %></div>
         </div>
       </div>
     </div>
