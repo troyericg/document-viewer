@@ -129,6 +129,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
     if(this.viewer.activeAnnotation != null){
       // FIXME:
 
+      var note = this.viewer.model.notes.getAnnotation(this.viewer.activeAnnotation.id)
       var args = {
         index: oldDocModel.currentIndex(),
         top: this.viewer.activeAnnotation.top,
@@ -136,7 +137,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
       };
       this.viewer.activeAnnotation = null;
 
-      this.showAnnotation(args);
+      this.showAnnotation(note, args);
       this.viewer.helpers.setActiveAnnotationLimits(this.viewer.activeAnnotation);
     }else{
       var _offset      = Math.round(this.viewer.models.pages.height * diffPercentage);
