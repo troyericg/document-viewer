@@ -514,6 +514,15 @@ DV.Schema.helpers = {
           this.jump(opts.page - 1);
         }
       }
-    }
+    },
+
+  initializeLanguage: function(){
+    this.i18n = new I18n( { 
+      translations: DV.Schema.helpers.TRANSLATIONS,
+      underscore: _ ,
+      aliases: DV.Schema.helpers.TranslationAliases,
+      autoDetect: true
+    });
+  }
 
 };

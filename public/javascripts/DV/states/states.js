@@ -1,6 +1,9 @@
 DV.Schema.states = {
 
   InitialLoad: function(){
+    // First setup the language
+    this.helpers.initializeLanguage()
+
     // If we're in an unsupported browser ... bail.
     if (this.helpers.unsupportedBrowser()) return;
 
