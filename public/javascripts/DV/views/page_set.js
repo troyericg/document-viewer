@@ -86,7 +86,6 @@ DV.view.PageSet = DV.Backbone.View.extend({
     var oldDocModel = this.viewer.models.document;
     // don't do anything if current zoom level is the same as the requested zoom level
     if (oldDocModel.zoomLevel === argHash.zoomLevel) return;
-    console.log("Zooming in PageSet");
 
     // get the current position and zoom and stash them for later.
     var currentPage  = oldDocModel.currentIndex();
