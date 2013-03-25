@@ -123,7 +123,11 @@ DV.model.Document.prototype = {
   },
 
   getOffset: function(_index){
-    return this.offsets[_index];
+    var oldOffset = this.offsets[_index];
+    var newOffset = this.viewer.model.pages.getPageByIndex(_index).get('offset');
+    if (oldOffset !== newOffset) { console.log("Offset mismatch"); }
+    //return this.offsets[_index];
+    return newOffset;
   },
 
   resetRemovedPages: function() {
