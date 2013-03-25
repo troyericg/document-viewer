@@ -40,8 +40,8 @@ DV.view.Notes = DV.Backbone.View.extend({
       x1 = x2 = y1 = y2           = 0;
       adata.top                   = 0;
     }else{
-      y1                          = Math.round((adata.y1 + page.get('offset')) * zoom);
-      y2                          = Math.round((adata.y2 + page.get('offset')) * zoom);
+      y1                          = Math.round((adata.y1) * zoom);
+      y2                          = Math.round((adata.y2) * zoom);
       if (x1 < this.LEFT_MARGIN) x1 = this.LEFT_MARGIN;
       x1                          = Math.round(adata.x1 * zoom);
       x2                          = Math.round(adata.x2 * zoom);
@@ -49,7 +49,7 @@ DV.view.Notes = DV.Backbone.View.extend({
     }
 
     adata.owns_note               = adata.owns_note || false;
-    adata.width                   = page.get('width');
+    adata.width                   = page.get('width') * zoom;
     adata.pageNumber              = adata.page;
     adata.author                  = adata.author || "";
     adata.author_organization     = adata.author_organization || "";
@@ -62,8 +62,9 @@ DV.view.Notes = DV.Backbone.View.extend({
     adata.image                   = page.imageURL();
     adata.imageTop                = y1 + 1;
     adata.tabTop                  = (y1 < 35 ? 35 - y1 : 0) + 8;
-    adata.imageWidth              = page.get('width');
-    adata.imageHeight             = Math.round(page.get('height') * zoom);
+    // position missing
+    adata.imageWidth              = page.get('width') * zoom;
+    adata.imageHeight             = Math.round(page.get('height'))* zoom;                // wrong
     adata.regionLeft              = x1;
     adata.regionWidth             = x2 - x1 ;
     adata.regionHeight            = y2 - y1;

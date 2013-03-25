@@ -88,15 +88,17 @@ DV.model.Document.prototype = {
     for(var i = 0; i < len; i++) {
       var page = pages.getPageByIndex(i);
       
-      if(annotationModel.offsetsAdjustments[i]){
-        adjustedOffset   = annotationModel.offsetsAdjustments[i];
-      }
+      // calculate if there is a page note which needs to be factored in to offset.
+      if(annotationModel.offsetsAdjustments[i]){ adjustedOffset = annotationModel.offsetsAdjustments[i]; }
 
       //var pageHeight     = this.viewer.models.pages.getPageHeight(i);
-      var pageHeight     = page.get('height');
+      var pageHeight     = Math.round(page.get('height') * this.viewer.models.pages.zoomFactor());
       var previousOffset = this.offsets[i] || 0;
       var h              = this.offsets[i] = adjustedOffset + totalDocHeight;
+      page.set('offset', h);
 
+      // if the page's offset has not changed, 
+      // and the total document height is smaller than the current scroll position
       if((previousOffset !== h) && (h < scrollPos)) {
         var delta = h - previousOffset - diff;
         scrollPos += delta;

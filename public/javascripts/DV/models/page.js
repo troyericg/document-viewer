@@ -100,7 +100,6 @@ DV.model.Pages.prototype = {
 
     if (image.width < this.baseWidth) {
       // Not supposed to happen, but too-small images sometimes do.
-      // 
       height *= (this.baseWidth / image.width);
     }
     this.setPageHeight(pageIndex, height);
@@ -124,7 +123,11 @@ DV.model.Pages.prototype = {
   },
 
   // set the real page height
-  setPageHeight: function(pageIndex, pageHeight) { this.pageHeights[pageIndex] = Math.round(pageHeight); },
+  setPageHeight: function(pageIndex, pageHeight) { 
+    this.pageHeights[pageIndex] = Math.round(pageHeight);
+    var page = this.viewer.model.pages.getPageByIndex(pageIndex);
+    page.set('height', pageHeight);
+  },
 
   // get the real page height
   getPageHeight: function(pageIndex) {
