@@ -305,24 +305,24 @@ DV.view.Page = DV.Backbone.View.extend({
   },
 
   // Update the height for a page, when its real image has loaded.
-  updateHeight: function(image, pageIndex) {
-    var h = this.getPageHeight(pageIndex);
-    var height = image.height * (this.zoomLevel > this.BASE_WIDTH ? 0.7 : 1.0);
-    if (image.width < this.baseWidth) {
-      // Not supposed to happen, but too-small images sometimes do.
-      height *= (this.baseWidth / image.width);
-    }
-    this.setPageHeight(pageIndex, height);
-    this.averageHeight = ((this.averageHeight * this.numPagesLoaded) + height) / (this.numPagesLoaded + 1);
-    this.numPagesLoaded += 1;
-    if (h === height) return;
-    this.viewer.document.computeOffsets();
-    this.viewer.pages.simpleReflowPages();
-    if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
-      var diff = Math.round(height * this.zoomFactor() - h);
-      this.viewer.elements.window[0].scrollTop += diff;
-    }
-  },
+  //updateHeight: function(image, pageIndex) {
+  //  var h = this.getPageHeight(pageIndex);
+  //  var height = image.height * (this.zoomLevel > this.BASE_WIDTH ? 0.7 : 1.0);
+  //  if (image.width < this.baseWidth) {
+  //    // Not supposed to happen, but too-small images sometimes do.
+  //    height *= (this.baseWidth / image.width);
+  //  }
+  //  this.setPageHeight(pageIndex, height);
+  //  this.averageHeight = ((this.averageHeight * this.numPagesLoaded) + height) / (this.numPagesLoaded + 1);
+  //  this.numPagesLoaded += 1;
+  //  if (h === height) return;
+  //  this.viewer.document.computeOffsets();
+  //  this.viewer.pages.simpleReflowPages();
+  //  if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
+  //    var diff = Math.round(height * this.zoomFactor() - h);
+  //    this.viewer.elements.window[0].scrollTop += diff;
+  //  }
+  //},
 
   // set the real page height
   setPageHeight: function(pageIndex, pageHeight) { this.pageHeights[pageIndex] = Math.round(pageHeight); },

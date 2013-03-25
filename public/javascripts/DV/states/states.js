@@ -96,7 +96,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.bindEvents(this);
 
       this.helpers.positionViewer();
-      this.models.document.computeOffsets();
+      this.document.computeOffsets(); // the event loop seems to render everything fine w/o this.
 
       // Tell viewer to (re)draw pages every 100 ms (see helpers.addObserver, events.check, and helpers.startCheckTimer)
       this.helpers.addObserver('drawPages');
@@ -146,44 +146,11 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
 });
 
 DV.Schema.states = {
-
-  ViewAnnotation: function(){
-    this.helpers.reset();
-    this.helpers.ensureAnnotationImages();
-    this.activeAnnotationId = null;
-    this.acceptInput.deny();
-    // Nudge IE to force the annotations to repaint.
-    if (DV.jQuery.browser.msie) {
-      this.elements.annotations.css({zoom : 0});
-      this.elements.annotations.css({zoom : 1});
-    }
-
-    this.helpers.toggleContent('viewAnnotations');
-    this.compiled.next();
-    return true;
-  },
-
-  ViewDocument: function(){
-    this.helpers.reset();
-    this.helpers.addObserver('drawPages');
-    this.dragReporter.setBinding();
-    this.elements.window.mouseleave(DV.jQuery.proxy(this.dragReporter.stop, this.dragReporter));
-    this.acceptInput.allow();
-
-    this.helpers.toggleContent('viewDocument');
-
-    this.helpers.setActiveChapter(this.models.chapters.getChapterId(this.models.document.currentIndex()));
-
-    this.helpers.jump(this.models.document.currentIndex());
-    return true;
-  },
-
   ViewEntity: function(name, offset, length) {
     this.helpers.reset();
     this.helpers.toggleContent('viewSearch');
     this.helpers.showEntity(name, offset, length);
   },
-
   ViewSearch: function(){
     this.helpers.reset();
 
