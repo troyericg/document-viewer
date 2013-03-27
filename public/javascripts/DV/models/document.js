@@ -41,7 +41,7 @@ DV.model.Document.prototype = {
 
   setPageIndex : function(index) {
     // current page now lives on model
-    this.viewer.model.set('currentPageIndex', index);
+    this.viewer.state.set('pageIndex', index);
     //this.currentPageIndex = index;
     // Page indicator needs to be moved to view, and subscribe to change:currentPageIndex
     this.viewer.elements.currentPage.text(this.currentPage());
@@ -50,10 +50,11 @@ DV.model.Document.prototype = {
     return index;
   },
   currentPage : function() {
-    return this.viewer.model.get('currentPageIndex') + 1;
+    return this.viewer.state.get('pageIndex') + 1;
   },
   currentIndex : function() {
-    return this.viewer.model.get('currentPageIndex');
+    //return this.viewer.model.get('currentPageIndex');
+    return this.viewer.state.get('pageIndex');
   },
   nextPage : function() {
     var nextIndex = this.currentIndex() + 1;
@@ -177,8 +178,6 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 */
 
 DV.model.NewDocument = DV.Backbone.Model.extend({
-  defaults: { currentPageIndex: 0 },
-  
   initialize: function(attributes, options) {
     // Track Sections
     this.sections = new DV.model.SectionSet(attributes.sections);

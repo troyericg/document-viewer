@@ -6,7 +6,8 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
   defaults: {
     zoomLevel: 700,
     pageWidthPadding: 20,
-    additionalPaddingOnPage: 30
+    additionalPaddingOnPage: 30,
+    pageIndex: 0
   },
 
   initialize: function(attributes, options){ 
