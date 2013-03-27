@@ -46,3 +46,7 @@ DV.model.Chapters.prototype = {
     }
   }
 };
+
+DV.model.SectionSet = DV.Backbone.Collection.extend({ 
+  comparator: function(sec){ return sec.get('page'); }
+});

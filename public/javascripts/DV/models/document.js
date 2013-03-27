@@ -209,5 +209,3 @@ DV.model.NewDocument = DV.Backbone.Model.extend({
 DV.model.DocumentSet = DV.Backbone.Collection.extend({
   model: DV.model.NewDocument
 });
-
-DV.model.SectionSet = DV.Backbone.Collection.extend({ comparator: function(sec){ return sec.get('page'); } });
