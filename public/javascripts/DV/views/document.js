@@ -49,5 +49,12 @@ DV.view.Document = DV.Backbone.View.extend({
   addPageToRemovedPages: function(page) { console.log("DV.view.Document.addPageToRemovedPages"); },
   removePageFromRemovedPages: function(page) { console.log("DV.view.Document.removePageFromRemovedPages"); },
   redrawPages: function() {console.log("DV.view.Document.redrawPages");},
-  redrawReorderedPages: function() {console.log("DV.view.Document.redrawReorderedPages");}
+  redrawReorderedPages: function() {console.log("DV.view.Document.redrawReorderedPages");},
+  
+  // Removed from helper.js
+  setDocHeight:   function(height,diff) {
+    this.viewer.elements.bar.css('height', height);
+    this.viewer.elements.window[0].scrollTop += diff;
+  }
+  
 });

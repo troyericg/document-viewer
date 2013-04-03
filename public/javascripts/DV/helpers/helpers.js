@@ -253,11 +253,6 @@ DV.Schema.helpers = {
       }
     },
 
-    setDocHeight:   function(height,diff) {
-      this.viewer.elements.bar.css('height', height);
-      this.viewer.elements.window[0].scrollTop += diff;
-    },
-
     getWindowDimensions: function(){
       var d = {
         height: window.innerHeight ? window.innerHeight : this.viewer.elements.browserWindow.height(),

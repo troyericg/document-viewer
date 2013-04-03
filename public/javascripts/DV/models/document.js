@@ -118,7 +118,7 @@ DV.model.Document.prototype = {
     // artificially set the scrollbar height
     if(totalDocHeight != this.totalDocumentHeight){
       diff = (this.totalDocumentHeight != 0) ? diff : totalDocHeight - this.totalDocumentHeight;
-      this.viewer.helpers.setDocHeight(totalDocHeight,diff);
+      this.viewer.document.setDocHeight(totalDocHeight,diff);
       this.totalDocumentHeight = totalDocHeight;
     }
   },
