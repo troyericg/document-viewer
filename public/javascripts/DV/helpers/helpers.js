@@ -518,11 +518,10 @@ DV.Schema.helpers = {
 
   initializeLanguage: function(){
     this.i18n = new I18n( {
-      url          : this.viewer.schema.data.translationsURL,
+      viewer       : this.viewer,
       translations : DV.Schema.helpers.translations,
       underscore   : _ ,
       aliases      : DV.Schema.helpers.TranslationAliases,
-      locale       :  this.viewer.schema.document.langauge,
       autoDetect   : true
     });
   }

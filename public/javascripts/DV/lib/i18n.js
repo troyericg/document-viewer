@@ -20,13 +20,19 @@
 
 
 I18n = function( options ){
-  this.translations = options['translations'] || {};
-  this.locale       = options['locale']       || 'en';
-  this.aliases      = options['aliases']      || [];
+  this.translations = options.translations || {};
+  this.aliases      = options.aliases      || [];
+  this.viewer       = options.viewer;
+
   if ( options.underscore )
     this.extend_underscore( options.underscore );
+
   if ( true === options.autoDetect )
     this.detectLocale();
+
+  if ( this.viewer && this.viewer.schema.document.langauge ){
+    this.setLocale( this.viewer.schema.document.langauge );
+  }
 
 };
 
@@ -35,7 +41,7 @@ I18n = function( options ){
 // attempts to find it in the 'en' locale or returns
 // an empty string
 I18n.prototype.lookup = function( key, options ){
-  return ( this.translations[ this.locale ] || this.translations['en'] )[ key ] || '';
+  return ( this.translations[ this.locale ] || this.translations['eng'] )[ key ] || '';
 };
 
 
@@ -87,6 +93,21 @@ I18n.prototype.detectLocale = function(){
 };
 
 I18n.prototype.setLocale = function( code ){
+  if ( ! this.translations[ code ] ){
+    var url = this.viewer.schema.data.translationsURL.
+          replace(/\{language\}/, code ).
+          replace(/\{realm\}/, 'viewer' ) + '.json';
+    var i18n = this;
+    DV.jQuery.ajax( {
+      url: url,
+      dataType: 'jsonp',
+      success: function( translation ){
+        i18n.translations[ code ] = translation;
+        i18n.viewer.api.redraw();
+      }
+    } );
+  }
+
   this.locale = code;
   return this;
 };
