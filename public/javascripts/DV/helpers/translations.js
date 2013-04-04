@@ -1,5 +1,5 @@
-DV.Schema.helpers.TRANSLATIONS = {
-  "en": {
+DV.Schema.helpers.translations = {
+  "eng": {
     "AnnoBy": "Annotated by:",
     "AnnoTitle": "Annotation Title",
     "CLOSE": "CLOSE",
@@ -47,7 +47,7 @@ DV.Schema.helpers.TRANSLATIONS = {
     "p": "p.",
     "of": "of"
   },
-  "fr": {
+  "fra": {
     "AnnoBy": "Annoté par:",
     "AnnoTitle": "Titre annotation",
     "CLOSE": "FERMER",
@@ -95,7 +95,7 @@ DV.Schema.helpers.TRANSLATIONS = {
     "p": "p.",
     'of': 'de'
   },
-  "es": {
+  "spa": {
     "AnnoBy": "Anotado por:",
     "AnnoTitle": "Título anotación",
     "CLOSE": "CIERRE",
@@ -143,7 +143,7 @@ DV.Schema.helpers.TRANSLATIONS = {
     "p": "p.",
     'of': 'de'
   },
-  "zh": {
+  "zho": {
     "AnnoBy": "附加说明：",
     "AnnoTitle": "注释标题",
     "CLOSE": "关闭",
@@ -191,7 +191,7 @@ DV.Schema.helpers.TRANSLATIONS = {
     "p": "页。",
     'of': '的'
   },
-  "de": {
+  "deu": {
     "AnnoBy": "Kommentiert von:",
     "AnnoTitle": "Annotation Titel",
     "CLOSE": "SCHLIESSEN",
