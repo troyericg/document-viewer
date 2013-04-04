@@ -23,7 +23,6 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
   json.sections               = _.sortBy(json.sections || [], function(sec){ return sec.page; });
   json.annotations            = json.annotations || [];
   json.canonicalURL           = json.canonical_url;
-
   this.document               = DV.jQuery.extend(true, {}, json);
   // Everything after this line is for back-compatibility.
   this.data.title             = json.title;
@@ -33,6 +32,7 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
   this.data.chapters          = [];
   this.data.annotationsById   = {};
   this.data.annotationsByPage = {};
+  this.data.translationsURL   = json.translations_url;
   _.each(json.annotations, DV.jQuery.proxy(this.loadAnnotation, this));
 };
 
