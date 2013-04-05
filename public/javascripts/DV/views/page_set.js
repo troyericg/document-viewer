@@ -82,8 +82,13 @@ DV.view.PageSet = DV.Backbone.View.extend({
   // hide any active annotations
   cleanUp: function(){ if(this.viewer.activeAnnotation){ this.viewer.activeAnnotation.hide(true); } },
 
+  // Zoom is a confused function.
+  // Although Zoom is defined on PageSet, it provides
+  // functionality which is used even if the current state
+  // is not ViewDocument.
   zoom: function(argHash){
     var oldDocModel = this.viewer.models.document;
+    var state = this.viewer.state;
     // don't do anything if current zoom level is the same as the requested zoom level
     if (oldDocModel.zoomLevel === argHash.zoomLevel) return;
 

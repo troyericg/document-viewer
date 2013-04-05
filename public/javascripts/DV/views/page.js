@@ -19,10 +19,9 @@ DV.view.Page = DV.Backbone.View.extend({
     this.pageNoteHeights = [];
     // Rolling average page height.
     this.averageHeight   = 0;
-    this.zoomLevel       = this.viewer.model.zoomLevel;
     this.baseWidth       = this.BASE_WIDTH;
     this.baseHeight      = this.BASE_HEIGHT;
-    this.width           = this.zoomLevel;
+    this.width           = this.viewer.state.get('zoomLevel');
     this.height          = this.baseHeight * this.zoomFactor();
     
   },
@@ -260,7 +259,7 @@ DV.view.Page = DV.Backbone.View.extend({
   imageURL: function(index) {
     var resources = this.viewer.model.get('resources');
     var url  = resources.page.image;
-    var size = this.zoomLevel > this.BASE_WIDTH ? 'large' : 'normal';
+    var size = this.viewer.state.get('zoomLevel') > this.BASE_WIDTH ? 'large' : 'normal';
     var pageNumber = index + 1;
     if (resources.page.zeropad) pageNumber = this.zeroPad(pageNumber, 5);
     url = url.replace(/\{size\}/, size);
@@ -283,25 +282,25 @@ DV.view.Page = DV.Backbone.View.extend({
   },
 
   // The zoom factor is the ratio of the image width to the baseline width.
-  zoomFactor : function() { return this.zoomLevel / this.BASE_WIDTH; },
+  zoomFactor : function() { return this.viewer.state.get('zoomLevel') / this.BASE_WIDTH; },
 
   // Resize or zoom the pages width and height.
   resize : function(zoomLevel) {
     var padding = this.viewer.models.pages.DEFAULT_PADDING;
 
     if (zoomLevel) {
-      if (zoomLevel == this.zoomLevel) return;
+      if (zoomLevel == this.viewer.state.get('zoomLevel')) return;
       var previousFactor  = this.zoomFactor();
-      this.zoomLevel      = zoomLevel || this.zoomLevel;
+      zoomLevel           = zoomLevel || this.viewer.state.get('zoomLevel');
       var scale           = this.zoomFactor() / previousFactor;
       this.width          = Math.round(this.baseWidth * this.zoomFactor());
       this.height         = Math.round(this.height * scale);
       this.averageHeight  = Math.round(this.averageHeight * scale);
     }
 
-    this.viewer.elements.sets.width(this.zoomLevel);
+    this.viewer.elements.sets.width(zoomLevel);
     this.viewer.elements.collection.css({width : this.width + padding });
-    this.viewer.$('.DV-textContents').css({'font-size' : this.zoomLevel * 0.02 + 'px'});
+    this.viewer.$('.DV-textContents').css({'font-size' : zoomLevel * 0.02 + 'px'});
   },
 
   // Update the height for a page, when its real image has loaded.
