@@ -344,6 +344,7 @@ DV.Schema.helpers = {
       }
     },
 
+    // used by DragReporter to reposition viewable area.
     shift: function(argHash){
       var windowEl        = this.elements.window;
       var scrollTopShift  = windowEl.scrollTop() + argHash.deltaY;
