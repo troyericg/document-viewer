@@ -7,7 +7,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.state    = new DV.model.ViewerState(state_data, { viewer: this });
 
     // this is a hack just to get loading working. see the end of states.InitialLoad
-    this.history        = new DV.History(this);
+    this.history        = this.state.history;
     
     // Legacy components to be refactored
     this.helpers  = _.extend({}, DV.Schema.helpers);
