@@ -353,20 +353,6 @@ DV.Schema.helpers = {
       windowEl.scrollLeft(scrollLeftShift);
     },
 
-    // Unclear why this is in helpers/helpers.js and not in helpers/construction.js
-    // generates markup.
-    constructPages: function(){
-      var pages = [];
-      var totalPagesToCreate = (this.viewer.model.totalPages < 3) ? this.viewer.model.totalPages : 3;
-
-      var height = this.viewer.models.pages.height;
-      for (var i = 0; i < totalPagesToCreate; i++) {
-        pages.push(JST.pages({ pageNumber: i+1, pageIndex: i , pageImageSource: null, baseHeight: height }));
-      }
-
-      return pages.join('');
-    },
-
     // Position the viewer on the page. For a full screen viewer, this means
     // absolute from the current y offset to the bottom of the viewport.
     positionViewer : function() {
