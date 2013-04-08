@@ -31,46 +31,48 @@ DV.Schema.helpers = {
       delegates.previous   = viewer.state.delegatedEventFunction('previous');
 
       var states = context.states;
-      viewer.$('.DV-navControls').delegate('span.DV-next',    'click', delegates.next);
-      viewer.$('.DV-navControls').delegate('span.DV-previous','click', delegates.previous);
+      //viewer.$('.DV-navControls').delegate('span.DV-next',    'click', delegates.next);
+      //viewer.$('.DV-navControls').delegate('span.DV-previous','click', delegates.previous);
+      viewer.$('.DV-navControls span.DV-next'    ).on('click', delegates.next);
+      viewer.$('.DV-navControls span.DV-previous').on('click', delegates.previous);
 
-      viewer.$('.DV-annotationView').delegate('.DV-trigger','click',function(e){ e.preventDefault(); context.open('ViewAnnotation'); });
-      viewer.$('.DV-documentView').delegate(  '.DV-trigger',                   'click', function(e){ context.open('ViewDocument'); });
-      viewer.$('.DV-thumbnailsView').delegate('.DV-trigger',                   'click', function(e){ context.open('ViewThumbnails'); });
-      viewer.$('.DV-textView').delegate(      '.DV-trigger',                   'click', function(e){ context.open('ViewText'); });
-      viewer.$('.DV-allAnnotations').delegate('.DV-annotationGoto .DV-trigger','click', DV.jQuery.proxy(this.gotoPage, this));
+      viewer.$('.DV-annotationView .DV-trigger').on('click',function(e){ e.preventDefault(); context.open('ViewAnnotation'); });
+      viewer.$('.DV-documentView .DV-trigger'  ).on('click', function(e){ context.open('ViewDocument'); });
+      viewer.$('.DV-thumbnailsView .DV-trigger').on('click', function(e){ context.open('ViewThumbnails'); });
+      viewer.$('.DV-textView .DV-trigger'      ).on('click', function(e){ context.open('ViewText'); });
+      viewer.$('.DV-allAnnotations .DV-annotationGoto .DV-trigger').on('click', DV.jQuery.proxy(this.gotoPage, this));
 
       viewer.$('form.DV-searchDocument').submit(viewer.state.delegatedEventFunction('search'));
-      viewer.$('.DV-searchBar').delegate('.DV-closeSearch',           'click', function(e){ e.preventDefault(); context.open('ViewText'); });
-      viewer.$('.DV-searchBox').delegate('.DV-searchInput-cancel',    'click', DV.jQuery.proxy(this.clearSearch, this));
-      viewer.$('.DV-searchResults').delegate('span.DV-resultPrevious','click', DV.jQuery.proxy(this.highlightPreviousMatch, this));
-      viewer.$('.DV-searchResults').delegate('span.DV-resultNext',    'click', DV.jQuery.proxy(this.highlightNextMatch, this));
+      viewer.$('.DV-searchBar .DV-closeSearch'       ).on('click', function(e){ e.preventDefault(); context.open('ViewText'); });
+      viewer.$('.DV-searchBox .DV-searchInput-cancel').on('click', DV.jQuery.proxy(this.clearSearch, this));
+      viewer.$('.DV-searchResults span.DV-resultPrevious').on('click', DV.jQuery.proxy(this.highlightPreviousMatch, this));
+      viewer.$('.DV-searchResults span.DV-resultNext').on('click', DV.jQuery.proxy(this.highlightNextMatch, this));
 
       // Prevent navigation elements from being selectable when clicked.
       viewer.$('.DV-trigger').bind('selectstart', function(){ return false; });
 
-      this.viewer.elements.viewer.delegate('.DV-fullscreen', 'click', _.bind(this.openFullScreen, this));
+      this.viewer.elements.viewer.on('click', '.DV-fullscreen', _.bind(this.openFullScreen, this));
 
       var boundToggle  = DV.jQuery.proxy(this.annotationBridgeToggle, this);
       var collection   = this.viewer.elements.collection;
 
       
-      collection.delegate('.DV-annotationTab',      'click', boundToggle);
-      collection.delegate('.DV-annotationRegion',   'click', DV.jQuery.proxy(this.annotationBridgeShow, this));
-      collection.delegate('.DV-annotationNext',     'click', DV.jQuery.proxy(this.annotationBridgeNext, this));
-      collection.delegate('.DV-annotationPrevious', 'click', DV.jQuery.proxy(this.annotationBridgePrevious, this));
-      collection.delegate('.DV-showEdit',           'click', DV.jQuery.proxy(this.showAnnotationEdit, this));
-      collection.delegate('.DV-cancelEdit',         'click', DV.jQuery.proxy(this.cancelAnnotationEdit, this));
-      collection.delegate('.DV-saveAnnotation',     'click', DV.jQuery.proxy(this.saveAnnotation, this));
-      collection.delegate('.DV-saveAnnotationDraft','click', DV.jQuery.proxy(this.saveAnnotation, this));
-      collection.delegate('.DV-deleteAnnotation',   'click', DV.jQuery.proxy(this.deleteAnnotation, this));
-      collection.delegate('.DV-pageNumber',         'click', _.bind(this.permalinkPage, this, 'document'));
-      collection.delegate('.DV-textCurrentPage',    'click', _.bind(this.permalinkPage, this, 'text'));
-      collection.delegate('.DV-annotationTitle',    'click', _.bind(this.permalinkAnnotation, this));
-      collection.delegate('.DV-permalink',          'click', _.bind(this.permalinkAnnotation, this));
+      collection.on('click', '.DV-annotationTab',       boundToggle);
+      collection.on('click', '.DV-annotationRegion',    DV.jQuery.proxy(this.annotationBridgeShow, this));
+      collection.on('click', '.DV-annotationNext',      DV.jQuery.proxy(this.annotationBridgeNext, this));
+      collection.on('click', '.DV-annotationPrevious',  DV.jQuery.proxy(this.annotationBridgePrevious, this));
+      collection.on('click', '.DV-showEdit',            DV.jQuery.proxy(this.showAnnotationEdit, this));
+      collection.on('click', '.DV-cancelEdit',          DV.jQuery.proxy(this.cancelAnnotationEdit, this));
+      collection.on('click', '.DV-saveAnnotation',      DV.jQuery.proxy(this.saveAnnotation, this));
+      collection.on('click', '.DV-saveAnnotationDraft', DV.jQuery.proxy(this.saveAnnotation, this));
+      collection.on('click', '.DV-deleteAnnotation',    DV.jQuery.proxy(this.deleteAnnotation, this));
+      collection.on('click', '.DV-pageNumber',          _.bind(this.permalinkPage, this, 'document'));
+      collection.on('click', '.DV-textCurrentPage',     _.bind(this.permalinkPage, this, 'text'));
+      collection.on('click', '.DV-annotationTitle',     _.bind(this.permalinkAnnotation, this));
+      collection.on('click', '.DV-permalink',           _.bind(this.permalinkAnnotation, this));
 
       // Thumbnails
-      viewer.$('.DV-thumbnails').delegate('.DV-thumbnail-page', 'click', function(e) {
+      viewer.$('.DV-thumbnails .DV-thumbnail-page').on( 'click', function(e) {
         var $thumbnail = viewer.$(e.currentTarget);
         if (!viewer.openEditor) {
           var pageIndex = $thumbnail.closest('.DV-thumbnail').attr('data-pageNumber') - 1;
