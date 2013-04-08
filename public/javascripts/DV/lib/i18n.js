@@ -99,12 +99,13 @@ I18n.prototype.setLocale = function( code ){
           replace(/\{language\}/, code ).
           replace(/\{realm\}/, 'viewer' ) + '.json';
     var i18n = this;
+
     DV.jQuery.ajax( {
       url: url,
       dataType: 'jsonp',
       success: function( translation ){
         i18n.translations[ code ] = translation;
-        i18n.viewer.api.redraw();
+        i18n.viewer.open('InitialLoad');
       }
     } );
   }
