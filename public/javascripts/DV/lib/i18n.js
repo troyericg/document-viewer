@@ -30,9 +30,10 @@ I18n = function( options ){
   if ( true === options.autoDetect )
     this.detectLocale();
 
-  if ( this.viewer && this.viewer.schema.document.langauge ){
-    this.setLocale( this.viewer.schema.document.langauge );
+  if ( this.viewer && this.viewer.schema.document.language ){
+    this.setLocale( this.viewer.schema.document.language );
   }
+
 
 };
 
