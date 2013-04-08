@@ -32,7 +32,7 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
   this.data.chapters          = [];
   this.data.annotationsById   = {};
   this.data.annotationsByPage = {};
-  this.data.translationsURL   = json.translations_url;
+  this.data.translationsURL   = json.resources.translations_url;
   _.each(json.annotations, DV.jQuery.proxy(this.loadAnnotation, this));
 };
 
