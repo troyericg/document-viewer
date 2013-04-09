@@ -59,12 +59,10 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
     // insert and observe the nav
     var navigationView = nav.join('');
 
-    var chaptersContainer = this.viewer.$('div.DV-chaptersContainer');
-    chaptersContainer.html(navigationView);
-    // following line is obsolete pending move to Backbone view.
-    //chaptersContainer.unbind('click').bind('click',this.events.compile('handleNavigation'));
-    chaptersContainer.unbind('click').bind('click',this.viewer.state.delegatedEventFunction('handleNavigation'));
-    if (sections.length || _.size(this.viewer.model.notes.byId)) { chaptersContainer.show(); } else { chaptersContainer.hide(); }
+    this.setElement(this.viewer.$('div.DV-chaptersContainer'));
+    this.$el.html(navigationView);
+
+    if (sections.length || _.size(this.viewer.model.notes.byId)) { this.$el.show(); } else { this.$el.hide(); }
     this.viewer.helpers.displayNavigation();
 
     DV.jQuery('#DV-navigationBolds-' + boldsId, DV.jQuery("head")).remove();
