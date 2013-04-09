@@ -24,24 +24,25 @@ DV.Schema.helpers = {
         change: function(el,d){ boundZoom(context.models.document.ZOOM_RANGES[parseInt(d.value, 10)]); }
       });
 
-      // next/previous
+      // Set up delegates for next/previous buttons.
       var history          = viewer.history;
       var delegates        = viewer.state.delegated;
       delegates.next       = viewer.state.delegatedEventFunction('next');
       delegates.previous   = viewer.state.delegatedEventFunction('previous');
 
       var states = context.states;
-      //viewer.$('.DV-navControls').delegate('span.DV-next',    'click', delegates.next);
-      //viewer.$('.DV-navControls').delegate('span.DV-previous','click', delegates.previous);
+      // Bind next/previous delegates
       viewer.$('.DV-navControls span.DV-next'    ).on('click', delegates.next);
       viewer.$('.DV-navControls span.DV-previous').on('click', delegates.previous);
 
+      // Bind main navigation tab behaviors
       viewer.$('.DV-annotationView .DV-trigger').on('click',function(e){ e.preventDefault(); context.open('ViewAnnotation'); });
       viewer.$('.DV-documentView .DV-trigger'  ).on('click', function(e){ context.open('ViewDocument'); });
       viewer.$('.DV-thumbnailsView .DV-trigger').on('click', function(e){ context.open('ViewThumbnails'); });
       viewer.$('.DV-textView .DV-trigger'      ).on('click', function(e){ context.open('ViewText'); });
       viewer.$('.DV-allAnnotations .DV-annotationGoto .DV-trigger').on('click', DV.jQuery.proxy(this.gotoPage, this));
 
+      // Bind search related behaviors
       viewer.$('form.DV-searchDocument').submit(viewer.state.delegatedEventFunction('search'));
       viewer.$('.DV-searchBar .DV-closeSearch'       ).on('click', function(e){ e.preventDefault(); context.open('ViewText'); });
       viewer.$('.DV-searchBox .DV-searchInput-cancel').on('click', DV.jQuery.proxy(this.clearSearch, this));
@@ -56,7 +57,7 @@ DV.Schema.helpers = {
       var boundToggle  = DV.jQuery.proxy(this.annotationBridgeToggle, this);
       var collection   = this.viewer.elements.collection;
 
-      
+      // Bind behaviors to active annotation UI
       collection.on('click', '.DV-annotationTab',       boundToggle);
       collection.on('click', '.DV-annotationRegion',    DV.jQuery.proxy(this.annotationBridgeShow, this));
       collection.on('click', '.DV-annotationNext',      DV.jQuery.proxy(this.annotationBridgeNext, this));
@@ -66,6 +67,8 @@ DV.Schema.helpers = {
       collection.on('click', '.DV-saveAnnotation',      DV.jQuery.proxy(this.saveAnnotation, this));
       collection.on('click', '.DV-saveAnnotationDraft', DV.jQuery.proxy(this.saveAnnotation, this));
       collection.on('click', '.DV-deleteAnnotation',    DV.jQuery.proxy(this.deleteAnnotation, this));
+
+      // Bind behaviors to permalinks
       collection.on('click', '.DV-pageNumber',          _.bind(this.permalinkPage, this, 'document'));
       collection.on('click', '.DV-textCurrentPage',     _.bind(this.permalinkPage, this, 'text'));
       collection.on('click', '.DV-annotationTitle',     _.bind(this.permalinkAnnotation, this));
