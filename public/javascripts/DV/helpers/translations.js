@@ -1,6 +1,6 @@
 DV.Schema.helpers.translations = {
   "eng": {
-    "AnnoBy": "Annotated by:",
+    "NoteBy": "Annotated by:",
     "NoteTitle": "Annotation Title",
     "CLOSE": "CLOSE",
     "Cancel": "Cancel",
