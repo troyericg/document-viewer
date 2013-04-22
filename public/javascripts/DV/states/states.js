@@ -188,6 +188,6 @@ DV.Schema.states = {
     this.helpers.toggleContent('viewText');
     this.events.loadText();
     return true;
-  },
+  }
 
 };
