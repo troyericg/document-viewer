@@ -4,8 +4,8 @@ DV.Thumbnails = function(viewer){
   this.currentIndex    = 0;
   this.zoomLevel       = null;
   this.scrollTimer     = null;
-  this.imageUrl        = viewer.schema.document.resources.page.image.replace(/\{size\}/, 'small');
-  this.pageCount       = viewer.schema.document.pages;
+  this.imageUrl        = viewer.model.pages.resources.image.replace(/\{size\}/, 'small');
+  this.pageCount       = viewer.model.get('pages');
   this.viewer          = viewer;
   this.resizeId        = _.uniqueId();
   this.sizes           = {
@@ -107,7 +107,7 @@ DV.Thumbnails.prototype.setImageSize = function(image, imageEl) {
 // Only attempt to load the current viewport's worth of thumbnails if we've
 // been sitting still for at least 1/10th of a second.
 DV.Thumbnails.prototype.lazyloadThumbnails = function() {
-  if (this.viewer.state != 'ViewThumbnails') return;
+  if (this.viewer.state.name != 'ViewThumbnails') return;
   if (this.scrollTimer) clearTimeout(this.scrollTimer);
   this.scrollTimer = setTimeout(this.loadThumbnails, 100);
 };
@@ -146,7 +146,9 @@ DV.Thumbnails.prototype.loadImages = function(startPage, endPage) {
   viewer.$('.DV-thumbnail' + lt + gt).each(function(i) {
     var el = viewer.$(this);
     if (!el.attr('src')) {
-      var imageEl = viewer.$('.DV-thumbnail-image', el);
+      var imageEl = el.find('.DV-thumbnail-image');
+      // create a new empty image, set up a behavior to resize the image,
+      // and kick off the load behavior by setting the src attribute.
       var image = new Image();
       DV.jQuery(image).bind('load', _.bind(self.setImageSize, self, image, imageEl))
                       .attr({src: imageEl.attr('data-src')});

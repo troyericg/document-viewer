@@ -146,7 +146,15 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     },
     ViewSearch: function() { console.log("View Search"); },
     ViewText: function() { console.log("View Text"); },
-    ViewThumbnails: function() { console.log("View Thumbnails"); }
+    ViewThumbnails: function() {
+      console.log("View Thumbnails");
+      this.helpers.reset();
+      this.helpers.toggleContent('viewThumbnails');
+      this.thumbnails = new DV.Thumbnails(this);
+      this.thumbnails.render();
+      return true;
+    }
+
   }
 });
 
@@ -181,13 +189,5 @@ DV.Schema.states = {
     this.events.loadText();
     return true;
   },
-
-  ViewThumbnails: function() {
-    this.helpers.reset();
-    this.helpers.toggleContent('viewThumbnails');
-    this.thumbnails = new DV.Thumbnails(this);
-    this.thumbnails.render();
-    return true;
-  }
 
 };
