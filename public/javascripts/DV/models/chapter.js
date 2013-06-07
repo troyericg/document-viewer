@@ -12,8 +12,9 @@ DV.model.Chapters.prototype = {
   loadChapters : function() {
     var doc = this.viewer.model;
     var sections = doc.sections;
-    // not clear why we're even keeping an inverted index of pages => chapter/sections
-    var chapters = this.chapters = doc.chapters = [];
+    // Chapters are the sidebar headers. 
+    // A hash is kept mapping chapters to page indexes.
+    var chapters = this.chapters = doc.chapters = []; // this should be replaced with a hash rather than sparse array.
     var pageCount = doc.totalPages;
 
     if (sections.length < 1) return; // short circuit if there are no sections
@@ -29,11 +30,13 @@ DV.model.Chapters.prototype = {
 
       // so long as the pageIndex for the section is in bounds
       // assign the section to the appropriate page's chapter.
-      var pageIndex = section.page - 1;
-      if (pageIndex >= 0 && pageIndex < pageCount) { chapters[pageIndex] = section.id; }
+      var pageIndex = section.get('page') - 1;
+      if (pageIndex >= 0 && pageIndex < pageCount) { chapters[pageIndex] = parseInt(section.id, 10); }
     });
   },
 
+  // These two functions are gross, because of the use of a sparse array
+  // essentially as a bi-directional hash.  Replace with a hash and it's inverse.
   getChapterId: function(index) {
     return this.chapters[index];
   },

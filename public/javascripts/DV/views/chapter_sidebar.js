@@ -104,7 +104,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
           this.loadText(chapterIndex);                            // load the appropriate page text
         } else if (this.viewer.state.name === 'ViewDocument' ||        // Otherwise if we're vewing the document
                    this.viewer.state.name === 'ViewThumbnails'){       // or thumbnails
-          this.helpers.jump(chapterIndex);                        // Jump to the appropriate page
+          this.viewer.helpers.jump(chapterIndex);                        // Jump to the appropriate page
           if (this.viewer.state.name === 'ViewThumbnails') { this.viewer.open('ViewDocument'); }
         }else{                                                    // Otherwise (say in the note view)
           return false;                                           // dunno lol.
