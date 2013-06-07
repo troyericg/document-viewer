@@ -26,7 +26,7 @@ DV.Schema.events = {
 
     if (offsets[currentPage] == scrollPos) { currentPage++; middlePage++; }
     var pageIds       = this.viewer.helpers.sortPages(middlePage - 1);
-    var total         = doc.totalPages;
+    var total         = this.viewer.model.get('pages');
     if (doc.currentPage() != currentPage) doc.setPageIndex(currentPage - 1);
     this.drawPageAt(pageIds, middlePage - 1);
   },

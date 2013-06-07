@@ -28,7 +28,7 @@ _.extend(DV.Schema.helpers, {
     DV.jQuery.ajax({url : searchURI, dataType : 'json', success : handleResponse, error : failResponse});
   },
   acceptInputCallBack: function(){
-    var pageIndex = parseInt(this.elements.currentPage.text(),10) - 1;
+    var pageIndex = parseInt(this.viewer.elements.currentPage.text(),10) - 1;
     // sanitize input
 
     pageIndex       = (pageIndex === '') ? 0 : pageIndex;
@@ -36,7 +36,7 @@ _.extend(DV.Schema.helpers, {
     pageIndex       = (pageIndex+1 > this.viewer.models.document.totalPages) ? this.viewer.models.document.totalPages-1 : pageIndex;
     var pageNumber  = pageIndex+1;
 
-    this.elements.currentPage.text(pageNumber);
+    this.viewer.elements.currentPage.text(pageNumber);
     this.viewer.$('.DV-pageNumberContainer input').val(pageNumber);
 
     if(this.viewer.state.name === 'ViewDocument' ||
