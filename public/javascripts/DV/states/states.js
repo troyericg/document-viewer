@@ -144,8 +144,33 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.jump(this.models.document.currentIndex());
       return true;
     },
-    ViewSearch: function() { console.log("View Search"); },
-    ViewText: function() { console.log("View Text"); },
+    ViewSearch: function(){
+      console.log("View Search");
+      this.helpers.reset();
+
+      if(this.elements.searchInput.val() == '') {
+        this.elements.searchInput.val(searchRequest);
+      } else {
+        var searchRequest = this.elements.searchInput.val();
+      }
+
+      this.helpers.getSearchResponse(searchRequest);
+      this.acceptInput.deny();
+
+      this.helpers.toggleContent('viewSearch');
+
+      return true;
+    },
+    ViewText: function(){
+      console.log("View Text");
+      this.helpers.reset();
+      this.acceptInput.allow();
+      this.pages.zoomText();
+      this.helpers.toggleContent('viewText');
+      console.log(this);
+      this.state.eventFunctions.loadText();
+      return true;
+    },
     ViewThumbnails: function() {
       console.log("View Thumbnails");
       this.helpers.reset();
@@ -164,30 +189,5 @@ DV.Schema.states = {
     this.helpers.toggleContent('viewSearch');
     this.helpers.showEntity(name, offset, length);
   },
-  ViewSearch: function(){
-    this.helpers.reset();
-
-    if(this.elements.searchInput.val() == '') {
-      this.elements.searchInput.val(searchRequest);
-    } else {
-      var searchRequest = this.elements.searchInput.val();
-    }
-
-    this.helpers.getSearchResponse(searchRequest);
-    this.acceptInput.deny();
-
-    this.helpers.toggleContent('viewSearch');
-
-    return true;
-  },
-
-  ViewText: function(){
-    this.helpers.reset();
-    this.acceptInput.allow();
-    this.pages.zoomText();
-    this.helpers.toggleContent('viewText');
-    this.events.loadText();
-    return true;
-  }
 
 };
