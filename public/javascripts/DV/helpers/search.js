@@ -11,7 +11,7 @@ _.extend(DV.Schema.helpers, {
         // this.viewer.history.save('search/p'+response.results[0]+'/'+response.query);
         var currentPage = this.viewer.models.document.currentPage();
         var page = (_.include(response.results, currentPage)) ? currentPage : response.results[0];
-        this.events.loadText(page - 1, this.highlightSearchResponses);
+        this.viewer.state.eventFunctions.loadText(page - 1, this.highlightSearchResponses);
       } else {
         this.highlightSearchResponses();
       }
@@ -23,7 +23,8 @@ _.extend(DV.Schema.helpers, {
       this.viewer.$('.DV-searchResults').addClass('DV-noResults');
     };
 
-    var searchURI = this.viewer.schema.document.resources.search.replace('{query}', encodeURIComponent(query));
+    //var searchURI = this.viewer.schema.document.resources.search.replace('{query}', encodeURIComponent(query));
+    var searchURI = this.viewer.model.get('resources').search.replace('{query}', encodeURIComponent(query));
     if (this.viewer.helpers.isCrossDomain(searchURI)) searchURI += '&callback=?';
     DV.jQuery.ajax({url : searchURI, dataType : 'json', success : handleResponse, error : failResponse});
   },
@@ -64,7 +65,7 @@ _.extend(DV.Schema.helpers, {
     }else{
       this.viewer.$('.DV-searchResults').removeClass('DV-noResults');
     }
-    for(var i = 0; i < response.results.length; i++){
+    for(var i = 0; i < results.length; i++){
       if(this.viewer.models.document.currentPage() === response.results[i]){
         currentResultEl.text('Page ' + (i+1) + ' ');
         break;
@@ -149,7 +150,7 @@ _.extend(DV.Schema.helpers, {
     var match = this.viewer.$('.DV-textContents span.DV-searchMatch:eq('+index+')');
     match.addClass('DV-highlightedMatch');
 
-    this.elements.window[0].scrollTop = match.position().top - 50;
+    this.viewer.elements.window[0].scrollTop = match.position().top - 50;
     if (searchResponse) searchResponse.highlighted = index;
 
     // cleanup

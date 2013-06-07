@@ -167,7 +167,6 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.acceptInput.allow();
       this.pages.zoomText();
       this.helpers.toggleContent('viewText');
-      console.log(this);
       this.state.eventFunctions.loadText();
       return true;
     },
