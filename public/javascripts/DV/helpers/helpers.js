@@ -75,7 +75,7 @@ DV.Schema.helpers = {
       collection.on('click', '.DV-permalink',           _.bind(this.permalinkAnnotation, this));
 
       // Thumbnails
-      viewer.$('.DV-thumbnails .DV-thumbnail-page').on( 'click', function(e) {
+      viewer.$('.DV-thumbnails').on( 'click', '.DV-thumbnail-page', function(e) {
         var $thumbnail = viewer.$(e.currentTarget);
         if (!viewer.openEditor) {
           var pageIndex = $thumbnail.closest('.DV-thumbnail').attr('data-pageNumber') - 1;
