@@ -46,7 +46,7 @@ _.extend(DV.Schema.helpers, {
       this.jump(pageIndex);
     }else if(this.viewer.state.name === 'ViewText'){
       // this.viewer.history.save('text/p'+pageNumber);
-      this.events.loadText(pageIndex);
+      this.viewer.state.eventFunctions.loadText(pageIndex);
     }
 
   },
@@ -132,7 +132,7 @@ _.extend(DV.Schema.helpers, {
           return;
         }
         toHighLight = 'first';
-        this.events.loadText(searchResponse.results[currentPageIndex + 1] - 1,this.highlightSearchResponses);
+        this.viewer.state.eventFunctions.loadText(searchResponse.results[currentPageIndex + 1] - 1,this.highlightSearchResponses);
 
         return;
       }else if(index === -1){
@@ -140,7 +140,7 @@ _.extend(DV.Schema.helpers, {
           return  false;
         }
         toHighLight = 'last';
-        this.events.loadText(searchResponse.results[currentPageIndex - 1] - 1,this.highlightSearchResponses);
+        this.viewer.state.eventFunctions.loadText(searchResponse.results[currentPageIndex - 1] - 1,this.highlightSearchResponses);
 
         return;
       }
@@ -186,7 +186,7 @@ _.extend(DV.Schema.helpers, {
     this.viewer.$('span.DV-totalSearchResult').text('');
     this.viewer.$('span.DV-searchQuery').text(name);
     this.viewer.$('span.DV-currentSearchResult').text("Searching");
-    this.events.loadText(this.viewer.models.document.currentIndex(), _.bind(this.viewer.helpers.highlightEntity, this.viewer.helpers, offset, length));
+    this.viewer.state.eventFunctions.loadText(this.viewer.models.document.currentIndex(), _.bind(this.viewer.helpers.highlightEntity, this.viewer.helpers, offset, length));
   },
   cleanUpSearch: function(){
     var viewer            = this.viewer;

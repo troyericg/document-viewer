@@ -85,7 +85,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
 
       // If we're vewing the text, load the text for this note's page.
       if ( this.viewer.state.name === 'ViewText' ){ 
-        this.loadText(annotation.index); 
+        this.viewer.state.eventFunctions.loadText(annotation.index); 
       } else {
         if (this.viewer.state.name === 'ViewThumbnails') { this.viewer.open('ViewDocument'); }
         this.viewer.pages.showAnnotation(annotation); // Otherwise show the note.
@@ -101,7 +101,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
         var chapterIndex  = parseInt(this.viewer.models.chapters.getChapterPosition(cid),10);   // Figure out the page index
 
         if(this.viewer.state.name === 'ViewText'){                     // If we're viewing the text
-          this.loadText(chapterIndex);                            // load the appropriate page text
+          this.viewer.state.eventFunctions.loadText(chapterIndex);                            // load the appropriate page text
         } else if (this.viewer.state.name === 'ViewDocument' ||        // Otherwise if we're vewing the document
                    this.viewer.state.name === 'ViewThumbnails'){       // or thumbnails
           this.viewer.helpers.jump(chapterIndex);                        // Jump to the appropriate page

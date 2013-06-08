@@ -63,7 +63,7 @@ _.extend(DV.Schema.events, {
   handleHashChangeViewText: function(page){
     var pageIndex = parseInt(page,10) - 1;
     if(this.viewer.state.name === 'ViewText'){
-      this.viewer.events.loadText(pageIndex);
+      this.viewer.state.eventFunctions.loadText(pageIndex);
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
       this.viewer.open('ViewText');
