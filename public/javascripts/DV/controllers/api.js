@@ -22,19 +22,21 @@ DV.Api.prototype = {
   },
 
   // Return the page number for one of the three physical page DOM elements, by id:
+  // BROKEN
   getPageNumberForId : function(id) {
     var page = this.viewer.pages.pages[id];
     return page.index + 1;
   },
 
   // Get the document's canonical schema
+  
   getSchema : function() {
-    return this.viewer.schema.document;
+    return this.viewer.model.attributes;
   },
 
   // Get the document's canonical ID.
   getId : function() {
-    return this.viewer.schema.document.id;
+    return this.getSchema().id;
   },
 
   // Get the document's numerical ID.
@@ -57,22 +59,23 @@ DV.Api.prototype = {
 
   // Return the total number of pages in the document.
   numberOfPages : function() {
-    return this.viewer.models.document.totalPages;
+    return this.viewer.model.get('pages');
   },
 
   // Return the name of the contributor, if available.
   getContributor : function() {
-    return this.viewer.schema.document.contributor;
+    return this.viewer.model.get('contributor');
   },
 
   // Return the name of the contributing organization, if available.
   getContributorOrganization : function() {
-    return this.viewer.schema.document.contributor_organization;
+    return this.viewer.model.get('contributor_organization');
   },
 
   // Change the documents' sections, re-rendering the navigation. "sections"
   // should be an array of sections in the canonical format:
   // {title: "Chapter 1", pages: "1-12"}
+  // BROKEN
   setSections : function(sections) {
     sections = _.sortBy(sections, function(s){ return s.page; });
     this.viewer.schema.data.sections = sections;
@@ -81,18 +84,19 @@ DV.Api.prototype = {
   },
 
   // Get a list of every section in the document.
+  // BROKEN
   getSections : function() {
     return _.clone(this.viewer.schema.data.sections || []);
   },
 
   // Get the document's description.
   getDescription : function() {
-    return this.viewer.schema.document.description;
+    return this.viewer.model.get('description');
   },
 
   // Set the document's description and update the sidebar.
   setDescription : function(desc) {
-    this.viewer.schema.document.description = desc;
+    this.viewer.model.set('description', desc);
     this.viewer.$('.DV-description').remove();
     this.viewer.$('.DV-navigation').prepend(JST.descriptionContainer({description: desc}));
     this.viewer.helpers.displayNavigation();
@@ -100,55 +104,56 @@ DV.Api.prototype = {
 
   // Get the document's related article url.
   getRelatedArticle : function() {
-    return this.viewer.schema.document.resources.related_article;
+    return this.viewer.model.get('resources').related_article;
   },
 
   // Set the document's related article url.
   setRelatedArticle : function(url) {
-    this.viewer.schema.document.resources.related_article = url;
+    this.viewer.model.get('resources').related_article = url;
     this.viewer.$('.DV-storyLink a').attr({href : url});
     this.viewer.$('.DV-storyLink').toggle(!!url);
   },
 
   // Get the document's published url.
   getPublishedUrl : function() {
-    return this.viewer.schema.document.resources.published_url;
+    return this.viewer.model.get('resources').published_url;
   },
 
   // Set the document's published url.
   setPublishedUrl : function(url) {
-    this.viewer.schema.document.resources.published_url = url;
+    this.viewer.model.get('resources').published_url = url;
   },
 
   // Get the document's title.
   getTitle : function() {
-    return this.viewer.schema.document.title;
+    return this.viewer.model.get('title');
   },
 
   // Set the document's title.
   setTitle : function(title) {
-    this.viewer.schema.document.title = title;
+    this.viewer.model.set('title', title);
     document.title = title;
   },
 
   getSource : function() {
-    return this.viewer.schema.document.source;
+    return this.viewer.model.get('source');
   },
 
   setSource : function(source) {
-    this.viewer.schema.document.source = source;
+    this.viewer.model.get('source', source);
   },
 
   getPageText : function(pageNumber) {
-    return this.viewer.schema.text[pageNumber - 1];
+    return this.viewer.model.pages.getPageByIndex(pageNumber - 1).get('text');
   },
 
   // Set the page text for the given page of a document in the local cache.
   setPageText : function(text, pageNumber) {
-    this.viewer.schema.text[pageNumber - 1] = text;
+    this.viewer.model.pages.getPageByIndex(pageNumber - 1).set('text', text);
   },
 
   // Reset all modified page text to the original values from the server cache.
+  // BROKEN
   resetPageText : function(overwriteOriginal) {
     var self = this;
     var pageText = this.viewer.schema.text;
@@ -171,12 +176,13 @@ DV.Api.prototype = {
   },
 
   // Redraw the UI. Call redraw(true) to also redraw annotations and pages.
+  // NEEDS BETTER VERIFICATION
   redraw : function(redrawAll) {
     if (redrawAll) {
       this.viewer.models.annotations.renderAnnotations();
       this.viewer.document.computeOffsets();
     }
-    this.viewer.helpers.renderNavigation();
+    this.viewer.sidebar.render();
     this.viewer.helpers.renderComponents();
     if (redrawAll) {
       this.viewer.elements.window.removeClass('DV-coverVisible');
@@ -185,19 +191,21 @@ DV.Api.prototype = {
     }
   },
 
+  // NEEDS VERIFICATION AGAINST ATTR LIST IN MASTER
   getAnnotationsBySortOrder : function() {
-    return this.viewer.models.annotations.sortAnnotations();
+    return this.viewer.model.notes.toJSON();
   },
 
   getAnnotationsByPageIndex : function(idx) {
-    return this.viewer.models.annotations.getAnnotations(idx);
+    return this.viewer.model.pages.notes.toJSON() || [];
   },
 
   getAnnotation : function(aid) {
-    return this.viewer.models.annotations.getAnnotation(aid);
+    return this.viewer.model.notes.get(aid);
   },
 
   // Add a new annotation to the document, prefilled to any extent.
+  // BROKEN
   addAnnotation : function(anno) {
     anno = this.viewer.schema.loadAnnotation(anno);
     this.viewer.models.annotations.sortAnnotations();
@@ -216,6 +224,7 @@ DV.Api.prototype = {
     this.viewer.models.annotations.deleteCallbacks.push(callback);
   },
 
+  // TO DEPRECATE
   setConfirmStateChange : function(callback) {
     this.viewer.confirmStateChange = callback;
   },
@@ -225,10 +234,10 @@ DV.Api.prototype = {
   },
 
   getState : function() {
-    return this.viewer.state;
+    return this.viewer.state.name;
   },
 
-  // set the state. This takes "ViewDocument," "ViewThumbnails", "ViewText"
+  // set the state. This takes "ViewDocument," "ViewThumbnails", "ViewText", "ViewAnnotation"
   setState : function(state) {
     this.viewer.open(state);
   },
