@@ -8,14 +8,14 @@
     
       <div class="DV-searchBarWrapper">
         <div class="DV-searchBar">
-          <span class="DV-trigger DV-closeSearch"><%= _.t('CLOSE') %></span>
+          <span class="DV-trigger DV-closeSearch"><%= DV.t('CLOSE') %></span>
           <div class="DV-searchPagination DV-foundResult">
             <div class="DV-searchResults">
-              <span class="DV-resultPrevious DV-trigger"><%= _.t('Previous') %></span>
+              <span class="DV-resultPrevious DV-trigger"><%= DV.t('previous') %></span>
               <span class="DV-currentSearchResult"></span>
               <span class="DV-totalSearchResult"></span>
-              <span><% _.t('for') %> &ldquo;<span class="DV-searchQuery"></span>&rdquo;</span>
-              <span class="DV-resultNext DV-trigger"><%= _.t('Next') %></span>
+              <span><% DV.t('for') %> &ldquo;<span class="DV-searchQuery"></span>&rdquo;</span>
+              <span class="DV-resultNext DV-trigger"><%= DV.t('next') %></span>
             </div>
           </div>
         </div>
@@ -54,7 +54,7 @@
               
           <div class="DV-navigation">
             <%= descriptionContainer %>
-            <div class="DV-contentsHeader"><%= _.t('Contents') %></div>
+            <div class="DV-contentsHeader"><%= DV.t('contents') %></div>
             <div class="DV-chaptersContainer">
             </div>
             <div class="DV-supplemental">
@@ -63,14 +63,14 @@
               <% } %>
               <% if (print_notes_url) { %>
                 <div class="DV-printNotesLink">
-                  <a target="_blank" href="<%= print_notes_url %>"><%= _.t('PrintNotes') %> &raquo;</a>
+                  <a target="_blank" href="<%= print_notes_url %>"><%= DV.t('print_notes') %> &raquo;</a>
                 </div>
               <% } %>
               <div class="DV-storyLink" style="<%= story_url ? '' : 'display:none' %>">
-                <a target="_blank" href="<%= story_url %>"><%= _.t('RelatedArticle') %> &raquo;</a>
+                <a target="_blank" href="<%= story_url %>"><%= DV.t('related_article') %> &raquo;</a>
               </div>
               <% if (contributors) { %>
-                <div class="DV-contributor"><%= _.t('Contributedby') %> <%= contributors %></div>
+                <div class="DV-contributor"><%= DV.t('contributed_by') %>: <%= contributors %></div>
               <% } %>
             </div>
             <div class="DV-logo"><a class="DV-logoLink" href="http://www.documentcloud.org"></a></div>
@@ -84,7 +84,7 @@
   </div>
   
   <div class="DV-printMessage">
-    <%= _.t('NoPrintPDFWithNote') %>
+    <%= DV.t('print_document_help') %>
   </div>
 
 </div>

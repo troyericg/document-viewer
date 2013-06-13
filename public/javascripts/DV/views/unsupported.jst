@@ -1,11 +1,11 @@
 <div class="DV-unsupported">
   <div class="DV-intro">
     <% if (viewer.schema.document.resources && viewer.schema.document.resources.pdf) { %>
-      <a href="<%= viewer.schema.document.resources.pdf %>"><%= _.t('DLAsPDF') %></a>
+      <a href="<%= viewer.schema.document.resources.pdf %>"><%= DV.t('dl_as_pdf') %></a>
     <% } %>
     <br />
     <br />
-    <%= _.t('NeedToUpgrade') %>
+    <%= DV.t('must_upgrade') %>
   </div>
   <div class="DV-browsers">
     <div class="DV-browser">
@@ -26,7 +26,6 @@
     <br style="clear:both;" />
   </div>
   <div class="DV-after">
-    <%= _t('ContinueIE6') %> <br/>
-    <a href="http://www.google.com/chromeframe"><%= _.t('installChromeFrame') %></a>.
+    <%= DV.t('install_chrome_frame', '<br/><a href="http://www.google.com/chromeframe">','</a>') %>
   </div>
 </div>

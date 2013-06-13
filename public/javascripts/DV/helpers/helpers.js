@@ -517,13 +517,13 @@ DV.Schema.helpers = {
     },
 
   initializeLanguage: function(){
-    this.i18n = new I18n( {
-      viewer       : this.viewer,
-      translations : DV.Schema.helpers.translations,
-      underscore   : _ ,
-      aliases      : DV.Schema.helpers.TranslationAliases,
-      autoDetect   : true
-    });
+    if ( ! this.translations ){
+      this.translations = new Translations( {
+        viewer       : this.viewer,
+        aliases      : DV.Schema.helpers.TranslationAliases,
+        autoDetect   : true
+      });
+    }
   }
 
 };
