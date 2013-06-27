@@ -4,12 +4,13 @@ template_function: _.template
 
 javascripts:
   viewer:
-    - public/javascripts/DV/vendor/jquery-1.5.1.js
+    - public/javascripts/DV/vendor/jquery-1.8.3.js
     - public/javascripts/DV/vendor/jquery-ui-1.8.1.custom.min.js
     - public/javascripts/DV/vendor/underscore.js
+    - public/javascripts/DV/vendor/backbone.js
     - public/javascripts/DV/vendor/jquery.acceptInput.js
     - public/javascripts/DV/vendor/jquery.placeholder.js
-    - public/javascripts/DV/lib/namespace_initializer.js
+    - public/javascripts/DV/initializers/namespace_initializer.js
     - public/javascripts/DV/lib/*.js
     - public/javascripts/DV/schema/*.js
     - public/javascripts/DV/elements/*.js
@@ -21,7 +22,7 @@ javascripts:
     - public/javascripts/DV/helpers/helpers.js
     - public/javascripts/DV/helpers/*.js
     - public/javascripts/DV/states/*.js
-    - public/javascripts/DV/lib/model_initializer.js
+    - public/javascripts/DV/initializers/model_initializer.js
     - public/javascripts/DV/controllers/*.js
 
   templates:
