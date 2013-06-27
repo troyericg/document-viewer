@@ -480,20 +480,33 @@ DV.Schema.helpers = {
       }
 
       // Setup ranges for auto-width zooming
+      // A document's zoom slider scales depending on the size of the viewer
+      // and the default zoom level
       var ranges = [];
       if (zoom <= 500) {
-        var zoom2 = (zoom + 700) / 2;
-        ranges = [zoom, zoom2, 700, 850, 1000];
+        var medium   = 700;
+        var smallest = zoom;
+        var small    = (smallest + medium) / 2; // avg between medium and smallest
+        ranges = [smallest, small, medium, 850, 1000];
       } else if (zoom <= 750) {
-        var zoom2 = ((1000 - 700) / 3) + zoom;
-        var zoom3 = ((1000 - 700) / 3)*2 + zoom;
-        ranges = [.66*zoom, zoom, zoom2, zoom3, 1000];
+        var small    = zoom;
+        var smallest = 0.66*small;
+        var medium   = ((1000 - 700) / 3) + small; // ???
+        var large    = ((1000 - 700) / 3)*2 + small;
+        ranges = [smallest, small, medium, large, 1000];
       } else if (750 < zoom && zoom <= 850){
-        var zoom2 = ((1000 - zoom) / 2) + zoom;
-        ranges = [.66*zoom, 700, zoom, zoom2, 1000];
+        var small    = 700;
+        var largest  = 1000;
+        var medium   = zoom;
+        var smallest = 0.66*medium;
+        var large    = ((largest - medium) / 2) + medium; // midpoint between medium and largest
+        ranges = [smallest, small, medium, large, largest];
       } else if (850 < zoom && zoom < 1000){
-        var zoom2 = ((zoom - 700) / 2) + 700;
-        ranges = [.66*zoom, 700, zoom2, zoom, 1000];
+        var large    = zoom;
+        var smallest = 0.66*large;
+        var small    = 700;
+        var medium   = ((large - small) / 2) + small; // midpoint between large and small
+        ranges = [smallest, small, medium, large, 1000];
       } else if (zoom >= 1000) {
         zoom = 1000;
         ranges = this.viewer.models.document.ZOOM_RANGES;
