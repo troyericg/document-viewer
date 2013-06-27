@@ -43,7 +43,7 @@ DV.Page.prototype.getPageImage = function(){ return this.el.find('img.DV-pageIma
 // Get the offset for the page at its current index
 DV.Page.prototype.getOffset = function(){ return this.model_document.offsets[this.index]; };
 
-DV.Page.prototype.getPageNoteHeight = function() { return this.model_pages.pageNoteHeights[this.index]; };
+DV.Page.prototype.getPageNoteHeight = function() { return this.viewer.model.pages.pageNoteHeights[this.index]; };
 
 // Draw the current page and its associated layers/annotations
 // Will stop if page index appears the same or force boolean is passed
