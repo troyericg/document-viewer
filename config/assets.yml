@@ -10,6 +10,7 @@ javascripts:
     - public/javascripts/DV/vendor/backbone.js
     - public/javascripts/DV/vendor/jquery.acceptInput.js
     - public/javascripts/DV/vendor/jquery.placeholder.js
+    - public/javascripts/DV/vendor/jquery-extensions.js
     - public/javascripts/DV/initializers/namespace_initializer.js
     - public/javascripts/DV/lib/*.js
     - public/javascripts/DV/schema/*.js
