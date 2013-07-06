@@ -44,8 +44,8 @@
       <% } %>
       <div class="DV-annotationEditControls DV-editVisible">
         <div class="DV-clearfix">
-          <div class="minibutton warn DV-deleteAnnotation float_left">Delete</div>
-          <div class="minibutton default DV-saveAnnotation float_right">
+          <div class="DV-minibutton warn DV-deleteAnnotation float_left">Delete</div>
+          <div class="DV-minibutton default DV-saveAnnotation float_right">
             <% if (access == 'exclusive') { %>
               Publish
             <% } else { %>
@@ -53,9 +53,9 @@
             <% } %>
           </div>
           <% if (access == 'public' || access == 'exclusive') { %>
-            <div class="minibutton DV-saveAnnotationDraft float_right">Save as Draft</div>
+            <div class="DV-minibutton DV-saveAnnotationDraft float_right">Save as Draft</div>
           <% } %>
-          <div class="minibutton DV-cancelEdit float_right">Cancel</div>
+          <div class="DV-minibutton DV-cancelEdit float_right">Cancel</div>
         </div>
       </div>
     </div>

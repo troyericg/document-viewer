@@ -117,7 +117,7 @@
 }
 
 /*----------------------------- Mini Buttons ---------------------------------*/
-.minibutton {
+.DV-minibutton {
   font-family: "Lucida Grande", Helvetica, Arial, sans-serif !important;
   cursor: pointer;
   color: #fff;
@@ -133,47 +133,47 @@
   border: 1px solid #a7a7a7; border-top-color: #b7b7b7; border-bottom-color: #959595;
   background: url(/images/DV/embed/button_bg.png) repeat-x left top;
 }
-  .minibutton:active {
+  .DV-minibutton:active {
     border-color: #aaa;
     box-shadow: 0 1px 2px #e4e4e4; -webkit-box-shadow: 0 1px 2px #e4e4e4; -moz-box-shadow: 0 1px 2px #e4e4e4;
   }
-  .minibutton::selection {
+  .DV-minibutton::selection {
     background: transparent;
   }
-  .minibutton ::-moz-selection {
+  .DV-minibutton ::-moz-selection {
     background: transparent;
   }
-  .minibutton.not_enabled,
-  .minibutton.not_enabled:active,
-  .minibutton.not_enabled:hover {
+  .DV-minibutton.not_enabled,
+  .DV-minibutton.not_enabled:active,
+  .DV-minibutton.not_enabled:hover {
     top: 0px;
     opacity: 0.33; filter: alpha(opacity=33);
     cursor: default;
   }
-  .minibutton.ok,
-  .minibutton.default {
+  .DV-minibutton.ok,
+  .DV-minibutton.default {
     background-image: url(/images/DV/embed/button_bg_green.gif);
     border-color: #4ba47c; border-top-color: #53b388; border-bottom-color: #459671;
     text-shadow: #4ba47c 0 -1px 0;
   }
-  .minibutton.dark {
+  .DV-minibutton.dark {
     background-image: url(/images/DV/embed/button_bg_dark.gif);
     text-shadow: #777 0 -1px 0;
   }
-  .minibutton.plus {
+  .DV-minibutton.plus {
     position: relative;
     padding-left: 24px;
   }
-    .minibutton .icon.white_plus {
+    .DV-minibutton .icon.white_plus {
       position: absolute;
       top: 6px; left: 7px;
     }
-  .minibutton.warn {
+  .DV-minibutton.warn {
     background-image: url(/images/DV/embed/button_bg_red.gif);
     border-color: #e5364c; border-bottom-color: #9c1f32;
     text-shadow: none;
   }
-  .minibutton .text_arrow {
+  .DV-minibutton .text_arrow {
     font-size: 13px;
     line-height: 11px;
   }

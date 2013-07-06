@@ -78,7 +78,7 @@
     padding: 4px;
     width: 300px;
   }
-.DV-annotationEditControls .minibutton {
+.DV-annotationEditControls .DV-minibutton {
   width: 60px;
 }
   .DV-cancelEdit {
