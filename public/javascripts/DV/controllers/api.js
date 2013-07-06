@@ -207,11 +207,17 @@ DV.Api.prototype = {
   // Add a new annotation to the document, prefilled to any extent.
   // BROKEN
   addAnnotation : function(anno) {
-    anno = this.viewer.schema.loadAnnotation(anno);
-    this.viewer.models.annotations.sortAnnotations();
+    //anno = this.viewer.schema.loadAnnotation(anno);
+    //this.viewer.models.annotations.sortAnnotations();
+    //this.redraw(true);
+    //this.viewer.pages.showAnnotation(anno, {active: true, edit : true});
+    //return anno;
+    console.log(anno);
+    note = new DV.model.Note(anno);
+    this.viewer.model.notes.add(note);
     this.redraw(true);
-    this.viewer.pages.showAnnotation(anno, {active: true, edit : true});
-    return anno;
+    this.viewer.pages.showAnnotation(note, {active: true, edit: true});
+    return note;
   },
 
   // Register a callback for when an annotation is saved.
