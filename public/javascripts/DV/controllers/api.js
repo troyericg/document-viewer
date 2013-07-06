@@ -178,10 +178,10 @@ DV.Api.prototype = {
   // Redraw the UI. Call redraw(true) to also redraw annotations and pages.
   // NEEDS BETTER VERIFICATION
   redraw : function(redrawAll) {
-    if (redrawAll) {
-      this.viewer.models.annotations.renderAnnotations();
-      this.viewer.document.computeOffsets();
-    }
+    //if (redrawAll) {
+    //  this.viewer.models.annotations.renderAnnotations();
+    //  this.viewer.document.computeOffsets();
+    //}
     this.viewer.sidebar.render();
     this.viewer.helpers.renderComponents();
     if (redrawAll) {
