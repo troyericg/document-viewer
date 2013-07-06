@@ -258,7 +258,8 @@ DV.view.AnnotationEditor = DV.Backbone.View.extend({
   },
 
   _accessClass : function(kind) {
-    return 'DV-access' + dc.inflector.capitalize(kind);
+    //return 'DV-access' + dc.inflector.capitalize(kind);
+    return 'DV-access' + kind.charAt(0).toUpperCase() + kind.substring(1).toLowerCase();
   }
 
 });
