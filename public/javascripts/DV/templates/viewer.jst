@@ -21,11 +21,19 @@
         </div>
       </div>
     
+      <div class="DV-mark <% if (!options.sidebar) { %>DV-hide-sidebar<% } %>">
+        <div class="DV-menu">
+          <div class="DV-button DV-public-annotation"></div>
+          <div class="DV-button DV-draft-annotation"></div>
+          <div class="DV-button DV-private-annotation"></div>
+          <div class="DV-login"></div>
+        </div>
+      </div>
       <div class="DV-pages <% if (!options.sidebar) { %>DV-hide-sidebar<% } %>">
         <div class="DV-paper">
           <div class="DV-thumbnails"></div>
           <div class="DV-pageCollection">
-            <div class="DV-bar" style=""></div>
+            <div class="DV-bar"></div>
             <div class="DV-allAnnotations">
             </div>
             <div class="DV-text">
