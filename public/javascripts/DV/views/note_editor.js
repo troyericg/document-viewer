@@ -106,7 +106,11 @@ DV.view.AnnotationEditor = DV.Backbone.View.extend({
         borderRight   = this._activePage.width() - 6;
     
     // Create a div to represent the highlighted region
-    this.region = this.make('div', {'class' : 'DV-annotationRegion active ' + this._accessClass(this._kind), style:'position:absolute;'});
+    //this.region = this.make('div', {'class' : 'DV-annotationRegion active ' + this._accessClass(this._kind), style:'position:absolute;'});
+    this.region = DV.jQuery('<div></div>');
+    this.region.attr({'class' : 'DV-annotationRegion active ' + 
+      this._accessClass(this._kind), 
+      style:'position:absolute;'});
     (this._kind == 'redact' ? this._specificPage() : this._activePage).append(this.region);
 
     var contained = function(e) {
