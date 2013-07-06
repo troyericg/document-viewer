@@ -184,6 +184,7 @@ DV.model.NewDocument = DV.Backbone.Model.extend({
 
     // Create the main collection of notes.
     this.notes    = new DV.model.NoteSet();
+    _.extend(this.notes, { url: this.get('resources').annotations_url });
     this.notes.reset(attributes.annotations);
     
     // Create a collection to represent all pages
