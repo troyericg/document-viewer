@@ -216,12 +216,20 @@ DV.Api.prototype = {
 
   // Register a callback for when an annotation is saved.
   onAnnotationSave : function(callback) {
-    this.viewer.models.annotations.saveCallbacks.push(callback);
+    //this.viewer.models.annotations.saveCallbacks.push(callback);
+    var notes = this.viewer.model.notes;
+    notes.listenTo(notes, 'sync', function(notifier){ 
+      if (notifier instanceof DV.Backbone.Model) callback(notifier);
+    });
   },
 
   // Register a callback for when an annotation is deleted.
   onAnnotationDelete : function(callback) {
-    this.viewer.models.annotations.deleteCallbacks.push(callback);
+    //this.viewer.models.annotations.deleteCallbacks.push(callback);
+    var notes = this.viewer.model.notes;
+    notes.listenTo(notes, 'destroy', function(notifier){ 
+      if (notifier instanceof DV.Backbone.Model) callback(notifier);
+    });
   },
 
   // TO DEPRECATE
