@@ -1,5 +1,6 @@
 DV.model.Note = DV.Backbone.Model.extend({
   defaults: {
+    id                  : _.uniqueId(),
     title               : "Untitled Note",
     text                : "",
     content             : "",
