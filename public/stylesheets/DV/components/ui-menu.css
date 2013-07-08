@@ -66,7 +66,7 @@
 }
 
 .DV-viewDocument .DV-mark {
-  position: absolute;
+  display: block;
   left: 0px;
   right: 266px;
   background: snow;

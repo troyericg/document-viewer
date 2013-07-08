@@ -66,12 +66,12 @@
 .DV-pages{
   overflow: auto;
   position: absolute;
-  left: 0; right: 266px; top: 0; bottom: 0;
+  left: 0; right: 266px; top: 30px; bottom: 0;
   z-index:10001;
 }
 
 .DV-pageCollection{
-  margin: 50px auto;
+  margin: 20px auto;
   position:relative;
   z-index:0;
 }
