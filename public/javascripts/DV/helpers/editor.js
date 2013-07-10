@@ -19,21 +19,21 @@ _.extend(DV.Schema.helpers,{
   saveAnnotation : function(e, option) {
     var target = this.viewer.$(e.target);
     var annoEl = target.closest(this.annotationClassName);
-    var anno   = this.getAnnotationModel(annoEl);
-    if (!anno) return;
-    anno.title     = this.viewer.$('.DV-annotationTitleInput', annoEl).val();
-    anno.text      = this.viewer.$('.DV-annotationTextArea', annoEl).val();
-    anno.owns_note = anno.unsaved ? true : anno.owns_note;
-    if (anno.owns_note) {
-      anno.author              = anno.author || dc.account.name;
-      anno.author_organization = anno.author_organization || (dc.account.isReal && dc.account.organization.name);
+    var note   = this.getAnnotationModel(annoEl);
+    if (!note) return;
+    note.set('title', annoEl.find('.DV-annotationTitleInput').val());
+    note.set('content', annoEl.find('.DV-annotationTextArea').val());
+    note.set('owns_note', (note.unsaved ? true : note.owns_note));
+    if (note.owns_note) {
+      note.set('author', (note.author || dc.account.name));
+      note.set('author_organization', (anno.author_organization || (dc.account.isReal && dc.account.organization.name)));
     }
-    if (target.hasClass('DV-saveAnnotationDraft'))  anno.access = 'exclusive';
-    else if (annoEl.hasClass('DV-accessExclusive')) anno.access = 'public';
+    if (target.hasClass('DV-saveAnnotationDraft'))  note.set('access', 'exclusive');
+    else if (annoEl.hasClass('DV-accessExclusive')) note.set('access', 'public');
     if (option == 'onlyIfText' &&
-        (!anno.title || anno.title == 'Untitled Note') &&
-        !anno.text &&
-        !anno.server_id) {
+        (!note.get('title') || anno.get('title') == 'Untitled Note') &&
+        !note.get('text') &&
+        !note.id) {
       return this.viewer.model.notes.removeAnnotation(anno);
     }
     annoEl.removeClass('DV-editing');
@@ -41,7 +41,7 @@ _.extend(DV.Schema.helpers,{
     //this.viewer.model.notes.fireSaveCallbacks(anno);
     note.save();
     this.viewer.api.redraw(true);
-    if (this.viewer.activeAnnotation) this.viewer.pages.showAnnotation(anno);
+    if (this.viewer.activeAnnotation) this.viewer.pages.showAnnotation(note);
   },
   deleteAnnotation : function(e) {
     var annoEl = this.viewer.$(e.target).closest(this.annotationClassName);
