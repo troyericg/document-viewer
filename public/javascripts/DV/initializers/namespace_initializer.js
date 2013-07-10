@@ -4,7 +4,8 @@ console.log    || (console.log = _.identity);
 
 // Create the DV namespaces.
 window.DV   = window.DV   || {};
-DV.jQuery   = jQuery.noConflict(true);
+DV.jQuery  || (DV.jQuery = jQuery.noConflict(true));
+DV.easyXDM || (DV.easyXDM = easyXDM.noConflict("DV") );
 DV.Backbone = Backbone.noConflict();
 DV.viewers  = DV.viewers  || {};
 DV.model    = DV.model    || {};

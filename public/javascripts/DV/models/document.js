@@ -203,7 +203,10 @@ DV.model.NewDocument = DV.Backbone.Model.extend({
     // Legacy behavior (which must be replaced in order to guarantee
     // data integrity via setters)
     this.totalPages   = this.get('pages');
-  }
+  },
+  canonical_host: function(){
+    return this.get('canonical_url').match(/https?:\/\/([^\/]+)\//)[1];
+  },
 });
 
 DV.model.DocumentSet = DV.Backbone.Collection.extend({
