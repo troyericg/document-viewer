@@ -1,0 +1,41 @@
+.DV-loginContainer {
+  display:none;
+  z-index: 10002;  
+  left: 50%;
+  margin: 0 0 -220px -200px;
+  position: absolute;
+  top: 30%;
+  width: 400px;
+  height: 230px;
+  border: 1px solid darkGray;
+  background-color: white;
+  -moz-box-shadow: 3px 3px 5px #535353;
+  -webkit-box-shadow: 3px 3px 5px #535353;       
+  box-shadow: 3px 3px 5px #535353;
+  -moz-border-radius: 6px 6px 6px 6px;
+  -webkit-border-radius: 6px;  
+  border-radius: 6px 6px 6px 6px;
+}
+
+  .DV-loginContainer .close {
+    border-bottom: 1px solid darkGray;
+    border-left: 1px solid darkGray;
+    border-radius: 0 0 0 4px;
+    color: grey;
+    cursor: pointer;
+    font-size: 24px;
+    padding: 6px 8px;
+    position: absolute;
+    right: 0;
+    font-family: Helvetica;
+  }
+
+  .DV-loginContainer .frame {
+    height: 100%;
+    margin: 0;
+  }
+
+  .DV-loginContainer iframe {
+    height: 100%;
+    width: 100%;
+  }

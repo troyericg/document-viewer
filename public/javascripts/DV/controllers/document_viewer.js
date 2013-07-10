@@ -41,6 +41,12 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     this.notes    = new DV.view.Notes({viewer: this});
     this.pages    = new DV.view.PageSet({viewer: this, model: this.model.pages});
   },
+  
+  createAnnotationSubViews: function() {
+    this.noteToolMenu = new DV.view.NoteToolMenu({viewer: this});
+    this.noteEditor   = new DV.view.NoteEditor({viewer: this});
+    this.loginManager = new DV.view.LoginManager({viewer: this});
+  },
 
   // transition between viewer states.
   open: function(state) {
@@ -156,6 +162,7 @@ DV.load = function(documentRep, options) {
     viewer.model = doc;
     viewer.createSubViews();
     viewer.loadModels();
+    if (viewer.model.notes.url) { viewer.createAnnotationSubViews(); }
     //viewer.schema.importCanonicalDocument(json);
     DV.jQuery(function() {
       viewer.open('InitialLoad');

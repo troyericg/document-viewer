@@ -1,4 +1,4 @@
-DV.view.AnnotationEditor = DV.Backbone.View.extend({
+DV.view.NoteEditor = DV.Backbone.View.extend({
 
   id : 'annotation_editor',
 

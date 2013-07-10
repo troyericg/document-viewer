@@ -39,17 +39,25 @@ _.extend(DV.Schema.helpers, {
     }
 
     // Hide and show navigation flags:
-    var showAnnotations = this.showAnnotations();
-    var showPages       = this.viewer.models.document.totalPages > 1;
-    var showSearch      = (this.viewer.options.search !== false) &&
-                          (this.viewer.options.text !== false) &&
-                          (!this.viewer.options.width || this.viewer.options.width >= 540);
+    var showAnnotations        = this.showAnnotations();
+    var showPages              = this.viewer.models.document.totalPages > 1;
+    var showSearch             = (this.viewer.options.search !== false) &&
+                                 (this.viewer.options.text !== false) &&
+                                 (!this.viewer.options.width || this.viewer.options.width >= 540);
+    var showAnnotationControls = this.viewer.model.notes.url;
     var noFooter = (!showAnnotations && !showPages && !showSearch && !this.viewer.options.sidebar);
-
 
     // Hide annotations, if there are none:
     var $annotationsView = this.viewer.$('.DV-annotationView');
     $annotationsView[showAnnotations ? 'show' : 'hide']();
+    
+    if (showAnnotationControls) {
+      console.log("annotation controls!");
+      this.viewer.noteToolMenu.setElement(this.viewer.$('.DV-mark'));
+      this.viewer.loginManager.setElement(this.viewer.$('.DV-loginContainer'));
+      this.viewer.noteToolMenu.render();
+      this.viewer.loginManager.render();
+    }
 
     // Hide the text tab, if it's disabled.
     if (showSearch) {
@@ -123,6 +131,6 @@ _.extend(DV.Schema.helpers, {
     this.removeObserver('drawPages');         // stop DV.Schema.events.drawPages from being called (it's in events/events.js)
     this.viewer.dragReporter.unBind();        //
     this.viewer.elements.window.scrollTop(0); // jump back to the top.
-  }
+  },
 
 });
