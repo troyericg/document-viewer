@@ -37,7 +37,9 @@ _.extend(DV.Schema.helpers,{
       return this.viewer.model.notes.removeAnnotation(anno);
     }
     annoEl.removeClass('DV-editing');
-    this.viewer.model.notes.fireSaveCallbacks(anno);
+    // needs to be turned into an event trigger.
+    //this.viewer.model.notes.fireSaveCallbacks(anno);
+    note.save();
     this.viewer.api.redraw(true);
     if (this.viewer.activeAnnotation) this.viewer.pages.showAnnotation(anno);
   },
