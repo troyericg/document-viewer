@@ -9,6 +9,7 @@ DV.model.Note = DV.Backbone.Model.extend({
     author              : "",
     author_organization : ""
   },
+  
   initialize: function(data, options){
     this.set("type", (this.get('location') && this.get('location').image ? 'region' : 'page'));
 
@@ -20,6 +21,23 @@ DV.model.Note = DV.Backbone.Model.extend({
       this.set('y1', 0); this.set('x2', 0); this.set('y2', 0); this.set('x1', 0);
       this.top = 0;
     }
+  },
+  
+  isNew: function() {
+    return (this.get('unsaved') ? true : (this.id == null));
+  },
+  
+  toJSON: function() {
+    var json = _.clone(this.attributes);
+    return _.extend(json, { 
+      page_number: json.page,
+      location: (json.location || {}).image
+    });
+  },
+  
+  sync: function() {
+    if (this.get('unsaved')) { this.id = null; this.set('id', null); }
+    DV.Backbone.sync.apply(this, arguments);
   }
 });
 
