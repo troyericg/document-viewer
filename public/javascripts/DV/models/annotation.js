@@ -49,10 +49,12 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   // byId, byPage and bySortOrder.  Only the last is an array
   // so, we'll use it as the default order, and manually track
   // the other two.
+  //
+  // we're going to use Backbone's default _byId index.
   comparator: function(note) { return note.get('page') * 10000 + note.get('y1'); },
 
   initialize: function(data, options){
-    this.byId   = {};
+    // our note indexes.
     this.byPage = {};
 
     this.on( 'reset', function(){ this.each( _.bind(this.insertNoteIntoIndexes, this) ); }, this );
@@ -78,12 +80,15 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   },
   
   insertNoteIntoIndexes: function(note){
-    this.byId[note.id] = note;
-    
     var pageIndex = note.get('page') - 1;
     var pageNotes = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
     var insertionIndex = _.sortedIndex(pageNotes, note, function(n){ return n.get('y1'); });
     pageNotes.splice(insertionIndex, 0, note);
+  },
+  removeNoteFromIndexes: function(note) {
+    var pageIndex = note.get('page') - 1;
+    var pageNotes = this.byPage[pageIndex];
+    pageNotes.splice(note.get('y1'), 1);
   },
   
   // Below is functionality which needs to be reinstated
@@ -113,9 +118,9 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   //
   // Get an annotation by id, with backwards compatibility for argument hashes.
   getAnnotation: function(identifier) {
-    if (identifier.id) return this.byId[identifier.id];
+    if (identifier.id) return this.get(identifier.id);
     if (identifier.index && !identifier.id) throw new Error('looked up an annotation without an id');
-    return this.byId[identifier];
+    return this.get(identifier);
   }
   
 });

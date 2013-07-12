@@ -447,7 +447,7 @@ DV.Schema.helpers = {
         var opts = this.viewer.options;
         this.viewer.open('ViewDocument');
         if (opts.note) {
-          this.viewer.pages.showAnnotation(this.viewer.model.notes.byId[opts.note]);
+          this.viewer.pages.showAnnotation(this.viewer.model.notes.get(opts.note));
         } else if (opts.page) {
           this.jump(opts.page - 1);
         }

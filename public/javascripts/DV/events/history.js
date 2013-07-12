@@ -19,12 +19,12 @@ _.extend(DV.Schema.events, {
   },
 
   // #document/p[pageID]/a[annotationID]
-  handleHashChangeViewDocumentAnnotation: function(page,annotation){
+  handleHashChangeViewDocumentAnnotation: function(page,note_id){
     var pageIndex   = parseInt(page,10) - 1;
-    var annotation  = parseInt(annotation,10);
+    var annotation  = parseInt(note_id,10);
 
     if(this.viewer.state.name === 'ViewDocument'){
-      this.viewer.pages.showAnnotation(this.viewer.model.notes.byId[annotation]);
+      this.viewer.pages.showAnnotation(this.viewer.model.notes.get(annotation));
     }else{
       this.viewer.models.document.setPageIndex(pageIndex);
       this.viewer.pages.setActiveAnnotation(annotation);
@@ -34,12 +34,12 @@ _.extend(DV.Schema.events, {
   },
 
   // #annotation/a[annotationID]
-  handleHashChangeViewAnnotationAnnotation: function(annotation){
-    var annotation  = parseInt(annotation,10);
+  handleHashChangeViewAnnotationAnnotation: function(note_id){
+    var annotation  = parseInt(note_id,10);
     var viewer = this.viewer;
 
     if(viewer.state.name === 'ViewAnnotation'){
-      viewer.pages.showAnnotation(this.viewer.model.notes.byId[annotation]);
+      viewer.pages.showAnnotation(this.viewer.model.notes.get(annotation));
     }else{
       viewer.activeAnnotationId = annotation;
       this.viewer.open('ViewAnnotation');

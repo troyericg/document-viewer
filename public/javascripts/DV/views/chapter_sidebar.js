@@ -62,7 +62,7 @@ DV.view.ChapterSidebar = DV.Backbone.View.extend({
     this.setElement(this.viewer.$('div.DV-chaptersContainer'));
     this.$el.html(navigationView);
 
-    if (sections.length || _.size(this.viewer.model.notes.byId)) { this.$el.show(); } else { this.$el.hide(); }
+    if (sections.length || this.viewer.model.notes.size()) { this.$el.show(); } else { this.$el.hide(); }
     this.viewer.helpers.displayNavigation();
 
     DV.jQuery('#DV-navigationBolds-' + boldsId, DV.jQuery("head")).remove();

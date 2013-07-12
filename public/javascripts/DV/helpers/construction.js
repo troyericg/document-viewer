@@ -3,14 +3,14 @@ _.extend(DV.Schema.helpers, {
 
   showAnnotations : function() {
     if (this.viewer.options.showAnnotations === false) return false;
-    return _.size(this.viewer.model.notes.byId) > 0;
+    return this.viewer.model.notes.size() > 0;
   },
 
   // If there is no description, no navigation, and no sections, tighten up
   // the sidebar.
   displayNavigation : function() {
     var doc = this.viewer.model;
-    var missing = (!doc.get('description') && !_.size(this.viewer.model.notes.byId) && !this.viewer.model.sections.length);
+    var missing = (!doc.get('description') && !this.viewer.model.notes.size() && !this.viewer.model.sections.length);
     this.viewer.$('.DV-supplemental').toggleClass('DV-noNavigation', missing);
   },
 
