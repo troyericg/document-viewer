@@ -81,9 +81,9 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   
   insertNoteIntoIndexes: function(note){
     var pageIndex = note.get('page') - 1;
-    var pageNotes = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
-    var insertionIndex = _.sortedIndex(pageNotes, note, function(n){ return n.get('y1'); });
-    pageNotes.splice(insertionIndex, 0, note);
+    var notesOnPage = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
+    var insertionIndex = _.sortedIndex(notesOnPage, note, function(n){ return n.get('y1'); });
+    notesOnPage.splice(insertionIndex, 0, note);
   },
   removeNoteFromIndexes: function(note) {
     var pageIndex = note.get('page') - 1;
