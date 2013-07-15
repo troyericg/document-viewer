@@ -97,7 +97,7 @@ DV.view.Notes = DV.Backbone.View.extend({
   
   // Offsets all document pages based on interleaved page annotations.
   updateAnnotationOffsets: function(){
-    var notes                 = this.viewer.model.notes;
+    var notes                 = this.collection;
     notes.offsetsAdjustments  = [];
     notes.offsetAdjustmentSum = 0;
     var documentModel         = this.viewer.models.document;
