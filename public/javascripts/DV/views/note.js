@@ -23,11 +23,10 @@ DV.view.Notes = DV.Backbone.View.extend({
     if (this.viewer.options.showAnnotations === false) return;
 
     var notes = this.collection;
-    for (var i=0; i< notes.length; i++) {
-      var anno      = notes.at(i);
-      anno.position = i + 1;
-      anno.html     = this.renderNote(anno);
-    }
+    notes.each(function(note, index){
+      note.position = index + 1;
+      note.html     = this.renderNote(note);
+    }, this);
 
     var rendered  = notes.map(function(anno){ return anno.html; });
     var html      = rendered.join('')
