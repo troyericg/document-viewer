@@ -1,48 +1,10 @@
 DV.view.Note = DV.Backbone.View.extend({
   initialize: function(options) {
     this.viewer          = options.viewer;
-  }
-});
-
-DV.view.Notes = DV.Backbone.View.extend({
-  initialize: function(options) {
-    this.viewer          = options.viewer;
-    this.collection      = (options.collection || this.viewer.model.notes);
-    this.PAGE_NOTE_FUDGE = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
-    this.listenTo(this.collection,'reset', this.createSubViews);
-    this.createSubViews();
   },
-  
-  createSubViews: function(){
-    this.noteViews = this.collection.map( _.bind(function(model){ 
-      return new DV.view.Note({model: model, viewer: this.viewer});
-    }, this));
-  },
-  
-  render: function() {
-    if (this.viewer.options.showAnnotations === false) return;
-
-    var notes = this.collection;
-    notes.each(function(note, index){
-      note.position = index + 1;
-      note.html     = this.renderNote(note);
-    }, this);
-
-    var rendered  = notes.map(function(anno){ return anno.html; });
-    var html      = rendered.join('')
-                    .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
-      return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
-    });
-    this.viewer.$('div.DV-allAnnotations').html(html);
-
-    // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
-    // test with both autozoom and page notes.
-    this.updateAnnotationOffsets();
-    _.defer(_.bind(this.updateAnnotationOffsets, this));
-  },
-  
   // stolen from models/annotation.js#render(annotation)
-  renderNote: function(note){
+  render: function(){
+    var note                      = this.model;
     var pageModel                 = this.viewer.models.pages;
     var zoom                      = pageModel.zoomFactor();
     var adata                     = note.toJSON();
@@ -96,10 +58,38 @@ DV.view.Notes = DV.Backbone.View.extend({
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
     return JST[template](adata);
+  }
+});
+
+DV.view.Notes = DV.Backbone.View.extend({
+  initialize: function(options) {
+    this.viewer          = options.viewer;
+    this.collection      = (options.collection || this.viewer.model.notes);
+    this.PAGE_NOTE_FUDGE = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
+    this.listenTo(this.collection,'reset', this.createSubViews);
+    this.createSubViews();
   },
   
-  renderPageNote: function(note) {
+  createSubViews: function(){
+    this.noteViews = this.collection.map( _.bind(function(model){ 
+      return new DV.view.Note({model: model, viewer: this.viewer});
+    }, this));
+  },
+  
+  render: function() {
+    if (this.viewer.options.showAnnotations === false) return;
     
+    var rendered = this.noteViews.map(function(subview){ return subview.render(); } );
+    var html      = rendered.join('')
+                    .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
+      return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
+    });
+    this.viewer.$('div.DV-allAnnotations').html(html);
+
+    // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
+    // test with both autozoom and page notes.
+    this.updateAnnotationOffsets();
+    _.defer(_.bind(this.updateAnnotationOffsets, this));
   },
   
   // Offsets all document pages based on interleaved page annotations.
