@@ -4,6 +4,8 @@ DV.view.Note = DV.Backbone.View.extend({
   },
   // stolen from models/annotation.js#render(annotation)
   render: function(){
+    // if (this.html) { return this.html; }
+
     var note                      = this.model;
     var pageModel                 = this.viewer.models.pages;
     var zoom                      = pageModel.zoomFactor();
@@ -57,7 +59,8 @@ DV.view.Note = DV.Backbone.View.extend({
     if (note === this.viewer.model.notes.last()) { adata.orderClass += ' DV-lastAnnotation'; }
 
     var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
-    return JST[template](adata);
+    this.html = JST[template](adata);
+    return this.html;
   }
 });
 
