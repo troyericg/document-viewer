@@ -1,26 +1,26 @@
-DV.Annotation = function(argHash){
-  this.position     = { top: argHash.top, left: argHash.left };
-  this.dimensions   = { width: argHash.width, height: argHash.height };
-  this.page         = argHash.page;
-  this.pageEl       = argHash.pageEl;
-  this.annotationContainerEl = argHash.annotationContainerEl;
+DV.Annotation = function(options){
+  this.position     = { top: options.top, left: options.left };
+  this.dimensions   = { width: options.width, height: options.height };
+  this.page         = options.page;
+  this.pageEl       = options.pageEl;
+  this.annotationContainerEl = options.annotationContainerEl;
   this.viewer       = this.page.set.viewer;
   this.annotationEl = null;
-  this.renderedHTML = argHash.renderedHTML;
-  this.type         = argHash.type;
-  this.id           = argHash.id;
+  this.renderedHTML = options.renderedHTML;
+  this.type         = options.type;
+  this.id           = options.id;
   this.state        = 'collapsed';
   this.active       = false;
   this.remove();
   this.add();
 
-  if(argHash.active){
+  if(options.active){
     this.viewer.helpers.setActiveAnnotationLimits(this);
     this.viewer.state.eventFunctions.resetTracker();
     this.active = null;
     // this.viewer.elements.window[0].scrollTop += this.annotationEl.offset().top;
     this.show();
-    if (argHash.showEdit) this.showEdit();
+    if (options.showEdit) this.showEdit();
   }
 };
 
@@ -65,7 +65,7 @@ DV.Annotation.prototype.previous = function(){
 };
 
 // Show annotation
-DV.Annotation.prototype.show = function(argHash) {
+DV.Annotation.prototype.show = function(options) {
 
   if (this.viewer.activeAnnotation && this.viewer.activeAnnotation.id != this.id) {
     this.viewer.activeAnnotation.hide();
@@ -84,7 +84,7 @@ DV.Annotation.prototype.show = function(argHash) {
   this.pageEl.parent('.DV-set').addClass('DV-activePage');
   // this.viewer.history.save('document/p'+(parseInt(this.page.index,10)+1)+'/a'+this.id);
 
-  if (argHash && argHash.edit) {
+  if (options && options.edit) {
     this.showEdit();
   }
 };
@@ -126,7 +126,7 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
 };
 
 // Toggle annotation
-DV.Annotation.prototype.toggle = function(argHash){
+DV.Annotation.prototype.toggle = function(options){
   if (this.viewer.activeAnnotation && (this.viewer.activeAnnotation != this)){
     this.viewer.activeAnnotation.hide();
   }
