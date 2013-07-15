@@ -118,7 +118,6 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
   this.viewer.helpers.removeObserver('trackAnnotation');
   this.viewer.helpers.setActiveAnnotationInNav();
   this.pageEl.parent('.DV-set').removeClass('DV-activePage');
-  this.removeConnector(true);
 
   if (isEditing) {
     this.viewer.helpers.saveAnnotation({target : this.annotationEl}, 'onlyIfText');
@@ -138,22 +137,6 @@ DV.Annotation.prototype.toggle = function(options){
     this.hide(true);
   }else{
     this.show();
-  }
-};
-
-// Show hover annotation state
-DV.Annotation.prototype.drawConnector = function(){
-  if(this.active != true){
-    this.viewer.elements.window.addClass('DV-annotationActivated');
-    this.annotationEl.addClass('DV-annotationHover');
-  }
-};
-
-// Remove hover annotation state
-DV.Annotation.prototype.removeConnector = function(force){
-  if(this.active != true){
-    this.viewer.elements.window.removeClass('DV-annotationActivated');
-    this.annotationEl.removeClass('DV-annotationHover');
   }
 };
 
