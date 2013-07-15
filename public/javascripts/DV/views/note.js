@@ -1,16 +1,30 @@
+DV.view.Note = DV.Backbone.View.extend({
+  initialize: function(options) {
+    this.viewer          = options.viewer;
+  }
+});
+
 DV.view.Notes = DV.Backbone.View.extend({
   initialize: function(options) {
     this.viewer          = options.viewer;
+    this.collection      = (options.collection || this.viewer.model.notes);
     this.PAGE_NOTE_FUDGE = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
+    this.listenTo(this.collection,'reset', this.createSubViews);
+    this.createSubViews();
+  },
+  
+  createSubViews: function(){
+    this.noteViews = this.collection.map( _.bind(function(model){ 
+      return new DV.view.Note({model: model, viewer: this.viewer});
+    }, this));
   },
   
   render: function() {
     if (this.viewer.options.showAnnotations === false) return;
 
-    var notes = this.viewer.model.notes;
+    var notes = this.collection;
     for (var i=0; i< notes.length; i++) {
       var anno      = notes.at(i);
-      //anno.of       = _.indexOf(notes.byPage[anno.get('page') - 1], anno);
       anno.position = i + 1;
       anno.html     = this.renderNote(anno);
     }
@@ -47,7 +61,7 @@ DV.view.Notes = DV.Backbone.View.extend({
       x2                          = Math.round(adata.x2 * zoom);
       adata.top                   = y1 - 5;
     }
-
+    
     adata.owns_note               = adata.owns_note || false;
     adata.width                   = page.get('width') * zoom;
     adata.pageNumber              = adata.page;
