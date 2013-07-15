@@ -54,11 +54,16 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   comparator: function(note) { return note.get('page') * 10000 + note.get('y1'); },
 
   initialize: function(data, options){
-    // our note indexes.
+    // Index notes according to the page they're on.
     this.byPage = {};
+    _.each(data, _.bind(this.insertNoteIntoIndexes, this));
 
+    // make sure that notes are indexed by page if they're added 
+    // via means other than the constructor.
     this.on( 'reset', function(){ this.each( _.bind(this.insertNoteIntoIndexes, this) ); }, this );
     this.on( 'add', this.insertNoteIntoIndexes, this );
+    // and make sure they're removed when destroyed.
+    this.on( 'remove', this.removeNoteFromIndexes, this);
     
     // Legacy craziness that needs to be excized
     this.offsetsAdjustments       = [];
@@ -80,15 +85,16 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   },
   
   insertNoteIntoIndexes: function(note){
-    var pageIndex = note.get('page') - 1;
-    var notesOnPage = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
+    var pageIndex      = note.get('page') - 1;
+    var notesOnPage    = this.byPage[pageIndex] = this.byPage[pageIndex] || [];
     var insertionIndex = _.sortedIndex(notesOnPage, note, function(n){ return n.get('y1'); });
     notesOnPage.splice(insertionIndex, 0, note);
   },
+
   removeNoteFromIndexes: function(note) {
-    var pageIndex = note.get('page') - 1;
-    var pageNotes = this.byPage[pageIndex];
-    pageNotes.splice(note.get('y1'), 1);
+    var pageIndex   = note.get('page') - 1;
+    var notesOnPage = this.byPage[pageIndex];
+    notesOnPage.splice(note.get('y1'), 1);
   },
   
   // Below is functionality which needs to be reinstated
