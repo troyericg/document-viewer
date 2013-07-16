@@ -30,7 +30,6 @@ DV.Page = function(viewer, argHash){
   var m = this.viewer.models;
   this.model_document     = m.document;
   this.model_pages        = m.pages;
-  this.model_annotations  = this.viewer.model.notes;
   this.model_chapters     = m.chapters;
 };
 
@@ -80,7 +79,7 @@ DV.Page.prototype.draw = function(argHash) {
     this.annotations = [];
 
     // if there are annotations for this page, it will proceed and attempt to draw
-    var byPage = this.model_annotations.byPage[this.index] || [];
+    var byPage = this.viewer.model.notes.byPage[this.index] || [];
     if (byPage) {
       // Loop through all annotations and add to page
       for (var i=0; i < byPage.length; i++) {
