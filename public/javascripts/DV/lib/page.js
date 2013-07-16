@@ -70,6 +70,8 @@ DV.Page.prototype.draw = function(argHash) {
   // Only draw annotations if page number has changed or the
   // forceAnnotationRedraw flag is true.
   if(this.pageNumber != this.index+1 || argHash.forceAnnotationRedraw === true){
+    // loop through all the annotation views, destroy them
+    // and reset the annotation flags.
     for(var i = 0; i < this.annotations.length;i++){
       this.annotations[i].remove();
       delete this.annotations[i];
@@ -102,6 +104,7 @@ DV.Page.prototype.draw = function(argHash) {
           this.hasLayerRegional = true;
         }
 
+        // weeps.
         var html = this.viewer.$('.DV-allAnnotations .DV-annotation[rel=aid-'+anno.id+']').clone();
         html.attr('id','DV-annotation-' + anno.id);
         html.find('.DV-img').each(function() {
@@ -109,6 +112,7 @@ DV.Page.prototype.draw = function(argHash) {
           el.attr('src', el.attr('data-src'));
         });
 
+        // creates and renders each annotation view for the page view.
         var newAnno = new DV.Annotation({
           renderedHTML: html,
           id:           anno.id,
@@ -148,12 +152,8 @@ DV.Page.prototype.drawRemoveOverlay = function() {
 
 DV.Page.prototype.setPageType = function(){
   if(this.annotations.length > 0){
-   if(this.hasLayerPage === true){
-    this.el.addClass('DV-layer-page');
-   }
-   if(this.hasLayerRegional === true){
-    this.el.addClass('DV-layer-page');
-   }
+   if(this.hasLayerPage === true ){    this.el.addClass('DV-layer-page'); }
+   if(this.hasLayerRegional === true){ this.el.addClass('DV-layer-page'); }
   }else{
     this.el.removeClass('DV-layer-page DV-layer-regional');
   }
