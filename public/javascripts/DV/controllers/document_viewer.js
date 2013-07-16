@@ -38,7 +38,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
   createSubViews: function() {
     this.sidebar  = new DV.view.ChapterSidebar({viewer: this});
     this.document = new DV.view.Document({viewer: this});
-    this.notes    = new DV.view.Notes({viewer: this});
+    this.notes    = new DV.view.NoteList({viewer: this});
     this.pages    = new DV.view.PageSet({viewer: this, model: this.model.pages});
   },
   
