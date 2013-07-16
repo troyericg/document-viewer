@@ -104,17 +104,19 @@ DV.Page.prototype.draw = function(argHash) {
           this.hasLayerRegional = true;
         }
 
-        // weeps.
-        var html = this.viewer.$('.DV-allAnnotations .DV-annotation[rel=aid-'+anno.id+']').clone();
-        html.attr('id','DV-annotation-' + anno.id);
-        html.find('.DV-img').each(function() {
+        // weeps.  note div cloned out of the NoteList.
+        var noteEl = this.viewer.$('.DV-allAnnotations .DV-annotation[rel=aid-'+anno.id+']').clone();
+        // set the noteEl id to distinguish between the NoteList note and the in page note
+        noteEl.attr('id','DV-annotation-' + anno.id);
+        // activate deferred loading mechanism for note image.
+        noteEl.find('.DV-img').each(function() {
           var el = DV.jQuery(this);
           el.attr('src', el.attr('data-src'));
         });
 
         // creates and renders each annotation view for the page view.
         var newAnno = new DV.Annotation({
-          renderedHTML: html,
+          renderedHTML: noteEl,
           id:           anno.id,
           page:         this,
           pageEl:       this.pageEl,
