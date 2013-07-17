@@ -83,26 +83,19 @@ DV.Page.prototype.draw = function(argHash) {
     // if there are annotations for this page, it will proceed and attempt to draw
     var byPage = this.viewer.model.notes.byPage[this.index] || [];
     if (byPage) {
-      // Loop through all annotations and add to page
-      for (var i=0; i < byPage.length; i++) {
-        var anno = byPage[i];
-
-        if(anno.id === this.viewer.annotationToLoadId){
+      
+      var renderNote = _.bind(function(anno){
+        if(anno.id === this.viewer.annotationToLoadId) {
           var active = true;
-          if (anno.id === this.viewer.annotationToLoadEdit) argHash.edit = true;
+          if (anno.id === this.viewer.annotationToLoadEdit) { argHash.edit = true };
           if (this.viewer.openingAnnotationFromHash) {
             this.viewer.helpers.jump(this.index, (anno.top || 0) - 37);
             this.viewer.openingAnnotationFromHash = false;
           }
-        }else{
-          var active = false;
-        }
+        } else { var active = false; }
 
-        if(anno.get("type") == 'page'){
-          this.hasLayerPage     = true;
-        }else if(anno.get("type") == 'region'){
-          this.hasLayerRegional = true;
-        }
+        if ( anno.get("type") == 'page' )     { this.hasLayerPage     = true; } 
+        else if(anno.get("type") == 'region') { this.hasLayerRegional = true; }
 
         // weeps.  note div cloned out of the NoteList.
         var noteEl = this.viewer.$('.DV-allAnnotations .DV-annotation[rel=aid-'+anno.id+']').clone();
@@ -130,11 +123,13 @@ DV.Page.prototype.draw = function(argHash) {
           active:       active,
           showEdit:     argHash.edit,
           type:         anno.get('type')
-          }
-        );
+        });
 
         this.annotations.push(newAnno);
-      }
+      }, this);
+      
+      // Loop through all annotations and add to page
+      _.each(byPage, renderNote);
     }
 
     this.pageInsertEl.toggleClass('visible', !this.hasLayerPage);
