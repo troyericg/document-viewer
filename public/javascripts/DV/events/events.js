@@ -14,20 +14,33 @@ DV.Schema.events = {
   },
 
   // Draw (or redraw) the visible pages on the screen.
+  // Main event loop callback for ViewDocument state.
   drawPages: function() {
+    // if we're not in the ViewDocument state don't do anything.
     if (this.viewer.state.name != 'ViewDocument') return;
+    
     var doc           = this.viewer.models.document;
     var win           = this.viewer.elements.window[0]; // this.viewer.$el.find('.DV-pages')
     var offsets       = doc.baseHeightsPortionOffsets;  // calculated from DV.model.Document.computeOffsets
+    
+    // calculate the current top position in the document renderer
+    // find the midpoint of the visible area
     var scrollPos     = this.viewer.scrollPosition = win.scrollTop;
     var midpoint      = scrollPos + (this.viewer.$(win).height() / 3);
+    // find the scrollTop and midpoint positions relative to the current pages.
     var currentPage   = _.sortedIndex(offsets, scrollPos);
     var middlePage    = _.sortedIndex(offsets, midpoint);
 
+    // if the scrollTop of the viewable area is the same as the top of the current page
+    // make sure that we're considering that page by bumping up the current & middle page indexes.
     if (offsets[currentPage] == scrollPos) { currentPage++; middlePage++; }
+    // return an order for the page templates based on which page is
+    // currently enteirng the middle of the viewable region.
     var pageIds       = this.viewer.helpers.sortPages(middlePage - 1);
+    // so long as we're not at the end of the document
+    // draw the next two pages.
     var total         = this.viewer.model.get('pages');
-    if (doc.currentPage() != currentPage) doc.setPageIndex(currentPage - 1);
+    if (doc.currentPage() != currentPage) { doc.setPageIndex(currentPage - 1) };
     this.drawPageAt(pageIds, middlePage - 1);
   },
 
