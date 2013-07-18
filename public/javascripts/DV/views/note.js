@@ -65,25 +65,26 @@ DV.view.Note = DV.Backbone.View.extend({
 });
 
 // The NoteList is used to generate the AnnotationView display.
-DV.view.NoteList = DV.Backbone.View.extend({
+DV.view.ViewAnnotations = DV.Backbone.View.extend({
   initialize: function(options) {
     this.viewer          = options.viewer;
     this.collection      = (options.collection || this.viewer.model.notes);
     this.PAGE_NOTE_FUDGE = window.dc && dc.account && (dc.account.isOwner || dc.account.isReviewer) ? 46 : 26;
-    this.listenTo(this.collection,'reset', this.createSubViews);
+    this.noteViews = {};
     this.createSubViews();
+    this.listenTo(this.collection,'reset', this.createSubViews);
   },
   
   createSubViews: function(){
-    this.noteViews = this.collection.map( _.bind(function(model){ 
-      return new DV.view.Note({model: model, viewer: this.viewer});
+    this.collection.each( _.bind(function(model){ 
+      this.noteViews[model.cid] = new DV.view.Note({model: model, viewer: this.viewer});
     }, this));
   },
   
   render: function() {
     if (this.viewer.options.showAnnotations === false) return;
     
-    var rendered = this.noteViews.map(function(subview){ return subview.render(); } );
+    var rendered = _.map(this.noteViews, function(subview){ return subview.render(); } );
     var html      = rendered.join('').replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
       return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     });

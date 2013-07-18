@@ -70,7 +70,7 @@ DV.model.Document.prototype = {
     if(this.zoomLevel != zoomLevel || force === true){
       this.zoomLevel   = zoomLevel;
       this.viewer.models.pages.resize(this.zoomLevel);
-      this.viewer.notes.render();
+      this.viewer.noteListView.render();
       this.computeOffsets();
     }
   },

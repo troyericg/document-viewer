@@ -43,7 +43,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
       if (page.currentPage == true) { this.currentPage = this.pages[page.label]; }
     }, this);
 
-    this.viewer.notes.render();
+    this.viewer.noteListView.render();
   },
 
   // used to generate references for the build action
