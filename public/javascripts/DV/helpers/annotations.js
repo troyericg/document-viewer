@@ -4,7 +4,7 @@ _.extend(DV.Schema.helpers, {
     return this.viewer.model.notes.get(annoId);
   },
   // Return the annotation Object that connects with the element in the DOM
-  getAnnotationObject: function(annotation){
+  getAnnotationView: function(annotation){
 
     var annotation    = this.viewer.$(annotation);
     var annotationId  = annotation.attr('id').replace(/DV\-annotation\-|DV\-listAnnotation\-/,'');
@@ -25,32 +25,32 @@ _.extend(DV.Schema.helpers, {
   // Toggle
   annotationBridgeToggle: function(e){
     e.preventDefault();
-    var annotationObject = this.getAnnotationObject(this.viewer.$(e.target).closest(this.annotationClassName));
-    annotationObject.toggle();
+    var annotationView = this.getAnnotationView(this.viewer.$(e.target).closest(this.annotationClassName));
+    annotationView.toggle();
   },
   // Show annotation
   annotationBridgeShow: function(e){
     e.preventDefault();
-    var annotationObject = this.getAnnotationObject(this.viewer.$(e.target).closest(this.annotationClassName));
-    annotationObject.show();
+    var annotationView = this.getAnnotationView(this.viewer.$(e.target).closest(this.annotationClassName));
+    annotationView.show();
   },
   // Hide annotation
   annotationBridgeHide: function(e){
     e.preventDefault();
-    var annotationObject = this.getAnnotationObject(this.viewer.$(e.target).closest(this.annotationClassName));
-    annotationObject.hide(true);
+    var annotationView = this.getAnnotationView(this.viewer.$(e.target).closest(this.annotationClassName));
+    annotationView.hide(true);
   },
   // Jump to the next annotation
   annotationBridgeNext: function(e){
     e.preventDefault();
-    var annotationObject = this.getAnnotationObject(this.viewer.$(e.target).closest(this.annotationClassName));
-    annotationObject.next();
+    var annotationView = this.getAnnotationView(this.viewer.$(e.target).closest(this.annotationClassName));
+    annotationView.next();
   },
   // Jump to the previous annotation
   annotationBridgePrevious: function(e){
     e.preventDefault();
-    var annotationObject = this.getAnnotationObject(this.viewer.$(e.target).closest(this.annotationClassName));
-    annotationObject.previous();
+    var annotationView = this.getAnnotationView(this.viewer.$(e.target).closest(this.annotationClassName));
+    annotationView.previous();
   },
   // Update currentpage text to indicate current annotation
   setAnnotationPosition: function(_position){
