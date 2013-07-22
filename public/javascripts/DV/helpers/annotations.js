@@ -10,16 +10,10 @@ _.extend(DV.Schema.helpers, {
     var annotationId  = annotation.attr('id').replace(/DV\-annotation\-|DV\-listAnnotation\-/,'');
     var pageId        = annotation.closest('div.DV-set').attr('data-id');
 
-    for(var i = 0; (annotationObject = this.viewer.pages.pages[pageId].annotations[i]); i++){
-      if(annotationObject.id == annotationId){
-        // cleanup
-        annotation = null;
-        return annotationObject;
-      }
-    }
-
-    return false;
-
+    noteView = _.find(this.viewer.pages.pages[pageId].annotations, function(view){
+      return view.id == annotationId;
+    });
+    return (noteView ? noteView : false);
   },
   // Set of bridges to access annotation methods
   // Toggle
