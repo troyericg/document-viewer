@@ -120,20 +120,24 @@ DV.Schema.events = {
     this.trackAnnotation.combined     = null;
     this.trackAnnotation.h            = null;
   },
+  
+  // TrackAnnotation is used to determine when an active note
+  // has lost the focus/attention of the reader and should be closed.
   trackAnnotation: function(){
     var viewer          = this.viewer;
-    var helpers         = this.helpers;
     var scrollPosition  = this.viewer.elements.window[0].scrollTop;
 
-    if(viewer.activeAnnotation){
+    // if the viewer has a note queued up to be tracked
+    if ( viewer.activeAnnotation ) {
       var annotation      = viewer.activeAnnotation;
       var trackAnnotation = this.viewer.state.eventFunctions.trackAnnotation;
 
-
+      // make sure the activeAnnotation is being tracked.
       if(trackAnnotation.id != annotation.id){
         trackAnnotation.id = annotation.id;
         viewer.helpers.setActiveAnnotationLimits(annotation);
       }
+      // clear the activeAnnotation if it's not being edited and has been scrolled off page.
       if(!viewer.activeAnnotation.annotationEl.hasClass('DV-editing') &&
          (scrollPosition > (trackAnnotation.h) || scrollPosition < trackAnnotation.combined)) {
         annotation.hide(true);
@@ -143,7 +147,7 @@ DV.Schema.events = {
         trackAnnotation.id        = null;
         trackAnnotation.combined  = null;
       }
-    }else{
+    } else { // otherwise clear tracking state.
       viewer.pages.setActiveAnnotation(null);
       viewer.activeAnnotation   = null;
       trackAnnotation.h         = null;
