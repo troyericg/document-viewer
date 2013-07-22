@@ -60,22 +60,20 @@ _.extend(DV.Schema.helpers, {
   setActiveAnnotationLimits: function(annotation){
     var annotation = (annotation) ? annotation : this.viewer.activeAnnotation;
 
-    if(!annotation || annotation == null){
-      return;
-    }
+    if ( !annotation || annotation == null ) { return; }
 
-    var elements  = this.viewer.elements;
-    var aPage     = annotation.page;
-    var aEl       = annotation.annotationEl;
-    var aPosTop   = annotation.position.top * this.viewer.models.pages.zoomFactor();
-    var _trackAnnotation = this.viewer.state.eventFunctions.trackAnnotation;
+    var elements = this.viewer.elements;
+    var pageView = annotation.page;
+    var noteEl   = annotation.annotationEl;
+    var noteTop  = annotation.position.top * this.viewer.models.pages.zoomFactor();
+    var tracker  = this.viewer.state.eventFunctions.trackAnnotation;
 
-    if(annotation.type === 'page'){
-      _trackAnnotation.h          = aEl.outerHeight()+aPage.getOffset();
-      _trackAnnotation.combined   = (aPage.getOffset()) - elements.window.height();
-    }else{
-      _trackAnnotation.h          = aEl.height()+aPosTop-20+aPage.getOffset()+aPage.getPageNoteHeight();
-      _trackAnnotation.combined   = (aPosTop-20+aPage.getOffset()+aPage.getPageNoteHeight()) - elements.window.height();
+    if ( annotation.type === 'page' ) {
+      tracker.h        = noteEl.outerHeight()+pageView.getOffset();
+      tracker.combined = (pageView.getOffset()) - elements.window.height();
+    } else {
+      tracker.h        = (noteEl.height()+noteTop-20)+(pageView.getOffset()+pageView.getPageNoteHeight());
+      tracker.combined = (noteTop-20+pageView.getOffset()+pageView.getPageNoteHeight()) - elements.window.height();
     }
 
   }
