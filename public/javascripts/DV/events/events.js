@@ -116,44 +116,44 @@ DV.Schema.events = {
   },
 
   resetTracker: function(){
-    this.viewer.activeAnnotation = null;
-    this.trackAnnotation.combined     = null;
-    this.trackAnnotation.h            = null;
+    this.viewer.activeAnnotation  = null;
+    this.trackNoteView.combined = null;
+    this.trackNoteView.h        = null;
   },
   
-  // TrackAnnotation is used to determine when an active note
+  // trackNoteView is used to determine when an active note
   // has lost the focus/attention of the reader and should be closed.
-  trackAnnotation: function(){
+  trackNoteView: function(){
     var viewer          = this.viewer;
     var scrollPosition  = this.viewer.elements.window[0].scrollTop;
 
     // if the viewer has a note queued up to be tracked
     if ( viewer.activeAnnotation ) {
       var annotation      = viewer.activeAnnotation;
-      var trackAnnotation = this.viewer.state.eventFunctions.trackAnnotation;
+      var trackNoteView = this.viewer.state.eventFunctions.trackNoteView;
 
       // make sure the activeAnnotation is being tracked.
-      if(trackAnnotation.id != annotation.id){
-        trackAnnotation.id = annotation.id;
+      if(trackNoteView.id != annotation.id){
+        trackNoteView.id = annotation.id;
         viewer.helpers.setActiveAnnotationLimits(annotation);
       }
       // clear the activeAnnotation if it's not being edited and has been scrolled off page.
       if(!viewer.activeAnnotation.annotationEl.hasClass('DV-editing') &&
-         (scrollPosition > (trackAnnotation.h) || scrollPosition < trackAnnotation.combined)) {
+         (scrollPosition > (trackNoteView.h) || scrollPosition < trackNoteView.combined)) {
         annotation.hide(true);
         viewer.pages.setActiveAnnotation(null);
         viewer.activeAnnotation   = null;
-        trackAnnotation.h         = null;
-        trackAnnotation.id        = null;
-        trackAnnotation.combined  = null;
+        trackNoteView.h         = null;
+        trackNoteView.id        = null;
+        trackNoteView.combined  = null;
       }
     } else { // otherwise clear tracking state.
       viewer.pages.setActiveAnnotation(null);
       viewer.activeAnnotation   = null;
-      trackAnnotation.h         = null;
-      trackAnnotation.id        = null;
-      trackAnnotation.combined  = null;
-      viewer.helpers.removeObserver('trackAnnotation');
+      trackNoteView.h         = null;
+      trackNoteView.id        = null;
+      trackNoteView.combined  = null;
+      viewer.helpers.removeObserver('trackNoteView');
     }
   }
 };

@@ -78,7 +78,7 @@ DV.Annotation.prototype.show = function(options) {
   this.viewer.activeAnnotation   = this;
 
   // Enable annotation tracking to ensure the active state hides on scroll
-  this.viewer.helpers.addObserver('trackAnnotation');
+  this.viewer.helpers.addObserver('trackNoteView');
   this.viewer.helpers.setActiveAnnotationInNav(this.id);
   this.active                         = true;
   this.pageEl.parent('.DV-set').addClass('DV-activePage');
@@ -109,13 +109,13 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
   }
 
   // stop tracking this annotation
-  this.viewer.activeAnnotation                = null;
-  this.viewer.state.eventFunctions.trackAnnotation.h        = null;
-  this.viewer.state.eventFunctions.trackAnnotation.id       = null;
-  this.viewer.state.eventFunctions.trackAnnotation.combined = null;
-  this.active                                 = false;
+  this.viewer.activeAnnotation                              = null;
+  this.viewer.state.eventFunctions.trackNoteView.h        = null;
+  this.viewer.state.eventFunctions.trackNoteView.id       = null;
+  this.viewer.state.eventFunctions.trackNoteView.combined = null;
+  this.active                                               = false;
   this.viewer.pages.setActiveAnnotation(null);
-  this.viewer.helpers.removeObserver('trackAnnotation');
+  this.viewer.helpers.removeObserver('trackNoteView');
   this.viewer.helpers.setActiveAnnotationInNav();
   this.pageEl.parent('.DV-set').removeClass('DV-activePage');
 

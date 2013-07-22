@@ -199,7 +199,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
       // this.viewer.history.save('annotation/a'+note.id);
       return;
     }else{
-      this.viewer.helpers.removeObserver('trackAnnotation');
+      this.viewer.helpers.removeObserver('trackNoteView');
       this.viewer.activeAnnotationId = null;
       if(this.viewer.activeAnnotation != null){
         this.viewer.activeAnnotation.hide();

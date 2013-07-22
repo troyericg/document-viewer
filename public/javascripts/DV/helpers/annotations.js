@@ -60,7 +60,7 @@ _.extend(DV.Schema.helpers, {
     var pageView = annotation.page;
     var noteEl   = annotation.annotationEl;
     var noteTop  = annotation.position.top * this.viewer.models.pages.zoomFactor();
-    var tracker  = this.viewer.state.eventFunctions.trackAnnotation;
+    var tracker  = this.viewer.state.eventFunctions.trackNoteView;
 
     if ( annotation.type === 'page' ) {
       tracker.h        = noteEl.outerHeight()+pageView.getOffset();
