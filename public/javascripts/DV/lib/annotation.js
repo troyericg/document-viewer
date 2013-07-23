@@ -26,28 +26,18 @@ DV.Annotation = function(options){
 
 // Add annotation to page
 DV.Annotation.prototype.add = function(){
-  if(this.type === 'page'){
+  if ( this.type === 'page' ) {
+    // insert it at the top/beginning of the note layer
     this.annotationEl = this.renderedHTML.insertBefore(this.annotationContainerEl);
-  }else{
-    if(this.page.annotations.length > 0){
-      for(var i = 0,len = this.page.annotations.length;i<len;i++){
-        if(this.page.annotations[i].id === this.id){
-
-          return false;
-        }else{
-
-          this.annotationEl = this.renderedHTML.appendTo(this.annotationContainerEl);
-        }
-      }
-    }else{
-
-      this.annotationEl = this.renderedHTML.appendTo(this.annotationContainerEl);
-    }
+  } else {
+    // otherwise append it to the end of the note layer
+    this.annotationEl = this.renderedHTML.appendTo(this.annotationContainerEl);
   }
 };
 
 // Jump to next annotation
 DV.Annotation.prototype.next = function(){
+  console.log("DV.Annotation.next");
   this.hide.preventRemovalOfCoverClass = true;
 
   var note = this.viewer.model.notes.getNextAnnotation(this.id);
