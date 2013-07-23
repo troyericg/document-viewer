@@ -114,8 +114,6 @@ DV.Page.prototype.draw = function(argHash) {
           page:         this,
           pageEl:       this.pageEl,
           annotationContainerEl : this.annotationContainerEl,
-          pageNumber:   this.pageNumber,
-          state:        'collapsed',
           top:          anno.get('y1'),
           left:         anno.get('x1'),
           width:        anno.get('x1') + anno.get('x2'),
