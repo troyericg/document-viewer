@@ -127,7 +127,7 @@ _.extend(DV.Schema.helpers, {
   reset : function() {
     this.resetNavigationState();              // sets chaptersContainer and navigation ids to ''
     this.cleanUpSearch();                     // viewer.searchResponse = viewer.toHighLight = null and blur searchInput on keyup
-    this.viewer.pages.cleanUp();            // hide the activeAnnotation (if available)
+    this.viewer.pages.cleanUp();              // hide the activeAnnotation (if available)
     this.removeObserver('drawPages');         // stop DV.Schema.events.drawPages from being called (it's in events/events.js)
     this.viewer.dragReporter.unBind();        //
     this.viewer.elements.window.scrollTop(0); // jump back to the top.
