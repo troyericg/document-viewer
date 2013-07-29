@@ -12,7 +12,6 @@ DV.Schema.helpers = {
       var viewer    = this.viewer;
       var doc       = context.models.document;
 
-      //var boundZoom = this.events.compile('zoom');
       var boundZoom = viewer.state.delegatedEventFunction('zoom');
       var value     = _.indexOf(doc.ZOOM_RANGES, doc.zoomLevel);
       viewer.slider = viewer.$('.DV-zoomBox').slider({

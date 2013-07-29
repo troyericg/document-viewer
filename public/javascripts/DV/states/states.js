@@ -1,7 +1,7 @@
 // Viewer State machine
 // encapsulates the current state of the viewer
 // and manages which states the viewer can transition into
-// as well as notifications 
+// as well as notifications to subscribers of state changes.
 DV.model.ViewerState = DV.Backbone.Model.extend({
   defaults: {
     zoomLevel: 700,
@@ -69,6 +69,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
     }
   },
   
+  // All states are executed with the viewer's scope.
   states: {
     InitialLoad: function() {
       console.log("InitialLoad");

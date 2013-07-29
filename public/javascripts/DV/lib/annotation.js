@@ -103,11 +103,11 @@ DV.Annotation.prototype.hide = function(forceOverlayHide){
   }
 
   // stop tracking this annotation
-  this.viewer.activeAnnotation                              = null;
+  this.viewer.activeAnnotation                            = null;
   this.viewer.state.eventFunctions.trackNoteView.h        = null;
   this.viewer.state.eventFunctions.trackNoteView.id       = null;
   this.viewer.state.eventFunctions.trackNoteView.combined = null;
-  this.active                                               = false;
+  this.active                                             = false;
   this.viewer.pages.setActiveAnnotation(null);
   this.viewer.helpers.removeObserver('trackNoteView');
   this.viewer.helpers.setActiveAnnotationInNav();

@@ -25,7 +25,7 @@ DV.DocumentViewer = DV.Backbone.View.extend({
   },
   
   // loadModels is currently necessary to initialize a pile of presenters
-  // it should be replaced by subsuming the data munging components
+  // it should be replaced by subsuming the data munging components of DV.load
   // into Backbone models, and view configuration into Backbone views
   // and a call to the viewer's render method.
   loadModels: function() {
