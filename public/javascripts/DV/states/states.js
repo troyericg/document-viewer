@@ -112,7 +112,7 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.helpers.startCheckTimer();
       // If configured to do so, open the viewer to a non-default state.
       this.helpers.handleInitialState();
-      _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
+      _.defer(_.bind(this.autoZoomPage, this));
     },
     ViewAnnotation: function(){ console.log("View Annotation"); 
       this.helpers.reset();                       // in construction.js

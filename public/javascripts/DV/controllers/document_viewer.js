@@ -126,6 +126,41 @@ DV.DocumentViewer = DV.Backbone.View.extend({
     var containerEl = DV.jQuery(container);
     if (!containerEl.length) throw "Document Viewer container element not found: " + container;
     containerEl.html(JST['viewer'](viewerOptions));
+  },
+  
+  // Sets up the zoom slider to match the appropriate for the specified
+  // initial zoom level, and real document page sizes.
+  autoZoomPage: function() {
+    var windowWidth = this.elements.window.outerWidth(true);
+    var zoom;
+    if (this.options.zoom == 'auto') {
+      zoom = Math.min(700, windowWidth - (this.models.pages.getPadding() * 2));
+    } else {
+      zoom = this.options.zoom;
+    }
+
+    // Setup ranges for auto-width zooming
+    var ranges = [];
+    if (zoom <= 500) {
+      var zoom2 = (zoom + 700) / 2;
+      ranges = [zoom, zoom2, 700, 850, 1000];
+    } else if (zoom <= 750) {
+      var zoom2 = ((1000 - 700) / 3) + zoom;
+      var zoom3 = ((1000 - 700) / 3)*2 + zoom;
+      ranges = [.66*zoom, zoom, zoom2, zoom3, 1000];
+    } else if (750 < zoom && zoom <= 850){
+      var zoom2 = ((1000 - zoom) / 2) + zoom;
+      ranges = [.66*zoom, 700, zoom, zoom2, 1000];
+    } else if (850 < zoom && zoom < 1000){
+      var zoom2 = ((zoom - 700) / 2) + 700;
+      ranges = [.66*zoom, 700, zoom2, zoom, 1000];
+    } else if (zoom >= 1000) {
+      zoom = 1000;
+      ranges = this.models.document.ZOOM_RANGES;
+    }
+    this.models.document.ZOOM_RANGES = ranges;
+    this.slider.slider({'value': parseInt(_.indexOf(ranges, zoom), 10)});
+    this.state.eventFunctions.zoom(zoom);
   }
 });
 
