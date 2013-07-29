@@ -11,8 +11,7 @@ DV.Annotation = function(options){
   this.id           = options.id;
   this.state        = 'collapsed';
   this.active       = false;
-  this.remove();
-  this.add();
+  this.render();
 
   if(options.active){
     this.viewer.helpers.setActiveAnnotationLimits(this);
@@ -22,6 +21,11 @@ DV.Annotation = function(options){
     this.show();
     if (options.showEdit) this.showEdit();
   }
+};
+
+DV.Annotation.prototype.render = function(){
+  this.remove();
+  this.add();
 };
 
 // Add annotation to page
