@@ -178,16 +178,13 @@ DV.model.ViewerState = DV.Backbone.Model.extend({
       this.thumbnails = new DV.Thumbnails(this);
       this.thumbnails.render();
       return true;
+    },
+    
+    // Untested/unverified
+    ViewEntity: function(name, offset, length) {
+      this.helpers.reset();
+      this.helpers.toggleContent('viewSearch');
+      this.helpers.showEntity(name, offset, length);
     }
-
   }
 });
-
-DV.Schema.states = {
-  ViewEntity: function(name, offset, length) {
-    this.helpers.reset();
-    this.helpers.toggleContent('viewSearch');
-    this.helpers.showEntity(name, offset, length);
-  },
-
-};
