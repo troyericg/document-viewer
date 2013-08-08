@@ -53,8 +53,8 @@ DV.Page.prototype.draw = function(argHash) {
     return;
   }
 
+  // if forced, redraw this page, otherwise draw w/ the index supplied.
   this.index = (argHash.force === true) ? this.index : argHash.index;
-  var _types = [];
   var source = this.model_pages.imageURL(this.index);
 
   // Set the page number as a class, for page-dependent elements.
@@ -72,13 +72,17 @@ DV.Page.prototype.draw = function(argHash) {
   if(this.pageNumber != this.index+1 || argHash.forceAnnotationRedraw === true){
     // loop through all the annotation views, destroy them
     // and reset the annotation flags.
-    for(var i = 0; i < this.annotations.length;i++){
-      this.annotations[i].remove();
-      delete this.annotations[i];
-      this.hasLayerRegional = false;
-      this.hasLayerPage     = false;
-    }
-    this.annotations = [];
+    var cleanupNoteViews = _.bind(function(){
+      console.log("cleaning up notes");
+      for(var i = 0; i < this.annotations.length;i++){
+        this.annotations[i].remove();
+        delete this.annotations[i];
+        this.hasLayerRegional = false;
+        this.hasLayerPage     = false;
+      }
+      this.annotations = [];
+    }, this);
+    cleanupNoteViews();
 
     // if there are annotations for this page, it will proceed and attempt to draw
     var byPage = this.viewer.model.notes.byPage[this.index] || [];
@@ -107,7 +111,12 @@ DV.Page.prototype.draw = function(argHash) {
           el.attr('src', el.attr('data-src'));
         });
 
-        // creates and renders each annotation view for the page view.
+        // create a view to manage the note ui
+        //var noteView = new DV.model.Note({model: anno});
+        //var noteMarkup = this.viewer.noteListView.noteViews[anno.cid].render();
+
+        // creates and renders each annotation view associated with this page view,
+        // appending them to the page's annotation layer.
         var newAnno = new DV.Annotation({
           renderedHTML: noteEl,
           id:           anno.id,
