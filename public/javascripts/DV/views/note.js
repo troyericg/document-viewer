@@ -93,12 +93,12 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
 
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
     // test with both autozoom and page notes.
-    this.updateAnnotationOffsets();
-    _.defer(_.bind(this.updateAnnotationOffsets, this));
+    this.calculateNoteOffsets();
+    _.defer(_.bind(this.calculateNoteOffsets, this));
   },
   
   // Offsets all document pages based on interleaved page annotations.
-  updateAnnotationOffsets: function(){
+  calculateNoteOffsets: function(){
     var notes                 = this.collection;
     notes.offsetsAdjustments  = [];
     notes.offsetAdjustmentSum = 0;
