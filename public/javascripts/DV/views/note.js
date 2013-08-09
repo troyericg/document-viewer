@@ -84,11 +84,12 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
   render: function() {
     if (this.viewer.options.showAnnotations === false) return;
     
+    this.setElement(this.viewer.$('.'+this.className));
     var rendered = _.map(this.noteViews, function(subview){ return subview.render(); } );
     var html      = rendered.join('').replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
       return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     });
-    this.viewer.$('div.DV-allAnnotations').html(html);
+    this.$el.html(html);
 
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
     // test with both autozoom and page notes.
