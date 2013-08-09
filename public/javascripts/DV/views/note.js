@@ -102,14 +102,14 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
     var notes                 = this.collection;
     notes.offsetsAdjustments  = [];
     notes.offsetAdjustmentSum = 0;
-    var documentModel         = this.viewer.models.document;
-    var annotationsContainer  = this.viewer.$('div.DV-allAnnotations');
-    var pageAnnotationEls     = annotationsContainer.find('.DV-pageNote');
+    var pageAnnotationEls     = this.$('.DV-pageNote');
     var pageNoteHeights       = this.viewer.model.pages.pageNoteHeights;
     var me                    = this;
 
+    // if the viewer isn't in the ViewAnnotations state, add the DV-getHeights class
+    // so that correct noteView offsets can be calculated.
     if(this.viewer.$('div.DV-docViewer').hasClass('DV-viewAnnotations') == false){
-      annotationsContainer.addClass('DV-getHeights');
+      this.$el.addClass('DV-getHeights');
     }
 
     // First, collect the list of page annotations, and associate them with
@@ -123,16 +123,16 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
 
     // Then, loop through the pages and store the cumulative offset due to
     // page annotations.
-    for (var i = 0; i <= documentModel.totalPages; i++) {
+    for (var i = 0; i <= this.viewer.models.document.totalPages; i++) {
       pageNoteHeights[i] = 0;
-      if (pageAnnos[i]) {
+      if (pageAnnos[i]) { // if this page has a pageNote
         var height = (DV.jQuery(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
         pageNoteHeights[i - 1] = height;
         notes.offsetAdjustmentSum += height;
       }
       notes.offsetsAdjustments[i] = notes.offsetAdjustmentSum;
     }
-    annotationsContainer.removeClass('DV-getHeights');
+    this.$el.removeClass('DV-getHeights');
   }
   
   // Refresh the annotation's title and content from the model, in both
