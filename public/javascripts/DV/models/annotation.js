@@ -56,11 +56,11 @@ DV.model.NoteSet = DV.Backbone.Collection.extend({
   initialize: function(data, options){
     // Index notes according to the page they're on.
     this.byPage = {};
-    _.each(data, _.bind(this.insertNoteIntoIndexes, this));
+    _.each(data, this.insertNoteIntoIndexes, this);
 
     // make sure that notes are indexed by page if they're added 
     // via means other than the constructor.
-    this.on( 'reset', function(){ this.each( _.bind(this.insertNoteIntoIndexes, this) ); }, this );
+    this.on( 'reset', function(){ this.each( this.insertNoteIntoIndexes, this ); }, this );
     this.on( 'add', this.insertNoteIntoIndexes, this );
     // and make sure they're removed when destroyed.
     this.on( 'remove', this.removeNoteFromIndexes, this);
