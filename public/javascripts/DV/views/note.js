@@ -58,14 +58,26 @@ DV.view.Note = DV.Backbone.View.extend({
     if (note === this.viewer.model.notes.first()) adata.orderClass += ' DV-firstAnnotation';
     if (note === this.viewer.model.notes.last()) { adata.orderClass += ' DV-lastAnnotation'; }
 
-    var template = (adata.type === 'page') ? 'pageAnnotation' : 'annotation';
-    this.html = JST[template](adata);
-    return this.html;
+    var className
+    if (adata.type === 'page') {
+      this.$el.html(JST['pageAnnotation'](adata));
+      className = 'DV-annotation DV-pageNote ' + adata.orderClass +" "+ adata.accessClass +" "+ (adata.owns_note ? 'DV-ownsAnnotation' : '');
+    } else {
+      this.$el.html(JST['annotation'](adata));
+      className = 'DV-annotation ' + adata.orderClass +" "+ adata.accessClass +" "+ (adata.owns_note ? 'DV-ownsAnnotation' : '');
+    }
+    this.$el.attr('class', className);
+    this.$el.attr('style', 'top:'+adata.top+'px');
+    this.$el.attr('id', 'DV-annotation-'+adata.id);
+    this.$el.attr('data-id', adata.id); 
+    return this.$el;
   }
 });
 
 // The NoteList is used to generate the AnnotationView display.
 DV.view.ViewAnnotations = DV.Backbone.View.extend({
+  className: 'DV-allAnnotations',
+  
   initialize: function(options) {
     this.viewer          = options.viewer;
     this.collection      = (options.collection || this.viewer.model.notes);
@@ -90,10 +102,13 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
     //  return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     //});
     //this.$el.html(html);
-    var noteViewEls = _.map(this.noteViews, function(noteView){
-      noteView.$el.html(noteView.render());
-      return noteView.$el;
-    }, this);
+    var noteViewEls = _.map(this.noteViews, function(noteView){ 
+      var el = noteView.render();
+      var noteId = noteView.model.id;
+      el.attr('id', 'DV-listAnnotation-' + noteId);
+      el.attr('rel', 'aid-' + noteId);
+      return el;
+    });
     this.$el.append(noteViewEls);
 
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
