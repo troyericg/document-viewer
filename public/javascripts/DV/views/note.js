@@ -76,8 +76,8 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
   },
   
   createSubViews: function(){
-    this.collection.each( _.bind(function(model){ 
-      this.noteViews[model.cid] = new DV.view.Note({model: model, viewer: this.viewer});
+    this.collection.each( _.bind(function(note){ 
+      this.noteViews[note.cid] = new DV.view.Note({model: note, viewer: this.viewer});
     }, this));
   },
   
