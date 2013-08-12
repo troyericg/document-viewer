@@ -75,45 +75,59 @@ DV.model.Document.prototype = {
     }
   },
 
-  // rewrite this.
+  // Calculate the page offsets and heights for the
+  // current viewer's zoom level & store the results.
   computeOffsets: function() {
     console.log("Computing Page Offsets");
     var annotationModel  = this.viewer.model.notes;
     var pages            = this.viewer.model.pages;
     var totalDocHeight   = 0;
-    var adjustedOffset   = 0;
     var len              = this.viewer.model.totalPages;
     var diff             = 0;
     var scrollPos        = this.viewer.elements.window[0].scrollTop;
-
+    
     for(var i = 0; i < len; i++) {
       var page = pages.getPageByIndex(i);
       
-      // calculate if there is a page note which needs to be factored in to offset.
-      if(annotationModel.offsetsAdjustments[i]){ adjustedOffset = annotationModel.offsetsAdjustments[i]; }
-
-      //var pageHeight     = this.viewer.models.pages.getPageHeight(i);
-      var pageHeight     = Math.round(page.get('height') * this.viewer.models.pages.zoomFactor());
-      var previousOffset = this.offsets[i] || 0;
-      var h              = this.offsets[i] = adjustedOffset + totalDocHeight;
-      page.set('offset', h);
-
+      // the current page's offset is the accumulated heights
+      // of all of the preceding pages
+      page.set('offset', totalDocHeight);
+      this.offsets[i] = totalDocHeight;
+      console.log(this.offsets[i]);
+      
+      // Calculate this page's height, to incorporate into the total.
+      var basePageHeight = Math.round(page.get('height') * this.viewer.models.pages.zoomFactor());
+      var totalPageHeight = basePageHeight;
+      
+      // get the page note for this page if there is one.
+      var pageNote = page.notes.find(function(note){ return note.get('type') == "page"; });
+      // add its height to the page's height
+      if (pageNote) {
+        var pageNoteView = this.viewer.noteListView.noteViews[pageNote.cid];
+        totalPageHeight += (pageNoteView.height || 0);
+      }
+      
+      // I don't know what the following stuff really does yet.
+    
       // if the page's offset has not changed, 
       // and the total document height is smaller than the current scroll position
-      if((previousOffset !== h) && (h < scrollPos)) {
-        var delta = h - previousOffset - diff;
-        scrollPos += delta;
-        diff += delta;
-      }
+      //if((previousOffset !== h) && (h < scrollPos)) {
+      //  var delta = h - previousOffset - diff;
+      //  scrollPos += delta;
+      //  diff += delta;
+      //}
+    
+      // Add this page's total height to the running tally of document height
+      totalDocHeight += (totalPageHeight + this.additionalPaddingOnPage);
 
-      this.baseHeightsPortion[i]        = Math.round((pageHeight + this.additionalPaddingOnPage) / 3);
-      this.baseHeightsPortionOffsets[i] = (i == 0) ? 0 : h - this.baseHeightsPortion[i];
-
-      totalDocHeight                    += (pageHeight + this.additionalPaddingOnPage);
+      // calculate the scroll position for this page at which the following
+      // page needs to be drawn (whether it's scrolling up or down).  This
+      // position is currently set as 2/3rds from the bottom of the page's image.
+      // 
+      // See DV.Schema.events.drawPages for details.
+      var basePageHeightSection = Math.round((basePageHeight + this.additionalPaddingOnPage) / 3);
+      this.baseHeightsPortionOffsets[i] = (i == 0) ? 0 : (totalDocHeight - (basePageHeightSection*2));
     }
-
-    // Add the sum of the page note heights to the total document height.
-    totalDocHeight += adjustedOffset;
 
     // artificially set the scrollbar height
     if(totalDocHeight != this.totalDocumentHeight){

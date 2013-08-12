@@ -1,7 +1,13 @@
 DV.view.Note = DV.Backbone.View.extend({
   initialize: function(options) {
-    this.viewer          = options.viewer;
+    this.viewer                 = options.viewer;
+    if (options.page) { this.page = options.page; }
   },
+  
+  storeHeight: function() {
+    this.height = this.$el.height();
+  },
+  
   // stolen from models/annotation.js#render(annotation)
   render: function(){
     // if (this.html) { return this.html; }
@@ -58,7 +64,7 @@ DV.view.Note = DV.Backbone.View.extend({
     if (note === this.viewer.model.notes.first()) adata.orderClass += ' DV-firstAnnotation';
     if (note === this.viewer.model.notes.last()) { adata.orderClass += ' DV-lastAnnotation'; }
 
-    var className
+    var className;
     if (adata.type === 'page') {
       this.$el.html(JST['pageAnnotation'](adata));
       className = 'DV-annotation DV-pageNote ' + adata.orderClass +" "+ adata.accessClass +" "+ (adata.owns_note ? 'DV-ownsAnnotation' : '');
@@ -113,46 +119,21 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
 
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
     // test with both autozoom and page notes.
-    this.calculateNoteOffsets();
-    _.defer(_.bind(this.calculateNoteOffsets, this));
+    this.calculatePageNoteHeights();
+    _.defer(_.bind(this.calculatePageNoteHeights, this));
   },
   
-  // Offsets all document pages based on interleaved page annotations.
-  calculateNoteOffsets: function(){
-    var notes                 = this.collection;
-    notes.offsetsAdjustments  = [];
-    notes.offsetAdjustmentSum = 0;
-    var pageAnnotationEls     = this.$('.DV-pageNote');
-    var pageNoteHeights       = this.viewer.model.pages.pageNoteHeights;
-    var me                    = this;
-
-    // if the viewer isn't in the ViewAnnotations state, add the DV-getHeights class
-    // so that correct noteView heights can be calculated.
+  calculatePageNoteHeights: function(){
+    var pageNotes = this.collection.select(function(note) { return note.get('type') == 'page'; });
+    var pageNoteViews = _.map(pageNotes, function(note){ return this.noteViews[note.cid]; }, this);
+    
+    // If the viewer currently isn't in the ViewAnnotations state 
+    // (and thus isn't displaying the note list), add a class to the note list
+    // to make the browser calculate all the note heights.
     if(this.viewer.$('div.DV-docViewer').hasClass('DV-viewAnnotations') == false){
       this.$el.addClass('DV-getHeights');
     }
-
-    // First, collect the list of page annotations, and associate them with
-    // their DOM elements.
-    var pageAnnos = [];
-    var pageNotes = notes.select(function(anno) { return anno.get('type') == 'page'; });
-    _.each(pageNotes, function(anno, i) {
-      anno.el = pageAnnotationEls[i];
-      pageAnnos[anno.get('page')] = anno;
-    });
-
-    // Then, loop through the pages and store the cumulative offset due to
-    // page annotations.
-    for (var i = 0; i <= this.viewer.models.document.totalPages; i++) {
-      pageNoteHeights[i] = 0;
-      if (pageAnnos[i]) { // if this page has a pageNote
-        var height = (DV.jQuery(pageAnnos[i].el).height() + this.PAGE_NOTE_FUDGE);
-        pageNoteHeights[i - 1] = height;
-        notes.offsetAdjustmentSum += height;
-      }
-      notes.offsetsAdjustments[i] = notes.offsetAdjustmentSum;
-    }
-    this.$el.removeClass('DV-getHeights');
+    _.each(pageNoteViews, function(view){ view.storeHeight(); });
   }
   
   // Refresh the annotation's title and content from the model, in both
