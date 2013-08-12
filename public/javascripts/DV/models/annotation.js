@@ -1,6 +1,5 @@
 DV.model.Note = DV.Backbone.Model.extend({
   defaults: {
-    id                  : _.uniqueId(),
     title               : "Untitled Note",
     text                : "",
     content             : "",
@@ -23,21 +22,12 @@ DV.model.Note = DV.Backbone.Model.extend({
     }
   },
   
-  isNew: function() {
-    return (this.get('unsaved') ? true : (this.id == null));
-  },
-  
   toJSON: function() {
     var json = _.clone(this.attributes);
     return _.extend(json, { 
       page_number: json.page,
       location: (json.location || {}).image
     });
-  },
-  
-  sync: function() {
-    if (this.get('unsaved')) { this.id = null; this.set('id', null); }
-    DV.Backbone.sync.apply(this, arguments);
   }
 });
 
