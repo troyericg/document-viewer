@@ -206,7 +206,7 @@ DV.model.NewDocument = DV.Backbone.Model.extend({
   },
   canonical_host: function(){
     return this.get('canonical_url').match(/https?:\/\/([^\/]+)\//)[1];
-  },
+  }
 });
 
 DV.model.DocumentSet = DV.Backbone.Collection.extend({

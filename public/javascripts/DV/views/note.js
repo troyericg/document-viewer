@@ -127,7 +127,7 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
     var me                    = this;
 
     // if the viewer isn't in the ViewAnnotations state, add the DV-getHeights class
-    // so that correct noteView offsets can be calculated.
+    // so that correct noteView heights can be calculated.
     if(this.viewer.$('div.DV-docViewer').hasClass('DV-viewAnnotations') == false){
       this.$el.addClass('DV-getHeights');
     }
