@@ -212,7 +212,6 @@ DV.Api.prototype = {
     //this.redraw(true);
     //this.viewer.pages.showAnnotation(anno, {active: true, edit : true});
     //return anno;
-    console.log(anno);
     note = new DV.model.Note(anno);
     this.viewer.model.notes.add(note);
     this.redraw(true);

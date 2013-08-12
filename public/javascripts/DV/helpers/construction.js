@@ -52,7 +52,6 @@ _.extend(DV.Schema.helpers, {
     $annotationsView[showAnnotations ? 'show' : 'hide']();
     
     if (showAnnotationControls) {
-      console.log("annotation controls!");
       this.viewer.noteToolMenu.setElement(this.viewer.$('.DV-mark'));
       this.viewer.loginManager.setElement(this.viewer.$('.DV-loginContainer'));
       this.viewer.noteToolMenu.render();

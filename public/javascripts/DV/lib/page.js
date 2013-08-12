@@ -73,7 +73,6 @@ DV.Page.prototype.draw = function(argHash) {
     // loop through all the annotation views, destroy them
     // and reset the annotation flags.
     var cleanupNoteViews = _.bind(function(){
-      console.log("cleaning up notes");
       for(var i = 0; i < this.annotations.length;i++){
         this.annotations[i].remove();
         delete this.annotations[i];

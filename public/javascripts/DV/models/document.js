@@ -93,7 +93,6 @@ DV.model.Document.prototype = {
       // of all of the preceding pages
       page.set('offset', totalDocHeight);
       this.offsets[i] = totalDocHeight;
-      console.log(this.offsets[i]);
       
       // Calculate this page's height, to incorporate into the total.
       var basePageHeight = Math.round(page.get('height') * this.viewer.models.pages.zoomFactor());
