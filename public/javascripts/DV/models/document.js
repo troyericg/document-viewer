@@ -103,7 +103,7 @@ DV.model.Document.prototype = {
       // add its height to the page's height
       if (pageNote) {
         var pageNoteView = this.viewer.noteListView.noteViews[pageNote.cid];
-        totalPageHeight += (pageNoteView.height || 0);
+        totalPageHeight += (pageNoteView.height || 0) + this.additionalPaddingOnPage;
       }
       
       // I don't know what the following stuff really does yet.
