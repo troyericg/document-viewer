@@ -116,16 +116,16 @@ DV.model.Document.prototype = {
       //  diff += delta;
       //}
     
-      // Add this page's total height to the running tally of document height
-      totalDocHeight += (totalPageHeight + this.additionalPaddingOnPage);
-
       // calculate the scroll position for this page at which the following
       // page needs to be drawn (whether it's scrolling up or down).  This
       // position is currently set as 2/3rds from the bottom of the page's image.
       // 
       // See DV.Schema.events.drawPages for details.
-      var basePageHeightSection = Math.round((basePageHeight + this.additionalPaddingOnPage) / 3);
-      this.baseHeightsPortionOffsets[i] = (i == 0) ? 0 : (totalDocHeight - (basePageHeightSection*2));
+      var basePageHeightSection = basePageHeight - 2 * Math.round((basePageHeight + this.additionalPaddingOnPage) / 3);
+      this.baseHeightsPortionOffsets[i] = (i == 0) ? 0 : (totalDocHeight - basePageHeightSection);
+
+      // Add this page's total height to the running tally of document height
+      totalDocHeight += (totalPageHeight + this.additionalPaddingOnPage);
     }
 
     // artificially set the scrollbar height
