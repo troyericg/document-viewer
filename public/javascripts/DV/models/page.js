@@ -6,12 +6,6 @@ DV.model.Pages = function(viewer) {
   // Rolling average page height.
   this.averageHeight   = 0;
 
-  // Real page heights.
-  this.pageHeights     = [];
-
-  // Real page note heights.
-  this.pageNoteHeights = [];
-
   // In pixels.
   this.BASE_WIDTH      = 700;
   this.BASE_HEIGHT     = 906;
@@ -124,15 +118,14 @@ DV.model.Pages.prototype = {
 
   // set the real page height
   setPageHeight: function(pageIndex, pageHeight) { 
-    this.pageHeights[pageIndex] = Math.round(pageHeight);
     var page = this.viewer.model.pages.getPageByIndex(pageIndex);
-    page.set('height', pageHeight);
+    page.set('height', Math.round(pageHeight));
   },
 
   // get the real page height
   getPageHeight: function(pageIndex) {
-    var realHeight = this.pageHeights[pageIndex];
-    return Math.round(realHeight ? realHeight * this.zoomFactor() : this.height);
+    var height = this.viewer.model.pages.getPageByIndex(pageIndex).get('height');
+    return height * this.zoomFactor();
   }
 
 };
@@ -186,12 +179,6 @@ DV.model.PageSet = DV.Backbone.Collection.extend({
     
     // Rolling average page height.
     this.averageHeight   = 0;
-
-    // Real page heights.
-    this.pageHeights     = [];
-
-    // Real page note heights.
-    this.pageNoteHeights = [];
 
     // In pixels.
     this.BASE_WIDTH      = 700;
