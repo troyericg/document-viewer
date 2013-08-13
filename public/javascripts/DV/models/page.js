@@ -107,7 +107,8 @@ DV.model.Pages.prototype = {
     if (h === height) return;
 
     // If it's not, recompute all page position offsets and reflow the pages
-    this.viewer.document.computeOffsets();
+    //this.viewer.document.computeOffsets();
+    this.viewer.models.document.computeOffsets();
     this.viewer.pages.simpleReflowPages();
     // Jump to the top of the current page, if loading pushed our page top off and a note isn't open.
     if (!this.viewer.activeAnnotation && (pageIndex < this.viewer.models.document.currentIndex())) {
