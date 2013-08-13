@@ -35,8 +35,10 @@ DV.Schema.events = {
       this.viewer.debugConsole.drawScrollPositions({
         scrollTop: {position: scrollPos, color: 'blue'},
         midpoint: {position: midpoint, color: 'red'},
-        currentPageTop: {position: offsets[currentPage], color: 'green'}
+        currentPageOffset: {position: offsets[currentPage], color: 'green'},
+        middlePageOffset: {position: offsets[middlePage], color: 'orange'}
       });
+      this.viewer.debugConsole.dump(JSON.stringify(offsets));
     }
 
     // if the scrollTop of the viewable area is the same as the top of the current page

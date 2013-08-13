@@ -43,6 +43,7 @@ DV.view.DebugConsole = DV.Backbone.View.extend({
     this.render();
   },
   render: function(){
+    this.$el.html('<div class="dump"></div>');
     this.$el.css({
       'position': 'fixed',
       'bottom': 10,
@@ -73,5 +74,6 @@ DV.view.DebugConsole = DV.Backbone.View.extend({
         width: paper.width()
       });
     });
-  }
+  },
+  dump: function(html){ this.$('.dump').html(html); }
 });
