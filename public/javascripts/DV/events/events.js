@@ -30,6 +30,14 @@ DV.Schema.events = {
     // find the scrollTop and midpoint positions relative to the current pages.
     var currentPage   = _.sortedIndex(offsets, scrollPos);
     var middlePage    = _.sortedIndex(offsets, midpoint);
+    
+    if (this.viewer.debugConsole) { 
+      this.viewer.debugConsole.drawScrollPositions({
+        scrollTop: {position: scrollPos, color: 'blue'},
+        midpoint: {position: midpoint, color: 'red'},
+        currentPageTop: {position: offsets[currentPage], color: 'green'}
+      });
+    }
 
     // if the scrollTop of the viewable area is the same as the top of the current page
     // make sure that we're considering that page by bumping up the current & middle page indexes.
