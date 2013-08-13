@@ -134,6 +134,7 @@ DV.view.ViewAnnotations = DV.Backbone.View.extend({
       this.$el.addClass('DV-getHeights');
     }
     _.each(pageNoteViews, function(view){ view.storeHeight(); });
+    this.$el.removeClass('DV-getHeights');
   }
   
   // Refresh the annotation's title and content from the model, in both
