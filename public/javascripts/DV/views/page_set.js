@@ -105,7 +105,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
 
     // absolute value of the difference between oldOffset and scrollPos.
     var diff = oldOffset - scrollPos;
-    if (diff < 0) diff *= -1
+    if (diff < 0) diff *= -1;
 
     var diffPercentage = diff / this.viewer.models.pages.height;
 
@@ -133,7 +133,7 @@ DV.view.PageSet = DV.Backbone.View.extend({
     if(this.viewer.activeAnnotation != null){
       // FIXME:
 
-      var note = this.viewer.model.notes.getAnnotation(this.viewer.activeAnnotation.id)
+      var note = this.viewer.model.notes.getAnnotation(this.viewer.activeAnnotation.id);
       var args = {
         index: oldDocModel.currentIndex(),
         top: this.viewer.activeAnnotation.top,

@@ -79,7 +79,6 @@ DV.model.Document.prototype = {
   // current viewer's zoom level & store the results.
   computeOffsets: function() {
     console.log("Computing Page Offsets");
-    var annotationModel  = this.viewer.model.notes;
     var pages            = this.viewer.model.pages;
     var totalDocHeight   = 0;
     var len              = this.viewer.model.totalPages;
