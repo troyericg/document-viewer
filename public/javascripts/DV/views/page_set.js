@@ -209,15 +209,16 @@ DV.view.PageSet = DV.Backbone.View.extend({
       var isPage = note.get('type') == 'page';
       var nudge  = isPage ? -7 : 36;
       var offset = note.top - nudge;
-
+      
       for(var i = 0; i <= 2; i++){
-        if (this.pages['p' + i]) {
-          for(var n = 0; n < this.pages['p'+i].annotations.length; n++){
-            if(this.pages['p'+i].annotations[n].id === note.id){
-              this.viewer.helpers.jump(note.get('page') - 1, offset);
-              this.pages['p'+i].annotations[n].show(showHash);
-              return;
-            }
+        var page = this.pages['p' + i];
+        if (page) {
+          var noteView = _.find(page.annotations, function(view){ return view.id == note.id; });
+          if (noteView) {
+            if (!isPage) { offset += page.getPageNoteHeight(); }
+            this.viewer.helpers.jump(note.get('page') - 1, offset);
+            noteView.show(showHash);
+            return;
           }
         }
       }
