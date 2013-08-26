@@ -22,15 +22,16 @@
 
   var _ = root._;
 
-  root.DV.t = _.t;
 
   Translations = function( options ){
 
     this.aliases      = options.aliases || [];
     this.viewer       = options.viewer;
     this.locale       = 'eng';
-
-    _.i18n.configure( root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { default: 'eng', fallback: 'eng' });
+    options = root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { default: this.locale, fallback: this.locale };
+    options.namespace = 'DV';
+    this.i18n = new I18n( options );
+    root.DV.t = this.i18n.translate;
 
     if ( true === options.autoDetect )
       this.detectLocale();
@@ -54,7 +55,7 @@
   // Examples:
   // { 'zh': 'zh-sg' }  // will use the zh language set for detected 'zh-sg'
   // { 'zh': ['zh-sg', 'zh-cn'] }  // use zh for both Singapore and PRC
-  // { 'zh': new Regex('zh-\w{2}') }  // match anything that starts with zh- 
+  // { 'zh': new Regex('zh-\w{2}') }  // match anything that starts with zh-
   // { 'zh' function(lang){ return lang=='zh-cn' } } // same as the first example
 
   // accepts an array of aliases
@@ -86,7 +87,7 @@
       }
     }
 
-    if ( _.i18n.packForCode( lang ) )
+    if ( this.i18n.packForCode( lang ) )
       this.setLocale( lang );
 
     return this.locale;
@@ -95,7 +96,7 @@
 
   Translations.prototype.setLocale = function( code ){
 
-    if ( _.i18n.packForCode( code ) ){
+    if ( this.i18n.packForCode( code ) ){
       this.renderWithLocale( code );
     } else {
 
@@ -108,7 +109,7 @@
         url: url,
         dataType: 'jsonp',
         success: function( translation ){
-          _.i18n.load( translation );
+          this.i18n.load( translation );
           me.renderWithLocale( code );
         }
       } );
@@ -117,11 +118,12 @@
   };
 
   Translations.prototype.renderWithLocale = function( code ){
-    if ( this.locale != code ){
-      this.locale = code;
-      _.i18n.set('default', code );
-      this.viewer.open('InitialLoad');
-    }
+    // FIXME - The this.viewer.open('InitialLoad') call used to work, but now doesn't?
+    // if ( this.locale != code ){
+    //   this.locale = code;
+    //   this.i18n.set('default', code );
+    //   this.viewer.open('InitialLoad');
+    // }
   };
 
 
