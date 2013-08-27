@@ -7,8 +7,8 @@
     <!-- Header -->
     <div class="DV-annotationHeader DV-clearfix">
       <div class="DV-pagination DV-editHidden">
-        <span class="DV-trigger DV-annotationPrevious" title="<%= DV.t('previous_note') %>"><%= _.t('previous') %></span>
-        <span class="DV-trigger DV-annotationNext" title="<%= DV.t('next_note') %>"><%= _.t('next') %></span>
+        <span class="DV-trigger DV-annotationPrevious" title="<%= DV.t('previous_note') %>"><%= DV.t('previous') %></span>
+        <span class="DV-trigger DV-annotationNext" title="<%= DV.t('next_note') %>"><%= DV.t('next') %></span>
       </div>
       <div class="DV-annotationGoto DV-editHidden"><div class="DV-trigger"><%= DV.t('pg') %><%= pageNumber %></div></div>
       <div class="DV-annotationTitle DV-editHidden"><%= title %></div>
@@ -44,7 +44,7 @@
       <% } %>
       <div class="DV-annotationEditControls DV-editVisible">
         <div class="DV-clearfix">
-          <div class="minibutton warn DV-deleteAnnotation float_left">Delete</div>
+          <div class="minibutton warn DV-deleteAnnotation float_left"><%= DV.t('delete') %></div>
           <div class="minibutton default DV-saveAnnotation float_right">
             <% if (access == 'exclusive') { %>
               <%= DV.t('publish') %>
