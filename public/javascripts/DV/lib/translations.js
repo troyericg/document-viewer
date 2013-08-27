@@ -22,24 +22,14 @@
 
   var _ = root._;
 
-
   Translations = function( options ){
-
     this.aliases      = options.aliases || [];
     this.viewer       = options.viewer;
-    this.locale       = 'eng';
-    options = root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { default: this.locale, fallback: this.locale };
+    this.locale       = this.viewer.schema.document.language || 'eng';
+    options = root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { language: this.locale, fallback: 'eng' };
     options.namespace = 'DV';
     this.i18n = new I18n( options );
     root.DV.t = this.i18n.translate;
-
-    if ( true === options.autoDetect )
-      this.detectLocale();
-
-    if ( this.viewer.schema.document.language ){
-      this.setLocale( this.viewer.schema.document.language );
-    }
-
   };
 
 
