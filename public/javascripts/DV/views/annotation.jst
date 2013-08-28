@@ -62,7 +62,7 @@
     <div class="DV-annotationMeta <%= accessClass %>">
       <% if (author) { %>
         <div class="DV-annotationAuthor DV-interface DV-editHidden">
-          <%= DV.t('note_by') %> <%= author %><% if (author_organization) { %>, <i><%= author_organization %></i><% } %>
+          <%= DV.t('note_by', author ) %> <% if (author_organization) { %>, <i><%= author_organization %></i><% } %>
         </div>
       <% } %>
       <% if (access == 'exclusive') { %>
