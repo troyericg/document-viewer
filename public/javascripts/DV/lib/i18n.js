@@ -56,8 +56,9 @@
 
 
 (function(root,undefined) {
-
   var _ = root._, jQuery = root.jQuery;
+
+  var previousI18n = root.I18n;
 
   // There can be only one!
   if ( ! _.isUndefined( root.I18n ) )
@@ -81,12 +82,16 @@
 
   function I18n( options ){
     this.codes    = {};
-
+    this.sprintf = root.sprintf.noConflict();
     this.reconfigure( options );
-
     this.translate = _.bind( this.translate, this );
     ALL_INSTANCES.push(this);
-  }
+  };
+
+  I18n.noConflict = function(){
+    root.I18n = previousI18n;
+    return this;
+  };
 
   // static method.  Stores packs for
   // later use by individual translators
@@ -127,7 +132,6 @@
       this._set( 'language', options.language );
     if ( options.fallback )
       this._set( 'fallback', options.fallback );
-
   };
 
 
@@ -162,7 +166,7 @@
       match = match[ pack.pluralizer( _.isUndefined(args) ? 1 : args ) ];
     }
 
-    return vsprintf( match, _.toArray( arguments ).slice(1) );
+    return this.sprintf.with_array( match, _.toArray( arguments ).slice(1) );
 
   };
 
