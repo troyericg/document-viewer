@@ -30,6 +30,7 @@
     options.namespace = 'DV';
     this.i18n = new I18n( options );
     root.DV.t = this.i18n.translate;
+    root.DV.I18n = I18n.noConflict();
   };
 
 
