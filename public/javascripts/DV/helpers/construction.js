@@ -84,7 +84,7 @@ _.extend(DV.Schema.helpers, {
   renderNavigation : function() {
     var me = this;
     var chapterViews = [], bolds = [], expandIcons = [], expanded = [], navigationExpander = JST.navigationExpander({}),nav=[],notes = [],chapters = [];
-    var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = _.uniqueId());
+    var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = parseInt(_.uniqueId()));
 
     /* ---------------------------------------------------- start the nav helper methods */
     var getAnnotionsByRange = function(rangeStart, rangeEnd){
@@ -132,7 +132,7 @@ _.extend(DV.Schema.helpers, {
       for (var i = 0; i < sections.length; i++) {
         var section        = sections[i];
         var nextSection    = sections[i + 1];
-        section.id         = section.id || _.uniqueId();
+        section.id         = section.id || parseInt(_.uniqueId());
         section.pageNumber = section.page;
         section.endPage    = nextSection ? nextSection.page - 1 : this.viewer.schema.data.totalPages;
         var annotations    = getAnnotionsByRange(section.pageNumber - 1, section.endPage);

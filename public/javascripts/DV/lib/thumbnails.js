@@ -7,7 +7,7 @@ DV.Thumbnails = function(viewer){
   this.imageUrl        = viewer.schema.document.resources.page.image.replace(/\{size\}/, 'small');
   this.pageCount       = viewer.schema.document.pages;
   this.viewer          = viewer;
-  this.resizeId        = _.uniqueId();
+  this.resizeId        = parseInt(_.uniqueId());
   this.sizes           = {
     "0": {w: 60, h: 75},
     "1": {w: 90, h: 112},

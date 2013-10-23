@@ -18,7 +18,7 @@ DV.Schema = function() {
 // the models expect.
 DV.Schema.prototype.importCanonicalDocument = function(json) {
   // Ensure that IDs start with 1 as the lowest id.
-  _.uniqueId();
+  parseInt(_.uniqueId());
   // Ensure at least empty arrays for sections.
   json.sections               = _.sortBy(json.sections || [], function(sec){ return sec.page; });
   json.annotations            = json.annotations || [];
@@ -40,7 +40,7 @@ DV.Schema.prototype.importCanonicalDocument = function(json) {
 DV.Schema.prototype.loadAnnotation = function(anno) {
   if (anno.id) anno.server_id = anno.id;
   var idx     = anno.page - 1;
-  anno.id     = anno.id || _.uniqueId();
+  anno.id     = anno.id || parseInt(_.uniqueId());
   anno.title  = anno.title || DV.t('untitled_note');
   anno.text   = anno.content || '';
   anno.access = anno.access || 'public';
