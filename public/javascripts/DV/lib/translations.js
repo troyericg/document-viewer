@@ -25,7 +25,7 @@
   Translations = function( options ){
     this.aliases      = options.aliases || [];
     this.viewer       = options.viewer;
-    this.locale       = this.viewer.schema.document.language || 'eng';
+    this.locale       = this.viewer.schema.document.display_language || 'eng';
     options = root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { language: this.locale, fallback: 'eng' };
     options.namespace = 'DV';
     this.i18n = new I18n( options );
