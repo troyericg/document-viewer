@@ -1,4 +1,4 @@
-_.extend(DV.Schema.helpers,{
+DV._.extend(DV.Schema.helpers,{
   showAnnotationEdit : function(e) {
     var annoEl = this.viewer.$(e.target).closest(this.annotationClassName);
     var area   = this.viewer.$('.DV-annotationTextArea', annoEl);

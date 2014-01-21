@@ -5,7 +5,7 @@
   // to cancel it.  
   jQuery.fn.autohide = function(options) {
     var me = this;
-    options = _.extend({clickable : null, onHide : null}, options || {});
+    options = DV._.extend({clickable : null, onHide : null}, options || {});
     me._autoignore = true;
     setTimeout(function(){ delete me._autoignore; }, 0);
 
@@ -21,7 +21,7 @@
       };
       me._autohider = function(e) {        
         if (me._autoignore) return;
-        if (options.clickable && (me[0] == e.target || _.include(DV.jQuery(e.target).parents(), me[0]))) return;
+        if (options.clickable && (me[0] == e.target || DV._.include(DV.jQuery(e.target).parents(), me[0]))) return;
         if (options.onHide && !options.onHide(e)) return;
         me.forceHide(e);
       };

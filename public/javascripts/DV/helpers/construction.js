@@ -1,9 +1,9 @@
  // Renders the navigation sidebar for chapters and annotations.
-_.extend(DV.Schema.helpers, {
+DV._.extend(DV.Schema.helpers, {
 
   showAnnotations : function() {
     if (this.viewer.options.showAnnotations === false) return false;
-    return _.size(this.models.annotations.byId) > 0;
+    return DV._.size(this.models.annotations.byId) > 0;
   },
 
   renderViewer: function(){
@@ -67,7 +67,7 @@ _.extend(DV.Schema.helpers, {
   // the sidebar.
   displayNavigation : function() {
     var doc = this.viewer.schema.document;
-    var missing = (!doc.description && !_.size(this.viewer.schema.data.annotationsById) && !this.viewer.schema.data.sections.length);
+    var missing = (!doc.description && !DV._.size(this.viewer.schema.data.annotationsById) && !this.viewer.schema.data.sections.length);
     this.viewer.$('.DV-supplemental').toggleClass('DV-noNavigation', missing);
   },
 
@@ -84,7 +84,7 @@ _.extend(DV.Schema.helpers, {
   renderNavigation : function() {
     var me = this;
     var chapterViews = [], bolds = [], expandIcons = [], expanded = [], navigationExpander = JST.navigationExpander({}),nav=[],notes = [],chapters = [];
-    var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = _.uniqueId());
+    var boldsId = this.viewer.models.boldsId || (this.viewer.models.boldsId = DV._.uniqueId());
 
     /* ---------------------------------------------------- start the nav helper methods */
     var getAnnotionsByRange = function(rangeStart, rangeEnd){
@@ -132,7 +132,7 @@ _.extend(DV.Schema.helpers, {
       for (var i = 0; i < sections.length; i++) {
         var section        = sections[i];
         var nextSection    = sections[i + 1];
-        section.id         = section.id || _.uniqueId();
+        section.id         = section.id || DV._.uniqueId();
         section.pageNumber = section.page;
         section.endPage    = nextSection ? nextSection.page - 1 : this.viewer.schema.data.totalPages;
         var annotations    = getAnnotionsByRange(section.pageNumber - 1, section.endPage);
@@ -157,7 +157,7 @@ _.extend(DV.Schema.helpers, {
     var chaptersContainer = this.viewer.$('div.DV-chaptersContainer');
     chaptersContainer.html(navigationView);
     chaptersContainer.unbind('click').bind('click',this.events.compile('handleNavigation'));
-    this.viewer.schema.data.sections.length || _.size(this.viewer.schema.data.annotationsById) ?
+    this.viewer.schema.data.sections.length || DV._.size(this.viewer.schema.data.annotationsById) ?
        chaptersContainer.show() : chaptersContainer.hide();
     this.displayNavigation();
 
@@ -248,7 +248,7 @@ _.extend(DV.Schema.helpers, {
     }
 
     // Check if the zoom is showing, and if not, shorten the width of search
-    _.defer(_.bind(function() {
+    DV._.defer(DV._.bind(function() {
       if ((this.elements.viewer.width() <= 700) && (showAnnotations || showPages || showSearch)) {
         this.viewer.$('.DV-controls').addClass('DV-narrowControls');
       }

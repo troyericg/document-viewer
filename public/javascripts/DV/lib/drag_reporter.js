@@ -5,13 +5,13 @@ DV.DragReporter = function(viewer, toWatch, dispatcher, argHash) {
   this.sensitivityX   = 1.0;
   this.oldPageY       = 0;
 
-  _.extend(this, argHash);
+  DV._.extend(this, argHash);
 
   this.dispatcher             = dispatcher;
   this.toWatch                = this.viewer.$(toWatch);
-  this.boundReporter          = _.bind(this.mouseMoveReporter,this);
-  this.boundMouseUpReporter   = _.bind(this.mouseUpReporter,this);
-  this.boundMouseDownReporter = _.bind(this.mouseDownReporter,this);
+  this.boundReporter          = DV._.bind(this.mouseMoveReporter,this);
+  this.boundMouseUpReporter   = DV._.bind(this.mouseUpReporter,this);
+  this.boundMouseDownReporter = DV._.bind(this.mouseDownReporter,this);
 
   this.setBinding();
 };
@@ -60,7 +60,7 @@ DV.DragReporter.prototype.mouseDownReporter   = function(e){
   this.pageX    = e.pageX;
   this.oldPageY = e.pageY;
 
-  this.updateTimer = setInterval(_.bind(this.oldPositionUpdater,this),1200);
+  this.updateTimer = setInterval(DV._.bind(this.oldPositionUpdater,this),1200);
 
   this.toWatch.addClass(this.dragClassName);
   this.toWatch.mousemove(this.boundReporter);

@@ -1,4 +1,4 @@
-_.extend(DV.Schema.events, {
+DV._.extend(DV.Schema.events, {
 
   // #document/p[pageID]
   handleHashChangeViewDocumentPage: function(page){

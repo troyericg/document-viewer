@@ -7,7 +7,7 @@ DV.Thumbnails = function(viewer){
   this.imageUrl        = viewer.schema.document.resources.page.image.replace(/\{size\}/, 'small');
   this.pageCount       = viewer.schema.document.pages;
   this.viewer          = viewer;
-  this.resizeId        = _.uniqueId();
+  this.resizeId        = DV._.uniqueId();
   this.sizes           = {
     "0": {w: 60, h: 75},
     "1": {w: 90, h: 112},
@@ -15,7 +15,7 @@ DV.Thumbnails = function(viewer){
     "3": {w: 150, h: 188},
     "4": {w: 180, h: 225}
   };
-  _.bindAll(this, 'lazyloadThumbnails', 'loadThumbnails');
+  DV._.bindAll(this, 'lazyloadThumbnails', 'loadThumbnails');
 };
 
 // Render the Thumbnails from scratch.
@@ -40,7 +40,7 @@ DV.Thumbnails.prototype.buildThumbnails = function(startPage, endPage) {
   });
   this.el.html(this.el.html() + thumbnailsHTML);
   this.highlightCurrentPage();
-  _.defer(this.loadThumbnails);
+  DV._.defer(this.loadThumbnails);
 };
 
 DV.Thumbnails.prototype.getCurrentIndex = function() {
@@ -81,7 +81,7 @@ DV.Thumbnails.prototype.setZoom = function(zoom) {
 // level -- specified from 0 - 4.
 DV.Thumbnails.prototype.getZoom = function(zoom) {
   if (zoom != null) {
-    return this.zoomLevel = _.indexOf(this.viewer.models.document.ZOOM_RANGES, zoom);
+    return this.zoomLevel = DV._.indexOf(this.viewer.models.document.ZOOM_RANGES, zoom);
   } else {
     return this.zoomLevel = this.viewer.slider.slider('value');
   }
@@ -148,7 +148,7 @@ DV.Thumbnails.prototype.loadImages = function(startPage, endPage) {
     if (!el.attr('src')) {
       var imageEl = viewer.$('.DV-thumbnail-image', el);
       var image = new Image();
-      DV.jQuery(image).bind('load', _.bind(self.setImageSize, self, image, imageEl))
+      DV.jQuery(image).bind('load', DV._.bind(self.setImageSize, self, image, imageEl))
                       .attr({src: imageEl.attr('data-src')});
     }
   });

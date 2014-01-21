@@ -5,6 +5,7 @@ console.log    || (console.log = _.identity);
 // Create the DV namespaces.
 window.DV   = window.DV   || {};
 DV.jQuery   = jQuery.noConflict(true);
+DV._        = _.noConflict();
 DV.viewers  = DV.viewers  || {};
 DV.model    = DV.model    || {};
 

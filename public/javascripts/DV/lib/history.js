@@ -29,11 +29,11 @@ DV.History = function(viewer) {
   // The current recorded window.location.hash.
   this.hash = window.location.hash;
 
-  _.bindAll(this, 'checkURL');
+  DV._.bindAll(this, 'checkURL');
   if (DV.History.count > 1) return;
 
   // Wait until the window loads.
-  DV.jQuery(_.bind(function() {
+  DV.jQuery(DV._.bind(function() {
     if (this.USE_IFRAME) this.iframe = DV.jQuery('<iframe src="javascript:0"/>').hide().appendTo('body')[0].contentWindow;
     if ('onhashchange' in window) {
       window.onhashchange = this.checkURL;

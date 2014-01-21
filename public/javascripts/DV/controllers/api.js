@@ -74,7 +74,7 @@ DV.Api.prototype = {
   // should be an array of sections in the canonical format:
   // {title: "Chapter 1", pages: "1-12"}
   setSections : function(sections) {
-    sections = _.sortBy(sections, function(s){ return s.page; });
+    sections = DV._.sortBy(sections, function(s){ return s.page; });
     this.viewer.schema.data.sections = sections;
     this.viewer.models.chapters.loadChapters();
     this.redraw();
@@ -82,7 +82,7 @@ DV.Api.prototype = {
 
   // Get a list of every section in the document.
   getSections : function() {
-    return _.clone(this.viewer.schema.data.sections || []);
+    return DV._.clone(this.viewer.schema.data.sections || []);
   },
 
   // Get the document's description.
@@ -155,7 +155,7 @@ DV.Api.prototype = {
     if (overwriteOriginal) {
       this.viewer.models.document.originalPageText = {};
     } else {
-      _.each(this.viewer.models.document.originalPageText, function(originalPageText, pageNumber) {
+      DV._.each(this.viewer.models.document.originalPageText, function(originalPageText, pageNumber) {
         pageNumber = parseInt(pageNumber, 10);
         if (originalPageText != pageText[pageNumber-1]) {
           self.setPageText(originalPageText, pageNumber);

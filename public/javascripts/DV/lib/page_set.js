@@ -25,7 +25,7 @@ DV.PageSet.prototype.buildPages = function(options) {
   options = options || {};
   var pages = this.getPages();
 
-  _.each(pages, function(page){
+  DV._.each(pages, function(page){
     page.set  = this;
 
     // TODO: Make more explicit, this is sloppy

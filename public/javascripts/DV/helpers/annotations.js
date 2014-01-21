@@ -1,4 +1,4 @@
-_.extend(DV.Schema.helpers, {
+DV._.extend(DV.Schema.helpers, {
   getAnnotationModel : function(annoEl) {
     var annoId = parseInt(annoEl.attr('rel').match(/\d+/), 10);
     return this.models.annotations.getAnnotation(annoId);

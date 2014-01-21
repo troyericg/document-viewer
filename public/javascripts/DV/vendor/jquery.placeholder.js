@@ -35,7 +35,7 @@
           $this.parent().removeClass(options.clearClassName);
         }
       });
-      _.defer(function(){
+      DV._.defer(function(){
         $this.keyup().blur();
       });
     });
