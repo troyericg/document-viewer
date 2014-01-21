@@ -41,8 +41,9 @@
   outline: none;
 }
 
-.DV-searchInput[type="search"] {
+.DV-docViewer .DV-searchInput[type="search"] {
   margin: 4px 10px 0 0;
+  height: 22px;
 }
 .DV-searchInput.placeholder {
   color: #A0A0A0;
