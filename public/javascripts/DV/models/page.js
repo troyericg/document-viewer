@@ -93,11 +93,7 @@ DV.model.Pages.prototype = {
   // Update the height for a page, when its real image has loaded.
   updateHeight: function(image, pageIndex) {
     var h = this.getPageHeight(pageIndex);
-    // we want to preserve the original image's ratio, but not it's literal height
-    var ratio = image.height / image.width;
-    // the height will be adjusted according to the real width of the page taking into account the original ratio
-    var height = this.width * ratio * (this.zoomLevel > this.BASE_WIDTH ? 0.7 : 1.0);
-    
+    var height = image.height * (this.zoomLevel > this.BASE_WIDTH ? 0.7 : 1.0);
     if (image.width < this.baseWidth) {
       // Not supposed to happen, but too-small images sometimes do.
       height *= (this.baseWidth / image.width);
