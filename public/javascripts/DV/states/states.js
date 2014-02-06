@@ -36,11 +36,11 @@ DV.Schema.states = {
     this.dragReporter = new DV.DragReporter(this, '.DV-pageCollection',DV.jQuery.proxy(this.helpers.shift, this), { ignoreSelector: '.DV-annotationContent' });
     this.helpers.startCheckTimer();
     this.helpers.handleInitialState();
-    _.defer(_.bind(this.helpers.autoZoomPage, this.helpers));
+    DV._.defer(DV._.bind(this.helpers.autoZoomPage, this.helpers));
   },
 
   ViewAnnotation: function(){
-    this.helpers.reset();
+    this.helpers.reset(); // in construction.js
     this.helpers.ensureAnnotationImages();
     this.activeAnnotationId = null;
     this.acceptInput.deny();

@@ -21,3 +21,7 @@
 .DV-docViewer{
  overflow:hidden;  
 }
+
+.DV-docViewer * {
+  box-sizing: content-box;
+}

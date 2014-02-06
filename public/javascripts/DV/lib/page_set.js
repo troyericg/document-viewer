@@ -1,3 +1,11 @@
+// PageSet is a pseudo-presenter/view which manages and paints
+// pages into a viewer's main display.
+//
+// PageSet creates three page objects, two of which are on screen
+// at any one time.  The third is then updated off screen when
+// the display is scrolled.
+//
+// PageSet is also manages zooming.
 DV.PageSet = function(viewer){
   this.currentPage  = null;
   this.pages        = {};
@@ -16,18 +24,16 @@ DV.PageSet.prototype.execute = function(action,params){
 DV.PageSet.prototype.buildPages = function(options) {
   options = options || {};
   var pages = this.getPages();
-  for(var i = 0; i < pages.length; i++) {
-    var page  = pages[i];
+
+  DV._.each(pages, function(page){
     page.set  = this;
-    page.index = i;
 
     // TODO: Make more explicit, this is sloppy
     this.pages[page.label] = new DV.Page(this.viewer, page);
 
-    if(page.currentPage == true) {
-      this.currentPage = this.pages[page.label];
-    }
-  }
+    if (page.currentPage == true) { this.currentPage = this.pages[page.label]; }
+  }, this);
+
   this.viewer.models.annotations.renderAnnotations();
 };
 

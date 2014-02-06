@@ -1,4 +1,4 @@
-_.extend(DV.Schema.events, {
+DV._.extend(DV.Schema.events, {
   handleNavigation: function(e){
     var el          = this.viewer.$(e.target);
     var triggerEl   = el.closest('.DV-trigger');

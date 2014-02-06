@@ -1,4 +1,4 @@
-_.extend(DV.Schema.helpers, {
+DV._.extend(DV.Schema.helpers, {
   resetNavigationState: function(){
     var elements                      = this.elements;
     if (elements.chaptersContainer.length) elements.chaptersContainer[0].id  = '';

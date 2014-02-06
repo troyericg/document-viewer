@@ -10,7 +10,7 @@ DV.model.Chapters.prototype = {
     var sections = this.viewer.schema.data.sections;
     var chapters = this.chapters = this.viewer.schema.data.chapters = [];
     _.each(sections, function(sec){ sec.id || (sec.id = parseInt(_.uniqueId())); });
-
+    DV._.each(sections, function(sec){ sec.id || (sec.id = parseInt( DV._.uniqueId())); });
     var sectionIndex = 0;
     for (var i = 0, l = this.viewer.schema.data.totalPages; i < l; i++) {
       var section = sections[sectionIndex];

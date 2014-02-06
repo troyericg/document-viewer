@@ -27,7 +27,7 @@ DV.model.Document = function(viewer){
   if (zoom == 'auto') this.zoomLevel = data.zoomLevel;
 
   // The zoom level cannot go over the maximum image width.
-  var maxZoom = _.last(this.ZOOM_RANGES);
+  var maxZoom = DV._.last(this.ZOOM_RANGES);
   if (this.zoomLevel > maxZoom) this.zoomLevel = maxZoom;
 };
 
@@ -37,7 +37,7 @@ DV.model.Document.prototype = {
     this.currentPageIndex = index;
     this.viewer.elements.currentPage.text(this.currentPage());
     this.viewer.helpers.setActiveChapter(this.viewer.models.chapters.getChapterId(index));
-    _.each(this.onPageChangeCallbacks, function(c) { c(); });
+    DV._.each(this.onPageChangeCallbacks, function(c) { c(); });
     return index;
   },
   currentPage : function() {
@@ -122,7 +122,7 @@ DV.model.Document.prototype = {
   },
 
   redrawPages: function() {
-    _.each(this.viewer.pageSet.pages, function(page) {
+    DV._.each(this.viewer.pageSet.pages, function(page) {
       page.drawRemoveOverlay();
     });
     if (this.viewer.thumbnails) {

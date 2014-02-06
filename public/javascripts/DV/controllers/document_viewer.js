@@ -8,9 +8,9 @@ DV.DocumentViewer = function(options) {
 
   // Build the data models
   this.models     = this.schema.models;
-  this.events     = _.extend({}, DV.Schema.events);
-  this.helpers    = _.extend({}, DV.Schema.helpers);
-  this.states     = _.extend({}, DV.Schema.states);
+  this.events     = DV._.extend({}, DV.Schema.events);
+  this.helpers    = DV._.extend({}, DV.Schema.helpers);
+  this.states     = DV._.extend({}, DV.Schema.states);
 
   // state values
   this.isFocus            = true;
@@ -29,7 +29,7 @@ DV.DocumentViewer = function(options) {
 
   this.onStateChangeCallbacks = [];
 
-  this.events     = _.extend(this.events, {
+  this.events     = DV._.extend(this.events, {
     viewer      : this,
     states      : this.states,
     elements    : this.elements,
@@ -49,7 +49,7 @@ DV.DocumentViewer = function(options) {
     }
   });
 
-  this.helpers  = _.extend(this.helpers, {
+  this.helpers  = DV._.extend(this.helpers, {
     viewer      : this,
     states      : this.states,
     elements    : this.elements,
@@ -57,7 +57,7 @@ DV.DocumentViewer = function(options) {
     models      : this.models
   });
 
-  this.states   = _.extend(this.states, {
+  this.states   = DV._.extend(this.states, {
     viewer      : this,
     helpers     : this.helpers,
     elements    : this.elements,
@@ -77,7 +77,7 @@ DV.DocumentViewer.prototype.loadModels = function() {
 // Transition to a given state ... unless we're already in it.
 DV.DocumentViewer.prototype.open = function(state) {
   if (this.state == state) return;
-  var continuation = _.bind(function() {
+  var continuation = DV._.bind(function() {
     this.state = state;
     this.states[state].apply(this, arguments);
     this.slapIE();
@@ -92,7 +92,7 @@ DV.DocumentViewer.prototype.slapIE = function() {
 };
 
 DV.DocumentViewer.prototype.notifyChangedState = function() {
-  _.each(this.onStateChangeCallbacks, function(c) { c(); });
+  DV._.each(this.onStateChangeCallbacks, function(c) { c(); });
 };
 
 // Record a hit on this document viewer.
@@ -122,7 +122,7 @@ DV.load = function(documentRep, options) {
     zoom      : 'auto',
     sidebar   : true
   };
-  options            = _.extend({}, defaults, options);
+  options            = DV._.extend({}, defaults, options);
   options.fixedSize  = !!(options.width || options.height);
   var viewer         = new DV.DocumentViewer(options);
   DV.viewers[id]     = viewer;
@@ -142,7 +142,7 @@ DV.load = function(documentRep, options) {
   // If we've been passed the JSON directly, we can go ahead,
   // otherwise make a JSONP request to fetch it.
   var jsonLoad = function() {
-    if (_.isString(documentRep)) {
+    if (DV._.isString(documentRep)) {
       if (documentRep.match(/\.js$/)) {
         DV.jQuery.getScript(documentRep);
       } else {
@@ -168,5 +168,5 @@ DV.load = function(documentRep, options) {
 
 // If the document viewer has been loaded dynamically, allow the external
 // script to specify the onLoad behavior.
-if (DV.onload) _.defer(DV.onload);
+if (DV.onload) DV._.defer(DV.onload);
 

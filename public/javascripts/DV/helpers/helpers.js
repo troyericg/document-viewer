@@ -9,7 +9,7 @@ DV.Schema.helpers = {
     bindEvents: function(context){
       var boundZoom = this.events.compile('zoom');
       var doc       = context.models.document;
-      var value     = _.indexOf(doc.ZOOM_RANGES, doc.zoomLevel);
+      var value     = DV._.indexOf(doc.ZOOM_RANGES, doc.zoomLevel);
       var viewer    = this.viewer;
       viewer.slider = viewer.$('.DV-zoomBox').slider({
         step: 1,
@@ -68,7 +68,7 @@ DV.Schema.helpers = {
       // Prevent navigation elements from being selectable when clicked.
       viewer.$('.DV-trigger').bind('selectstart', function(){ return false; });
 
-      this.elements.viewer.delegate('.DV-fullscreen', 'click', _.bind(this.openFullScreen, this));
+      this.elements.viewer.delegate('.DV-fullscreen', 'click', DV._.bind(this.openFullScreen, this));
 
       var boundToggle  = DV.jQuery.proxy(this.annotationBridgeToggle, this);
       var collection   = this.elements.collection;
@@ -82,10 +82,10 @@ DV.Schema.helpers = {
       collection.delegate('.DV-saveAnnotation','click', DV.jQuery.proxy(this.saveAnnotation, this));
       collection.delegate('.DV-saveAnnotationDraft','click', DV.jQuery.proxy(this.saveAnnotation, this));
       collection.delegate('.DV-deleteAnnotation','click', DV.jQuery.proxy(this.deleteAnnotation, this));
-      collection.delegate('.DV-pageNumber', 'click', _.bind(this.permalinkPage, this, 'document'));
-      collection.delegate('.DV-textCurrentPage', 'click', _.bind(this.permalinkPage, this, 'text'));
-      collection.delegate('.DV-annotationTitle', 'click', _.bind(this.permalinkAnnotation, this));
-      collection.delegate('.DV-permalink', 'click', _.bind(this.permalinkAnnotation, this));
+      collection.delegate('.DV-pageNumber', 'click', DV._.bind(this.permalinkPage, this, 'document'));
+      collection.delegate('.DV-textCurrentPage', 'click', DV._.bind(this.permalinkPage, this, 'text'));
+      collection.delegate('.DV-annotationTitle', 'click', DV._.bind(this.permalinkAnnotation, this));
+      collection.delegate('.DV-permalink', 'click', DV._.bind(this.permalinkAnnotation, this));
 
       // Thumbnails
       viewer.$('.DV-thumbnails').delegate('.DV-thumbnail-page', 'click', function(e) {
@@ -99,7 +99,7 @@ DV.Schema.helpers = {
       });
 
       // Handle iPad / iPhone scroll events...
-      _.bindAll(this, 'touchStart', 'touchMove', 'touchEnd');
+      DV._.bindAll(this, 'touchStart', 'touchMove', 'touchEnd');
       this.elements.window[0].ontouchstart  = this.touchStart;
       this.elements.window[0].ontouchmove   = this.touchMove;
       this.elements.window[0].ontouchend    = this.touchEnd;
@@ -160,7 +160,7 @@ DV.Schema.helpers = {
         viewer.helpers.elements.browserWindow.unbind('blur.' + docId);
       }
       viewer.helpers.elements.browserWindow.unbind('scroll.' + docId);
-      _.each(viewer.observers, function(obs){ viewer.helpers.removeObserver(obs); });
+      DV._.each(viewer.observers, function(obs){ viewer.helpers.removeObserver(obs); });
     },
 
     // We're entering the Notes tab -- make sure that there are no data-src
@@ -441,31 +441,31 @@ DV.Schema.helpers = {
       var history = this.viewer.history;
 
       // Default route
-      history.defaultCallback = _.bind(events.handleHashChangeDefault,this.events);
+      history.defaultCallback = DV._.bind(events.handleHashChangeDefault,this.events);
 
       // Handle page loading
-      history.register(/document\/p(\d*)$/, _.bind(events.handleHashChangeViewDocumentPage,this.events));
+      history.register(/document\/p(\d*)$/, DV._.bind(events.handleHashChangeViewDocumentPage,this.events));
       // Legacy NYT stuff
-      history.register(/p(\d*)$/, _.bind(events.handleHashChangeLegacyViewDocumentPage,this.events));
-      history.register(/p=(\d*)$/, _.bind(events.handleHashChangeLegacyViewDocumentPage,this.events));
+      history.register(/p(\d*)$/, DV._.bind(events.handleHashChangeLegacyViewDocumentPage,this.events));
+      history.register(/p=(\d*)$/, DV._.bind(events.handleHashChangeLegacyViewDocumentPage,this.events));
 
       // Handle annotation loading in document view
-      history.register(/document\/p(\d*)\/a(\d*)$/, _.bind(events.handleHashChangeViewDocumentAnnotation,this.events));
+      history.register(/document\/p(\d*)\/a(\d*)$/, DV._.bind(events.handleHashChangeViewDocumentAnnotation,this.events));
 
       // Handle annotation loading in annotation view
-      history.register(/annotation\/a(\d*)$/, _.bind(events.handleHashChangeViewAnnotationAnnotation,this.events));
+      history.register(/annotation\/a(\d*)$/, DV._.bind(events.handleHashChangeViewAnnotationAnnotation,this.events));
 
       // Handle loading of the pages view
-      history.register(/pages$/, _.bind(events.handleHashChangeViewPages, events));
+      history.register(/pages$/, DV._.bind(events.handleHashChangeViewPages, events));
 
       // Handle page loading in text view
-      history.register(/text\/p(\d*)$/, _.bind(events.handleHashChangeViewText,this.events));
+      history.register(/text\/p(\d*)$/, DV._.bind(events.handleHashChangeViewText,this.events));
 
       // Handle entity display requests.
-      history.register(/entity\/p(\d*)\/(.*)\/(\d+):(\d+)$/, _.bind(events.handleHashChangeViewEntity,this.events));
+      history.register(/entity\/p(\d*)\/(.*)\/(\d+):(\d+)$/, DV._.bind(events.handleHashChangeViewEntity,this.events));
 
       // Handle search requests
-      history.register(/search\/p(\d*)\/(.*)$/, _.bind(events.handleHashChangeViewSearchRequest,this.events));
+      history.register(/search\/p(\d*)\/(.*)$/, DV._.bind(events.handleHashChangeViewSearchRequest,this.events));
     },
 
     // Sets up the zoom slider to match the appropriate for the specified
@@ -480,26 +480,39 @@ DV.Schema.helpers = {
       }
 
       // Setup ranges for auto-width zooming
+      // A document's zoom slider scales depending on the size of the viewer
+      // and the default zoom level
       var ranges = [];
       if (zoom <= 500) {
-        var zoom2 = (zoom + 700) / 2;
-        ranges = [zoom, zoom2, 700, 850, 1000];
+        var medium   = 700;
+        var smallest = zoom;
+        var small    = (smallest + medium) / 2; // avg between medium and smallest
+        ranges = [smallest, small, medium, 850, 1000];
       } else if (zoom <= 750) {
-        var zoom2 = ((1000 - 700) / 3) + zoom;
-        var zoom3 = ((1000 - 700) / 3)*2 + zoom;
-        ranges = [.66*zoom, zoom, zoom2, zoom3, 1000];
+        var small    = zoom;
+        var smallest = 0.66*small;
+        var medium   = ((1000 - 700) / 3) + small; // ???
+        var large    = ((1000 - 700) / 3)*2 + small;
+        ranges = [smallest, small, medium, large, 1000];
       } else if (750 < zoom && zoom <= 850){
-        var zoom2 = ((1000 - zoom) / 2) + zoom;
-        ranges = [.66*zoom, 700, zoom, zoom2, 1000];
+        var small    = 700;
+        var largest  = 1000;
+        var medium   = zoom;
+        var smallest = 0.66*medium;
+        var large    = ((largest - medium) / 2) + medium; // midpoint between medium and largest
+        ranges = [smallest, small, medium, large, largest];
       } else if (850 < zoom && zoom < 1000){
-        var zoom2 = ((zoom - 700) / 2) + 700;
-        ranges = [.66*zoom, 700, zoom2, zoom, 1000];
+        var large    = zoom;
+        var smallest = 0.66*large;
+        var small    = 700;
+        var medium   = ((large - small) / 2) + small; // midpoint between large and small
+        ranges = [smallest, small, medium, large, 1000];
       } else if (zoom >= 1000) {
         zoom = 1000;
         ranges = this.viewer.models.document.ZOOM_RANGES;
       }
       this.viewer.models.document.ZOOM_RANGES = ranges;
-      this.viewer.slider.slider({'value': parseInt(_.indexOf(ranges, zoom), 10)});
+      this.viewer.slider.slider({'value': parseInt(DV._.indexOf(ranges, zoom), 10)});
       this.events.zoom(zoom);
     },
 

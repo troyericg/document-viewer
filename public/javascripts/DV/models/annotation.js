@@ -72,7 +72,7 @@ DV.model.Annotations.prototype = {
   // Re-sort the list of annotations when its contents change. Annotations
   // are ordered by page primarily, and then their y position on the page.
   sortAnnotations : function() {
-    return this.bySortOrder = _.sortBy(_.values(this.byId), function(anno) {
+    return this.bySortOrder = DV._.sortBy(DV._.values(this.byId), function(anno) {
       return anno.page * 10000 + anno.y1;
     });
   },
@@ -83,7 +83,7 @@ DV.model.Annotations.prototype = {
             
     for (var i=0; i<this.bySortOrder.length; i++) {
       var anno      = this.bySortOrder[i];
-      anno.of       = _.indexOf(this.byPage[anno.page - 1], anno);
+      anno.of       = DV._.indexOf(this.byPage[anno.page - 1], anno);
       anno.position = i + 1;
       anno.html     = this.render(anno);
     }
@@ -92,9 +92,8 @@ DV.model.Annotations.prototype = {
 
   // Renders each annotation for the "Annotation List" tab, in order.
   renderAnnotationsByIndex: function(){
-    var rendered  = _.map(this.bySortOrder, function(anno){ return anno.html; });
+    var rendered  = DV._.map(this.bySortOrder, function(anno){ return anno.html; });
     var html      = rendered.join('')
-                    .replace(/class="DV-img" src="/g, 'class="DV-img" data-src="')
                     .replace(/id="DV-annotation-(\d+)"/g, function(match, id) {
       return 'id="DV-listAnnotation-' + id + '" rel="aid-' + id + '"';
     });
@@ -107,7 +106,7 @@ DV.model.Annotations.prototype = {
     // TODO: This is hacky, but seems to be necessary. When fixing, be sure to
     // test with both autozoom and page notes.
     this.updateAnnotationOffsets();
-    _.defer(_.bind(this.updateAnnotationOffsets, this));
+    DV._.defer(DV._.bind(this.updateAnnotationOffsets, this));
   },
 
   // Refresh the annotation's title and content from the model, in both
@@ -122,11 +121,11 @@ DV.model.Annotations.prototype = {
   removeAnnotation : function(anno) {
     delete this.byId[anno.id];
     var i = anno.page - 1;
-    this.byPage[i] = _.without(this.byPage[i], anno);
+    this.byPage[i] = DV._.without(this.byPage[i], anno);
     this.sortAnnotations();
     DV.jQuery('#DV-annotation-' + anno.id + ', #DV-listAnnotation-' + anno.id).remove();
     this.viewer.api.redraw(true);
-    if (_.isEmpty(this.byId)) this.viewer.open('ViewDocument');
+    if (DV._.isEmpty(this.byId)) this.viewer.open('ViewDocument');
   },
 
   // Offsets all document pages based on interleaved page annotations.
@@ -146,7 +145,7 @@ DV.model.Annotations.prototype = {
     // First, collect the list of page annotations, and associate them with
     // their DOM elements.
     var pageAnnos = [];
-    _.each(_.select(this.bySortOrder, function(anno) {
+    DV._.each(DV._.select(this.bySortOrder, function(anno) {
       return anno.type == 'page';
     }), function(anno, i) {
       anno.el = pageAnnotationEls[i];
@@ -170,13 +169,13 @@ DV.model.Annotations.prototype = {
   // When an annotation is successfully saved, fire any registered
   // save callbacks.
   fireSaveCallbacks : function(anno) {
-    _.each(this.saveCallbacks, function(c){ c(anno); });
+    DV._.each(this.saveCallbacks, function(c){ c(anno); });
   },
 
   // When an annotation is successfully removed, fire any registered
   // delete callbacks.
   fireDeleteCallbacks : function(anno) {
-    _.each(this.deleteCallbacks, function(c){ c(anno); });
+    DV._.each(this.deleteCallbacks, function(c){ c(anno); });
   },
 
   // Returns the list of annotations on a given page.
@@ -185,17 +184,17 @@ DV.model.Annotations.prototype = {
   },
 
   getFirstAnnotation: function(){
-    return _.first(this.bySortOrder);
+    return DV._.first(this.bySortOrder);
   },
 
   getNextAnnotation: function(currentId) {
     var anno = this.byId[currentId];
-    return this.bySortOrder[_.indexOf(this.bySortOrder, anno) + 1];
+    return this.bySortOrder[DV._.indexOf(this.bySortOrder, anno) + 1];
   },
 
   getPreviousAnnotation: function(currentId) {
     var anno = this.byId[currentId];
-    return this.bySortOrder[_.indexOf(this.bySortOrder, anno) - 1];
+    return this.bySortOrder[DV._.indexOf(this.bySortOrder, anno) - 1];
   },
 
   // Get an annotation by id, with backwards compatibility for argument hashes.
