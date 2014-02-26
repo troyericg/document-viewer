@@ -28,9 +28,15 @@
     this.locale       = this.viewer.schema.document.display_language || 'eng';
     options = root.DC_LANGUAGE_CODES ? root.DC_LANGUAGE_CODES : { language: this.locale, fallback: 'eng' };
     options.namespace = 'DV';
-    this.i18n = new I18n( options );
-    root.DV.t = this.i18n.translate;
-    root.DV.I18n = I18n.noConflict();
+    // only initialize the i18n lib once
+    // then put it into nonConflict
+    if ( root.DV.I18n ){
+      this.i18n = root.DV.I18n;
+    } else {
+      this.i18n = new I18n( options );
+      root.DV.t = this.i18n.translate;
+      root.DV.I18n = I18n.noConflict();
+    }
   };
 
 
