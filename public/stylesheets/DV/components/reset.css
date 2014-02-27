@@ -27,3 +27,5 @@
      -moz-box-sizing: content-box;
           box-sizing: content-box;
 }
+
+.DV-docViewer img { max-width: none; }
