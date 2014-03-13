@@ -64,8 +64,8 @@
 .DV-searchDocument .DV-searchInput-cancel {
   visibility: hidden;
   position: absolute;
-  right: 12px;
-  top: 8px;
+  right: 17px;
+  top: 10px;
   background: transparent url(../../../images/DV/embed/close.png) no-repeat 0 0;
   width: 11px;
   height: 11px;
