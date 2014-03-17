@@ -173,7 +173,7 @@ DV.Page.prototype.position = function(argHash){
 
 // Render the page meta, currently only the page number
 DV.Page.prototype.renderMeta = function(argHash){
-  this.pageNumberEl.text('p. '+argHash.pageNumber);
+  this.pageNumberEl.text( DV.t('pg') + ' ' + argHash.pageNumber );
   this.pageNumber = argHash.pageNumber;
 };
 
