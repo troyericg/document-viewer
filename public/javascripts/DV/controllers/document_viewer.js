@@ -126,6 +126,7 @@ DV.load = function(documentRep, options) {
   options.fixedSize  = !!(options.width || options.height);
   var viewer         = new DV.DocumentViewer(options);
   DV.viewers[id]     = viewer;
+  
   // Once we have the JSON representation in-hand, finish loading the viewer.
   var continueLoad = DV.loadJSON = function(json) {
     var viewer = DV.viewers[json.id];

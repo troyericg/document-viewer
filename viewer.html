@@ -10,7 +10,19 @@
    <!--[if (!IE)|(gte IE 8)]><!-->
  <link href="public/assets/viewer-datauri.css" media="screen" rel="stylesheet" type="text/css" />
  <link href="public/assets/plain-datauri.css" media="screen" rel="stylesheet" type="text/css" />
- <link href="public/assets/plainviewer.css" media="screen" rel="stylesheet" type="text/css" />
+<!-- <link href="public/assets/plainviewer.css" media="screen" rel="stylesheet" type="text/css" /> -->
+ <style type="text/css">
+  #wrapper {
+    background-color: lightsteelblue;
+    width: 100%;
+    min-height: 1400px;
+  }
+  #doc-v-parent {
+    background-color: steelblue;
+    width: 80%;
+    min-height: 1200px;
+  }
+ </style>
  <!--<![endif]-->
  <!--[if lte IE 7]>
  <link href="public/assets/viewer.css" media="screen" rel="stylesheet" type="text/css" />
@@ -20,22 +32,24 @@
 </head>
 <body>
 
-<div id="DV-container">
-
-  <div class="DV-loadingDocument"><span>Loading</span></div>
-  <noscript>
-    <div id="DV-noJS">
-      The Document Viewer requires that you enable Javascript.
+<div id="wrapper">
+  <div id="doc-v-parent">
+    <div id="DV-container">
+      <div class="DV-loadingDocument"><span>Loading</span></div>
+      <noscript>
+        <div id="DV-noJS">
+          The Document Viewer requires that you enable Javascript.
+        </div>
+      </noscript>
     </div>
-  </noscript>
-
+  </div>
 </div>
 
 <script src="public/assets/viewer.js" type="text/javascript" charset="utf-8"></script>
 <script src="public/assets/templates.js" type="text/javascript" charset="utf-8"></script>
 
 <script type="text/javascript">
-  DV.load('http://documents.nytimes.com/goldman-sachs-internal-emails.json', { container: '#DV-container' });
+  DV.load('http://documents.nytimes.com/goldman-sachs-internal-emails.json', { flex: true, container: '#DV-container' });
 </script>
 
 </body>

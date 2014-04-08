@@ -45,6 +45,7 @@ DV._.extend(DV.Schema.helpers, {
 
     var width  = this.viewer.options.width;
     var height = this.viewer.options.height;
+
     if (width && height) {
       if (width < 500) {
         this.viewer.options.mini = true;
@@ -52,15 +53,60 @@ DV._.extend(DV.Schema.helpers, {
       }
       DV.jQuery(this.viewer.options.container).css({
         position: 'relative',
-        width: this.viewer.options.width,
-        height: this.viewer.options.height
+        width: width || this.viewer.options.width,
+        height: height || this.viewer.options.height
       });
+    }
+
+    if (this.viewer.options.flex && this.viewer.options.flex === true) {
+      var self = this;
+      var sizes = this.getSizes(this.viewer.options.container);
+
+      DV.jQuery(this.viewer.options.container).css({
+        position: 'relative',
+        width: sizes.width,
+        height: sizes.height
+      }); 
+      // set resize event 
+      this.setResizeEvent(this.viewer.options.container, sizes);
     }
 
     var container = this.viewer.options.container;
     var containerEl = DV.jQuery(container);
     if (!containerEl.length) throw "Document Viewer container element not found: " + container;
     containerEl.html(JST.viewer(viewerOptions));
+  },
+
+  // find and return sizes from parent div 
+  getSizes : function(elem) {
+    var parentEl = DV.jQuery(elem).parent();
+    var whRatio = 0.96;
+    var width = parentEl.width();
+    var height = Math.round(width / whRatio);
+
+    return {
+      width: width,
+      height: height
+    }
+  },
+
+  // sets the window resize event on the viewer
+  setResizeEvent : function(elem, oSizes) {
+    var sizes;
+    var self = this;
+    var oSizes = oSizes;
+    DV.jQuery(window).resize(function(){
+
+      sizes = self.getSizes(elem);
+
+      if (oSizes.width !== sizes.width) {
+        DV.jQuery(elem).css({
+          width: sizes.width,
+          height: sizes.height
+        });
+      }
+
+    });
   },
 
   // If there is no description, no navigation, and no sections, tighten up
